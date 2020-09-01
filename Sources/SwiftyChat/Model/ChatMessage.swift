@@ -8,7 +8,15 @@
 
 import Foundation
 
-public struct ChatMessage: Identifiable {
+public struct ChatMessage: Identifiable, Hashable {
+    
+    public static func == (lhs: ChatMessage, rhs: ChatMessage) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
     
     public let id = UUID()
     public var user: ChatUser
