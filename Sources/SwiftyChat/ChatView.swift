@@ -10,8 +10,14 @@ import SwiftUI
 
 public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
-    @Binding public var messages: [Message]
+    @Binding private var messages: [Message]
     public var inputView: (_ proxy: GeometryProxy) -> AnyView
+    
+    @available(iOS 14.0, *)
+    @Binding private var scrollToBottom: Bool
+    
+    @available(iOS 14.0, *)
+    @State private var scrollProxy: ScrollViewProxy?
 
     private var onMessageCellTapped: (Message) -> Void = { msg in print(msg.messageKind) }
     private var messageCellContextMenu: (Message) -> AnyView = { _ in EmptyView().embedInAnyView() }
@@ -20,13 +26,131 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     private var onAttributedTextTappedCallback: () -> AttributedTextTappedCallback = { return AttributedTextTappedCallback() }
     private var onCarouselItemAction: (CarouselItemButton, Message) -> Void = { (_, _) in }
     
+    /// Initialize
+    /// - Parameters:
+    ///   - messages: Messages to display
+    ///   - inputView: inputView view to provide message
     public init(
         messages: Binding<[Message]>,
         inputView: @escaping (_ proxy: GeometryProxy) -> AnyView
     ) {
         self._messages = messages
         self.inputView = inputView
+        self._scrollToBottom = .constant(false)
     }
+    
+    /// iOS 14 initializer, for supporting scrollToBottom
+    /// - Parameters:
+    ///   - messages: Messages to display
+    ///   - scrollToBottom: set to `true` to scrollToBottom
+    ///   - inputView: inputView view to provide message
+    @available(iOS 14.0, *)
+    public init(
+        messages: Binding<[Message]>,
+        scrollToBottom: Binding<Bool>,
+        inputView: @escaping (_ proxy: GeometryProxy) -> AnyView
+    ) {
+        self._messages = messages
+        self.inputView = inputView
+        self._scrollToBottom = scrollToBottom
+    }
+    
+    public var body: some View {
+        DeviceOrientationBasedView(
+            portrait: { GeometryReader { self.body(in: $0) } },
+            landscape: { GeometryReader { self.body(in: $0) } }
+        )
+        .environmentObject(OrientationInfo())
+        .edgesIgnoringSafeArea(.bottom)
+    }
+    
+    // MARK: - Body in geometry
+    @ViewBuilder private func body(in geometry: GeometryProxy) -> some View {
+        if #available(iOS 14.0, *) {
+            iOS14Body(in: geometry)
+        } else {
+            iOS14Fallback(in: geometry)
+        }
+    }
+    
+    // MARK: - List Item
+    private func chatMessageCellContainer(in size: CGSize, with message: Message) -> some View {
+        ChatMessageCellContainer(
+            message: message,
+            size: size,
+            onQuickReplyItemSelected: self.onQuickReplyItemSelected,
+            contactFooterSection: self.contactCellFooterSection,
+            onTextTappedCallback: self.onAttributedTextTappedCallback,
+            onCarouselItemAction: self.onCarouselItemAction
+        )
+        .onTapGesture { onMessageCellTapped(message) }
+        .contextMenu(menuItems: { messageCellContextMenu(message) })
+        .modifier(AvatarModifier<Message, User>(message: message))
+        .modifier(MessageModifier(messageKind: message.messageKind, isSender: message.isSender))
+        .modifier(CellEdgeInsetsModifier(isSender: message.isSender))
+        .id(message.id)
+    }
+    
+    // MARK: iOS14 Body
+    @available(iOS 14.0, *)
+    private func iOS14Body(in geometry: GeometryProxy) -> some View {
+        
+        ZStack(alignment: .bottom) {
+            
+            ScrollViewReader { proxy in
+                ScrollView {
+                    LazyVStack {
+                        ForEach(messages) { message in
+                            chatMessageCellContainer(in: geometry.size, with: message)
+                        }
+                    }
+                }
+                .onAppear { scrollProxy = proxy }
+            }
+            .padding(.bottom, geometry.safeAreaInsets.bottom + 56)
+//            .background(
+//                LinearGradient(gradient: Gradient(colors: [Color.orange, .pink]), startPoint: .topLeading, endPoint: .bottomTrailing)
+//            )
+
+            inputView(geometry)
+
+        }
+        .keyboardAwarePadding()
+        .dismissKeyboardOnTappingOutside()
+        .onChange(of: scrollToBottom) { _ in
+            if scrollToBottom {
+                withAnimation {
+                    scrollProxy?.scrollTo(messages.last?.id)
+                }
+                scrollToBottom = false
+            }
+        }
+    }
+    
+    // MARK: iOS14 Fallback
+    private func iOS14Fallback(in geometry: GeometryProxy) -> some View {
+        ZStack(alignment: .bottom) {
+            List {
+                ForEach(messages) { message in
+                    chatMessageCellContainer(in: geometry.size, with: message)
+                }
+            }
+            .padding(.bottom, geometry.safeAreaInsets.bottom + 56)
+
+            inputView(geometry)
+
+        }
+        .onAppear {
+            // To remove only extra separators below the list:
+            UITableView.appearance().tableFooterView = UIView()
+            // To remove all separators including the actual ones:
+            UITableView.appearance().separatorStyle = .none
+        }
+    }
+    
+}
+
+extension ChatView {
     
     /// Triggered when a ChatMessage is tapped.
     public func onMessageCellTapped(_ action: @escaping (Message) -> Void) -> ChatView {
@@ -68,59 +192,6 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
         var copy = self
         copy.onCarouselItemAction = action
         return copy
-    }
-    
-    public var body: some View {
-        DeviceOrientationBasedView(
-            portrait: { GeometryReader { self.body(in: $0) } },
-            landscape: { GeometryReader { self.body(in: $0) } }
-        )
-        .environmentObject(OrientationInfo())
-        .edgesIgnoringSafeArea(.bottom)
-        .onAppear {
-            // To remove only extra separators below the list:
-            UITableView.appearance().tableFooterView = UIView()
-            // To remove all separators including the actual ones:
-            UITableView.appearance().separatorStyle = .none
-        }
-    }
-    
-    // MARK: - Body in geometry
-    private func body(in geometry: GeometryProxy) -> some View {
-        ZStack(alignment: .bottom) {
-            List {
-                ForEach(self.messages) { message in
-                    self.chatMessageCellContainer(in: geometry.size, with: message)
-                }
-            }
-            .padding(.bottom, geometry.safeAreaInsets.bottom + 56)
-
-            self.inputView(geometry)
-
-        }
-        .keyboardAwarePadding()
-        .dismissKeyboardOnTappingOutside()
-    }
-    
-    // MARK: - List Item
-    private func chatMessageCellContainer(in size: CGSize, with message: Message) -> some View {
-        ChatMessageCellContainer(
-            message: message,
-            size: size,
-            onQuickReplyItemSelected: self.onQuickReplyItemSelected,
-            contactFooterSection: self.contactCellFooterSection,
-            onTextTappedCallback: self.onAttributedTextTappedCallback,
-            onCarouselItemAction: self.onCarouselItemAction
-        )
-        .onTapGesture {
-            self.onMessageCellTapped(message)
-        }
-        .contextMenu(menuItems: {
-            self.messageCellContextMenu(message)
-        })
-        .modifier(AvatarModifier<Message, User>(message: message))
-        .modifier(MessageModifier(messageKind: message.messageKind, isSender: message.isSender))
-        .modifier(CellEdgeInsetsModifier(isSender: message.isSender))
     }
     
 }

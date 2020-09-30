@@ -20,7 +20,8 @@ Fully written in pure SwiftUI.
 - [x] Landscape orientation  support (autoscales message cells with the given `cellWidth` property, if exists)
 - [x] User Avatar (with different position options, optional usage)
 - [x] Dismiss keyboard (on tapping outside).
-- [ ] Scroll To Bottom.
+- [x] Scroll To Bottom for iOS14. ( Use; scrollToBottom: Binding<Bool> parameter in initializer )
+- [ ] Scroll To Bottom for iOS13
 
 
 ### Quick Preview
