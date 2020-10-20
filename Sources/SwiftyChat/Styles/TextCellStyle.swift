@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct TextCellStyle: CommonViewStyle {
+public struct TextCellStyle: CommonViewStyle , NewCommonViewStyle{
     
     public let textStyle: CommonTextStyle
     public let textPadding: CGFloat
@@ -22,6 +22,8 @@ public struct TextCellStyle: CommonViewStyle {
     public let cellShadowRadius: CGFloat
     public let cellShadowColor: Color
     
+    public let cellShapeStyle: String
+    
     public init(
         textStyle: CommonTextStyle = CommonTextStyle(
             textColor: .white,
@@ -35,7 +37,8 @@ public struct TextCellStyle: CommonViewStyle {
         cellBorderColor: Color = .clear,
         cellBorderWidth: CGFloat = 1,
         cellShadowRadius: CGFloat = 3,
-        cellShadowColor: Color = .secondary
+        cellShadowColor: Color = .secondary,
+        cellShapeStyle: String
     ) {
         self.textStyle = textStyle
         self.textPadding = textPadding
@@ -46,6 +49,7 @@ public struct TextCellStyle: CommonViewStyle {
         self.cellBorderWidth = cellBorderWidth
         self.cellShadowRadius = cellShadowRadius
         self.cellShadowColor = cellShadowColor
+        self.cellShapeStyle = cellShapeStyle
     }
     
 }

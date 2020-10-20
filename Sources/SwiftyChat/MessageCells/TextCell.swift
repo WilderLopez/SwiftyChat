@@ -56,6 +56,36 @@ public struct TextCell<Message: ChatMessage>: View {
             )
     }
     
+    private var bubbleCornerStyle: some View{
+        
+        HStack(alignment: .bottom){
+            Text(text)
+                .fontWeight(cellStyle.textStyle.fontWeight)
+                .modifier(EmojiModifier(text: text, defaultFont: cellStyle.textStyle.font))
+                .lineLimit(nil)
+//            .multilineTextAlignment(.leading)
+            
+            //Date and CheckMars
+            DateCheckMarkView(isCurrentUser: message.isSender, date: message.date, messageTag: message.isDisplayed ? .dd : message.isReceived ? .rd : .none)
+            
+            }
+        .padding(.horizontal)
+        .padding(.vertical, 10)
+        .background(message.isSender ? Color.primaryBubble : Color.secondaryBubble)
+        .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
+        .foregroundColor(.textMessageColor)
+        .frame(maxWidth: 300, alignment: message.isSender ? .trailing : .leading)
+        
+        
+//        Text(text)
+//            .fontWeight(cellStyle.textStyle.fontWeight)
+//            .modifier(EmojiModifier(text: text, defaultFont: cellStyle.textStyle.font))
+//            .lineLimit(nil)
+//            .foregroundColor(cellStyle.textStyle.textColor)
+//            .padding(cellStyle.textPadding)
+//            .background(cellStyle.cellBackgroundColor)
+    }
+    
     private var attributedText: some View {
         let textStyle = cellStyle.attributedTextStyle
         
@@ -110,7 +140,12 @@ public struct TextCell<Message: ChatMessage>: View {
         ).doesContain() || text.containsHtml() {
             attributedText
         } else {
-            defaultText
+            if cellStyle.cellShapeStyle == CellShapeStyle.CustomChatCornerStyle.rawValue{
+                Text("asd")
+            }
+            else {
+                defaultText
+            }
         }
     }
     

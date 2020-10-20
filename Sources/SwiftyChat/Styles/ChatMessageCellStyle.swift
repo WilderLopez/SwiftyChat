@@ -49,14 +49,16 @@ public class ChatMessageCellStyle: ObservableObject {
                 textColor: .white,
                 font: Font.custom("Futura", size: 17)
             ),
-            cellBackgroundColor: Color(UIColor.systemPink).opacity(0.8)
+            cellBackgroundColor: Color(UIColor.systemPink).opacity(0.8),
+            cellShapeStyle: CellShapeStyle.CustomChatCornerStyle.rawValue
         ),
         outgoingTextStyle: TextCellStyle = TextCellStyle(
             textStyle: CommonTextStyle(
                 textColor: .white,
                 font: Font.custom("Tahoma", size: 17),
                 fontWeight: .bold
-            )
+            ),
+            cellShapeStyle: CellShapeStyle.CustomChatCornerStyle.rawValue
         ),
         incomingCellEdgeInsets: EdgeInsets = EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4),
         outgoingCellEdgeInsets: EdgeInsets = EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4),

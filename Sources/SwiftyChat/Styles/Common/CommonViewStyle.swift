@@ -15,3 +15,11 @@ internal protocol CommonViewStyle {
     var cellShadowRadius: CGFloat { get }
     var cellShadowColor: Color { get }
 }
+
+internal protocol NewCommonViewStyle{
+    var cellShapeStyle : String { get }
+}
+public enum CellShapeStyle : String {
+    case CustomChatCornerStyle
+    case SwiftyChatStyle
+}

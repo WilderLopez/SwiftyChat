@@ -68,17 +68,23 @@ public struct MockMessages {
         public var messageKind: ChatMessageKind
         public var isSender: Bool
         public var date: Date
+        public var isReceived: Bool
+        public var isDisplayed: Bool
 
         public init(
             user: ChatUserItem,
             messageKind: ChatMessageKind,
             isSender: Bool = false,
-            date: Date = .init()
+            date: Date = .init(),
+            isDisplayed: Bool = false,
+            isReceived: Bool = false
         ) {
             self.user = user
             self.messageKind = messageKind
             self.isSender = isSender
             self.date = date
+            self.isReceived = isReceived
+            self.isDisplayed = isDisplayed
         }
     }
     
