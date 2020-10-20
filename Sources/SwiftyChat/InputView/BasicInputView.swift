@@ -93,3 +93,7 @@ public struct BasicInputView: View {
     }
     
 }
+
+public protocol InputViewProtocol {
+    var sendAction: (ChatMessageKind) -> Void { get }
+}
