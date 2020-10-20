@@ -33,8 +33,11 @@ Fully written in pure SwiftUI.
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](../master/Sources/SwiftyChat/Demo/Preview/avatar_contact_qr_carousel_text.png) | ![](../master/Sources/SwiftyChat/Demo/Preview/map_image.png) |  ![](../master/Sources/SwiftyChat/Demo/Preview/contextMenu.png)
 ### Installation
-
+Original
 SPM: https://github.com/EnesKaraosman/SwiftyChat.git
+
+My version
+SMP: https://github.com/WilderLopez/SwiftyChat.git
 
 ### Message Kinds
 
