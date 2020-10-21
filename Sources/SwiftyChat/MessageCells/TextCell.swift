@@ -58,7 +58,7 @@ public struct TextCell<Message: ChatMessage>: View {
     
     private var bubbleCornerStyle: some View{
         
-        HStack(alignment: .bottom){
+        VStack(alignment: .trailing, spacing: 5){
             Text(text)
                 .fontWeight(cellStyle.textStyle.fontWeight)
                 .modifier(EmojiModifier(text: text, defaultFont: cellStyle.textStyle.font))
@@ -70,7 +70,7 @@ public struct TextCell<Message: ChatMessage>: View {
             
             }
         .padding(.horizontal)
-        .padding(.vertical, 10)
+        .padding(.vertical, 5)
         .background(message.isSender ? Color.primaryBubble : Color.secondaryBubble)
         .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
         .foregroundColor(.textMessageColor)

@@ -20,6 +20,7 @@ struct DateCheckMarkView: View {
     var body: some View {
         HStack{
             Text(DateHelper.getDateWith(timeInterval: Int64(date.timeIntervalSince1970)))
+                .italic()
             if isCurrentUser {
                 HStack(spacing: 0){
                     if messageTag != .none{
