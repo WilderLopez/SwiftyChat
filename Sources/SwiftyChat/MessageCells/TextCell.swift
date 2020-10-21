@@ -141,7 +141,7 @@ public struct TextCell<Message: ChatMessage>: View {
             attributedText
         } else {
             if cellStyle.cellShapeStyle == CellShapeStyle.CustomChatCornerStyle.rawValue{
-                Text("asd")
+                bubbleCornerStyle
             }
             else {
                 defaultText
