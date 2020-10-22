@@ -34,7 +34,7 @@ struct ScrollViewOffset<Content: View>: View {
       Color.clear
         .preference(
           key: OffsetPreferenceKey.self,
-          value: proxy.frame(in: .named("frameLayer")).minY
+            value: proxy.frame(in: .named("frameLayer")).minY
         )
     }
     .frame(height: 0)

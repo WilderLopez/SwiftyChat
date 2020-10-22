@@ -57,6 +57,10 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
         ScrollViewOffset(onOffsetChange: { (offset) in
             scrollOffset = offset
             print("value offset: \(scrollOffset)")
+            print("geometry heigt: \(geometry.size.height)")
+            print("geometry .global: \(geometry.frame(in: .global))")
+            print("geometry .local: \(geometry.frame(in: .local))")
+            
         }, content: {
             ScrollViewReader { proxy in
                 LazyVStack {
