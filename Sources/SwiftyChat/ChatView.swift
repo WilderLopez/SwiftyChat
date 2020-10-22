@@ -85,7 +85,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     }
     
     private var bottomArea: some View{
-        EmptyView()
+        Color.clear
             .onAppear {
             print("Bottom⬇️")
             }
