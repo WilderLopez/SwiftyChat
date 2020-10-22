@@ -22,6 +22,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @available(iOS 14.0, *)
     @Binding private var scrollToBottom: Bool
+    @State private var scrollOffset: CGFloat = .zero
     
     public var body: some View {
         DeviceOrientationBasedView(
@@ -53,7 +54,10 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @available(iOS 14.0, *)
     private func iOS14Body(in geometry: GeometryProxy) -> some View {
-        ScrollView {
+        ScrollViewOffset(onOffsetChange: { (offset) in
+            scrollOffset = offset
+            print("value offset: \(scrollOffset)")
+        }, content: {
             ScrollViewReader { proxy in
                 LazyVStack {
                     ForEach(messages) { message in
@@ -69,7 +73,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                     }
                 }
             }
-        }
+        })
         .background(Color.clear)
     }
     
