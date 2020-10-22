@@ -77,6 +77,12 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                     }
                 }
             }
+        }, isBottomChange:{ (isbottom) in
+            if isbottom{
+                print("Bottom ⬇️")
+            }else {
+                print("😑")
+            }
         })
         .background(Color.clear)
     }
