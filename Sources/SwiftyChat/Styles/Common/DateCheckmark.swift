@@ -38,7 +38,7 @@ struct DateCheckMarkView: View {
                 }.foregroundColor(messageTag == .dd ? isNotText ? .white : .ddmarkColor : .rdmarkColor)
             }
         }.font(.system(size: 11))
-        .frame(width: isCurrentUser ? 70 : 50, alignment: .bottomTrailing)
+        .frame(width: isCurrentUser ? 80 : 50, alignment: .bottomTrailing)
             .animation(.linear)
     }
 }
