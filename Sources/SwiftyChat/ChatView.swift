@@ -24,6 +24,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     @Binding private var scrollToBottom: Bool
     @State private var scrollOffset: CGFloat = .zero
     @State private var isBottom : Bool = false
+    private let bottomID = UUID().uuidString
     
     public var body: some View {
         DeviceOrientationBasedView(
@@ -55,32 +56,25 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @available(iOS 14.0, *)
     private func iOS14Body(in geometry: GeometryProxy) -> some View {
-        ScrollViewOffset(onOffsetChange: { (offset) in
-            scrollOffset = offset
-            print("value offset: \(scrollOffset)")
-            print("geometry heigt: \(geometry.size.height)")
-            print("geometry .global: \(geometry.frame(in: .global))")
-            print("geometry .local: \(geometry.frame(in: .local))")
-            
-        }, content: {
+        ScrollView {
             ScrollViewReader { proxy in
                 LazyVStack {
                     ForEach(messages) { message in
                         chatMessageCellContainer(in: geometry.size, with: message)
                     }
                     bottomArea
-                    .id(UUID().uuidString)
+                    .id(bottomID)
                 }
                 .onChange(of: scrollToBottom) { value in
                     if value {
                         withAnimation {
-                            proxy.scrollTo(messages.last?.id)
+                            proxy.scrollTo(bottomID)
                         }
                         scrollToBottom = false
                     }
                 }
             }
-        })
+        }
         .background(Color.clear)
     }
     
