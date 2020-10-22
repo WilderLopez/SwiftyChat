@@ -23,6 +23,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     @available(iOS 14.0, *)
     @Binding private var scrollToBottom: Bool
     @State private var scrollOffset: CGFloat = .zero
+    @State private var isBottom : Bool = false
     
     public var body: some View {
         DeviceOrientationBasedView(
@@ -77,13 +78,13 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                     }
                 }
             }
-        }, isBottomChange:{ (isbottom) in
-            if isbottom{
+        }, isBottomChange: $isBottom.didSet(execute: { (change) in
+            if change{
                 print("Bottom ⬇️")
             }else {
                 print("😑")
             }
-        })
+        }))
         .background(Color.clear)
     }
     

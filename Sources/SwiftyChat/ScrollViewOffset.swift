@@ -10,16 +10,16 @@ import SwiftUI
 struct ScrollViewOffset<Content: View>: View {
     let onOffsetChange: (CGFloat) -> Void
     let content: () -> Content
-    var isBottomChange: (Bool) -> Void
+    @Binding var isBottomChange: Bool
     
     init(
         onOffsetChange: @escaping (CGFloat) -> Void,
         @ViewBuilder content: @escaping () -> Content,
-        isBottomChange: @escaping (Bool) -> Void
+        isBottomChange: Binding<Bool>
     ) {
         self.onOffsetChange = onOffsetChange
         self.content = content
-        self.isBottomChange = isBottomChange
+        self._isBottomChange = isBottomChange
     }
     
     var body: some View {
@@ -46,10 +46,10 @@ struct ScrollViewOffset<Content: View>: View {
     var bottomReader: some View{
         Color.clear
             .onAppear{
-                self.isBottomChange(true)
+                self.isBottomChange = true
             }
             .onDisappear {
-                self.isBottomChange(false)
+                self.isBottomChange = false
             }
         
     }
