@@ -10,16 +10,13 @@ import SwiftUI
 struct ScrollViewOffset<Content: View>: View {
     let onOffsetChange: (CGFloat) -> Void
     let content: () -> Content
-    @Binding var isBottomChange: Bool
     
     init(
         onOffsetChange: @escaping (CGFloat) -> Void,
-        @ViewBuilder content: @escaping () -> Content,
-        isBottomChange: Binding<Bool>
+        @ViewBuilder content: @escaping () -> Content
     ) {
         self.onOffsetChange = onOffsetChange
         self.content = content
-        self._isBottomChange = isBottomChange
     }
     
     var body: some View {
@@ -27,7 +24,6 @@ struct ScrollViewOffset<Content: View>: View {
             offsetReader
             content()
                 .padding(.top, -8)
-            bottomReader
         }
         .coordinateSpace(name: "frameLayer")
         .onPreferenceChange(OffsetPreferenceKey.self, perform: onOffsetChange)
@@ -42,16 +38,6 @@ struct ScrollViewOffset<Content: View>: View {
                 )
         }
         .frame(height: 0)
-    }
-    var bottomReader: some View{
-        Color.clear
-            .onAppear{
-                self.isBottomChange = true
-            }
-            .onDisappear {
-                self.isBottomChange = false
-            }
-        
     }
     
 }

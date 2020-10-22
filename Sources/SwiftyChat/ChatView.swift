@@ -68,6 +68,8 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                     ForEach(messages) { message in
                         chatMessageCellContainer(in: geometry.size, with: message)
                     }
+                    bottomArea
+                    .id(UUID().uuidString)
                 }
                 .onChange(of: scrollToBottom) { value in
                     if value {
@@ -78,14 +80,18 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                     }
                 }
             }
-        }, isBottomChange: $isBottom.didSet(execute: { (change) in
-            if change{
-                print("Bottom ⬇️")
-            }else {
-                print("😑")
-            }
-        }))
+        })
         .background(Color.clear)
+    }
+    
+    private var bottomArea: some View{
+        EmptyView()
+            .onAppear {
+            print("Bottom⬇️")
+            }
+            .onDisappear {
+                print("⬆️")
+            }
     }
     
     private func iOS14Fallback(in geometry: GeometryProxy) -> some View {
