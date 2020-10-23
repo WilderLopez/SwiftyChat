@@ -61,14 +61,17 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                 LazyVStack {
                     ForEach(messages) { message in
                         chatMessageCellContainer(in: geometry.size, with: message)
+                        if message.id == messages.last?.id{
+                            bottomArea
+                            .id(bottomID)
+                        }
                     }
-                    bottomArea
-                    .id(bottomID)
+                    
                 }
                 .onChange(of: scrollToBottom) { value in
                     if value {
                         withAnimation {
-                            proxy.scrollTo(bottomID)
+                            proxy.scrollTo(messages.last?.id)
                         }
                         scrollToBottom = false
                     }
