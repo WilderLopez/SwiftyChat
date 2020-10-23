@@ -72,15 +72,19 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                 .onAppear {
     //                                print("id: \(message.id) == last id: \(messages.last?.id)")
                                     if message.id == messages.last?.id{
-                                        print("shold down ⬇️")
-                                        self.isBottom = true
-                                        topOffset = scrollOffset
-                                        print("topOffSet \(topOffset)  >> LAST")
+//                                        print("shold down ⬇️")
+                                        withAnimation { 
+                                            self.isBottom = true
+                                            topOffset = scrollOffset
+                                        }
+//                                        print("topOffSet \(topOffset)  >> LAST")
                                     }else {
-                                            print("<<\(scrollOffset)>>|<<\(topOffset)>>")
+//                                            print("<<\(scrollOffset)>>|<<\(topOffset)>>")
                                             if scrollOffset > topOffset + geometry.size.height - 100{
+                                                withAnimation {
                                                 self.isBottom = false
-                                                print("⬆️")
+                                                }
+//                                                print("⬆️")
                                             }
                                     }
                                 }
@@ -91,10 +95,10 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                             withAnimation {
                                 proxy.scrollTo(messages.last?.id)
                                     topOffset = scrollOffset
-                                print("topOffSet \(topOffset)  >>ScrollToBottom")
+//                                print("topOffSet \(topOffset)  >>ScrollToBottom")
+                                self.isBottom = true
                             }
                             scrollToBottom = false
-                            self.isBottom = true
                         }
                     }
                 }
