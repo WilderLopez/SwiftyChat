@@ -82,6 +82,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                             proxy.scrollTo(messages.last?.id)
                         }
                         scrollToBottom = false
+                        self.isBottom = true
                     }
                 }
             }
