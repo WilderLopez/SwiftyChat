@@ -76,9 +76,9 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                         self.isBottom = true
                                         topOffset = scrollOffset
                                     }else {
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(160)) {
                                             
-                                            if scrollOffset < topOffset{
+                                            if scrollOffset < topOffset - geometry.size.height - 100{
                                                 self.isBottom = false
                                                 print("⬆️")
                                             }
@@ -91,7 +91,9 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                         if value {
                             withAnimation {
                                 proxy.scrollTo(messages.last?.id)
-                                topOffset = scrollOffset
+                                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
+                                    topOffset = scrollOffset
+                                }
                             }
                             scrollToBottom = false
                             self.isBottom = true
