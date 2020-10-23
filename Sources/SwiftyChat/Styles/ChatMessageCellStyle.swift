@@ -63,7 +63,7 @@ public class ChatMessageCellStyle: ObservableObject {
         incomingCellEdgeInsets: EdgeInsets = EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4),
         outgoingCellEdgeInsets: EdgeInsets = EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4),
         contactCellStyle: ContactCellStyle = ContactCellStyle(),
-        imageCellStyle: ImageCellStyle = ImageCellStyle(),
+        imageCellStyle: ImageCellStyle = ImageCellStyle(cellShapeStyle: CellShapeStyle.CustomChatCornerStyle.rawValue),
         quickReplyCellStyle: QuickReplyCellStyle = QuickReplyCellStyle(),
         carouselCellStyle: CarouselCellStyle = CarouselCellStyle(),
         locationCellStyle: LocationCellStyle = LocationCellStyle(),
