@@ -22,7 +22,9 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @available(iOS 14.0, *)
     @Binding private var scrollToBottom: Bool
-//    @State private var scrollOffset: CGFloat = .zero
+    
+    @State private var scrollOffset: CGFloat = .zero
+    @State private var topOffset: CGFloat = .zero
     
     @available(iOS 14.0, *)
     @Binding private var isBottom : Bool
@@ -59,46 +61,56 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @available(iOS 14.0, *)
     private func iOS14Body(in geometry: GeometryProxy) -> some View {
-        ScrollView {
-            ScrollViewReader { proxy in
-                LazyVStack {
-                    ForEach(messages) { message in
-                        chatMessageCellContainer(in: geometry.size, with: message)
-                            .onAppear {
-//                                print("id: \(message.id) == last id: \(messages.last?.id)")
-                                if message.id == messages.last?.id{
-                                    print("shold down ⬇️")
-                                    self.isBottom = true
-                                }else {
-                                    self.isBottom = false
-                                    print("⬆️")
+        ScrollViewOffset(onOffsetChange: { (offset) in
+            scrollOffset = offset
+        }, content: {
+            
+                ScrollViewReader { proxy in
+                    LazyVStack {
+                        ForEach(messages) { message in
+                            chatMessageCellContainer(in: geometry.size, with: message)
+                                .onAppear {
+    //                                print("id: \(message.id) == last id: \(messages.last?.id)")
+                                    if message.id == messages.last?.id{
+                                        print("shold down ⬇️")
+                                        self.isBottom = true
+                                        topOffset = scrollOffset
+                                    }else {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
+                                            
+                                            if scrollOffset < topOffset{
+                                                self.isBottom = false
+                                                print("⬆️")
+                                            }
+                                        }
+                                    }
                                 }
-                            }
-                    }
-                }
-                .onChange(of: scrollToBottom) { value in
-                    if value {
-                        withAnimation {
-                            proxy.scrollTo(messages.last?.id)
                         }
-                        scrollToBottom = false
-                        self.isBottom = true
+                    }
+                    .onChange(of: scrollToBottom) { value in
+                        if value {
+                            withAnimation {
+                                proxy.scrollTo(messages.last?.id)
+                                topOffset = scrollOffset
+                            }
+                            scrollToBottom = false
+                            self.isBottom = true
+                        }
                     }
                 }
-            }
-        }
+        })
         .background(Color.clear)
     }
     
-    private var bottomArea: some View{
-        Rectangle().frame(height: 10).foregroundColor(Color.clear)
-            .onAppear {
-            print("Bottom⬇️")
-            }
-            .onDisappear {
-                print("⬆️")
-            }
-    }
+//    private var bottomArea: some View{
+//        Rectangle().frame(height: 10).foregroundColor(Color.clear)
+//            .onAppear {
+//            print("Bottom⬇️")
+//            }
+//            .onDisappear {
+//                print("⬆️")
+//            }
+//    }
     
     private func iOS14Fallback(in geometry: GeometryProxy) -> some View {
         List(messages) { message in
