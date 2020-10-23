@@ -68,12 +68,11 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                 }
                             }
                     }
-                    bottomArea
                 }
                 .onChange(of: scrollToBottom) { value in
                     if value {
                         withAnimation {
-                            proxy.scrollTo(bottomID)
+                            proxy.scrollTo(messages.last?.id)
                         }
                         scrollToBottom = false
                     }
@@ -84,7 +83,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     }
     
     private var bottomArea: some View{
-        Rectangle().frame(height: 10).foregroundColor(Color.clear).id(bottomID)
+        Rectangle().frame(height: 10).foregroundColor(Color.clear)
             .onAppear {
             print("Bottom⬇️")
             }
