@@ -24,7 +24,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     @Binding private var scrollToBottom: Bool
     @State private var scrollOffset: CGFloat = .zero
     @State private var isBottom : Bool = false
-    private let bottomID = UUID().uuidString
+    private var bottomID = UUID()
     
     public var body: some View {
         DeviceOrientationBasedView(
@@ -61,17 +61,13 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                 LazyVStack {
                     ForEach(messages) { message in
                         chatMessageCellContainer(in: geometry.size, with: message)
-                        if message.id == messages.last?.id{
-                            bottomArea
-                            .id(bottomID)
-                        }
                     }
-                    
+                    bottomArea
                 }
                 .onChange(of: scrollToBottom) { value in
                     if value {
                         withAnimation {
-                            proxy.scrollTo(messages.last?.id)
+                            proxy.scrollTo(bottomID)
                         }
                         scrollToBottom = false
                     }
@@ -82,7 +78,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     }
     
     private var bottomArea: some View{
-        Color.clear
+        Rectangle().frame(height: 10).foregroundColor(Color.clear).id(bottomID)
             .onAppear {
             print("Bottom⬇️")
             }
