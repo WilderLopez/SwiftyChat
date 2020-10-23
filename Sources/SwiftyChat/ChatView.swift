@@ -77,13 +77,11 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                         topOffset = scrollOffset
                                         print("topOffSet \(topOffset)  >> LAST")
                                     }else {
-//                                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(160)) {
                                             print("<<\(scrollOffset)>>|<<\(topOffset)>>")
-                                            if scrollOffset < topOffset - geometry.size.height - 100{
+                                            if scrollOffset > topOffset + geometry.size.height - 100{
                                                 self.isBottom = false
                                                 print("⬆️")
                                             }
-//                                        }
                                     }
                                 }
                         }
@@ -92,10 +90,8 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                         if value {
                             withAnimation {
                                 proxy.scrollTo(messages.last?.id)
-//                                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
                                     topOffset = scrollOffset
                                 print("topOffSet \(topOffset)  >>ScrollToBottom")
-//                                }
                             }
                             scrollToBottom = false
                             self.isBottom = true
