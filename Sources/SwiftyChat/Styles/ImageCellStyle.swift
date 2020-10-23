@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-public struct ImageCellStyle: CommonViewStyle {
+public struct ImageCellStyle: CommonViewStyle, NewCommonViewStyle {
+    public let cellShapeStyle: String
     
     public var cellWidth: (CGSize) -> CGFloat
     
@@ -26,7 +27,8 @@ public struct ImageCellStyle: CommonViewStyle {
         cellBorderColor: Color = .clear,
         cellBorderWidth: CGFloat = 0,
         cellShadowRadius: CGFloat = 3,
-        cellShadowColor: Color = .secondary
+        cellShadowColor: Color = .secondary,
+        cellShapeStyle: String
     ) {
         self.cellWidth = cellWidth
         self.cellBackgroundColor = cellBackgroundColor
@@ -35,6 +37,7 @@ public struct ImageCellStyle: CommonViewStyle {
         self.cellBorderWidth = cellBorderWidth
         self.cellShadowRadius = cellShadowRadius
         self.cellShadowColor = cellShadowColor
+        self.cellShapeStyle = cellShapeStyle
     }
     
 }

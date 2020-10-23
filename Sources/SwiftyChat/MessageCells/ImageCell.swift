@@ -32,7 +32,22 @@ public struct ImageCell<Message: ChatMessage>: View {
     }
     
     public var body: some View {
-        imageView
+        ZStack(alignment: .bottomTrailing){
+            imageView
+            
+            DateCheckMarkView(isNotText: true, isCurrentUser: message.isSender, date: message.date, messageTag: message.isDisplayed ? .dd : message.isReceived ? .rd : .none)
+                .animation(.linear(duration: 0.2))
+                .padding(3)
+                .padding(.horizontal, 6)
+                .background(Color.black.opacity(0.3))
+                .cornerRadius(10)
+                .padding(10)
+                .foregroundColor(Color.white)
+        }
+        .background(message.isSender ? Color.primaryBubble : Color.secondaryBubble)
+        .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
+        .foregroundColor(.white)
+        .frame(maxWidth: 300, alignment: message.isSender ? .trailing : .leading)
     }
     
     // MARK: - case Local Image
@@ -45,19 +60,19 @@ public struct ImageCell<Message: ChatMessage>: View {
             .resizable()
             .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
             .frame(width: imageWidth, height: isLandscape ? nil : imageWidth)
-            .background(cellStyle.cellBackgroundColor)
-            .cornerRadius(cellStyle.cellCornerRadius)
-            .overlay(
-                RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius)
-                    .stroke(
-                        cellStyle.cellBorderColor,
-                        lineWidth: cellStyle.cellBorderWidth
-                    )
-            )
-            .shadow(
-                color: cellStyle.cellShadowColor,
-                radius: cellStyle.cellShadowRadius
-            )
+//            .background(cellStyle.cellBackgroundColor)
+//            .cornerRadius(cellStyle.cellCornerRadius)
+//            .overlay(
+//                RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius)
+//                    .stroke(
+//                        cellStyle.cellBorderColor,
+//                        lineWidth: cellStyle.cellBorderWidth
+//                    )
+//            )
+//            .shadow(
+//                color: cellStyle.cellShadowColor,
+//                radius: cellStyle.cellShadowRadius
+//            )
     }
     
     // MARK: - case Remote Image
@@ -76,19 +91,19 @@ public struct ImageCell<Message: ChatMessage>: View {
             .resizable()
             .scaledToFill()
             .frame(width: imageWidth)
-            .background(cellStyle.cellBackgroundColor)
-            .cornerRadius(cellStyle.cellCornerRadius)
-            .overlay(
-                RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius)
-                    .stroke(
-                        cellStyle.cellBorderColor,
-                        lineWidth: cellStyle.cellBorderWidth
-                    )
-            )
-            .shadow(
-                color: cellStyle.cellShadowColor,
-                radius: cellStyle.cellShadowRadius
-            )
+//            .background(cellStyle.cellBackgroundColor)
+//            .cornerRadius(cellStyle.cellCornerRadius)
+//            .overlay(
+//                RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius)
+//                    .stroke(
+//                        cellStyle.cellBorderColor,
+//                        lineWidth: cellStyle.cellBorderWidth
+//                    )
+//            )
+//            .shadow(
+//                color: cellStyle.cellShadowColor,
+//                radius: cellStyle.cellShadowRadius
+//            )
         
     }
     
