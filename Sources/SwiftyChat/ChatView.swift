@@ -62,9 +62,11 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                     ForEach(messages) { message in
                         chatMessageCellContainer(in: geometry.size, with: message)
                             .onAppear {
-                                print("id: \(message.id) == last id: \(messages.last?.id)")
+//                                print("id: \(message.id) == last id: \(messages.last?.id)")
                                 if message.id == messages.last?.id{
-                                    print("shold down")
+                                    print("shold down ⬇️")
+                                }else {
+                                    print("⬆️")
                                 }
                             }
                     }
