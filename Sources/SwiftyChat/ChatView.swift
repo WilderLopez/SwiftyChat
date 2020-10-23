@@ -22,9 +22,12 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @available(iOS 14.0, *)
     @Binding private var scrollToBottom: Bool
-    @State private var scrollOffset: CGFloat = .zero
-    @State private var isBottom : Bool = false
-    private var bottomID = UUID().uuidString
+//    @State private var scrollOffset: CGFloat = .zero
+    
+    @available(iOS 14.0, *)
+    @Binding private var isBottom : Bool
+    
+//    private var bottomID = UUID().uuidString
     
     public var body: some View {
         DeviceOrientationBasedView(
@@ -65,7 +68,9 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
 //                                print("id: \(message.id) == last id: \(messages.last?.id)")
                                 if message.id == messages.last?.id{
                                     print("shold down ⬇️")
+                                    self.isBottom = true
                                 }else {
+                                    self.isBottom = false
                                     print("⬆️")
                                 }
                             }
@@ -144,6 +149,7 @@ public extension ChatView {
         self._messages = messages
         self.inputView = inputView
         self._scrollToBottom = .constant(false)
+        self._isBottom = .constant(false)
     }
     
     /// iOS 14 initializer, for supporting scrollToBottom
@@ -155,11 +161,13 @@ public extension ChatView {
     init(
         messages: Binding<[Message]>,
         scrollToBottom: Binding<Bool>,
+        isBottom: Binding<Bool>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
         self.inputView = inputView
         self._scrollToBottom = scrollToBottom
+        self._isBottom = isBottom
     }
     
 }
