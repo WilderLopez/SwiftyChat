@@ -61,11 +61,7 @@ public struct MockMessages {
     }
     
     // MARK: - Concrete model for ChatMessage
-    public struct ChatMessageItem: ChatMessage, Equatable {
-        public static func == (lhs: MockMessages.ChatMessageItem, rhs: MockMessages.ChatMessageItem) -> Bool {
-            return lhs.id == rhs.id
-        }
-        
+    public struct ChatMessageItem: ChatMessage {
         
         public var id = UUID()
         public var securityID : String
