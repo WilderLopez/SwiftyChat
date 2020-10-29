@@ -63,7 +63,8 @@ public struct MockMessages {
     // MARK: - Concrete model for ChatMessage
     public struct ChatMessageItem: ChatMessage {
         
-        public let id = UUID()
+        public var id = UUID()
+        public var SecurityID : String
         public var user: ChatUserItem
         public var messageKind: ChatMessageKind
         public var isSender: Bool
@@ -72,6 +73,7 @@ public struct MockMessages {
         public var isDisplayed: Bool
 
         public init(
+            securityID: String,
             user: ChatUserItem,
             messageKind: ChatMessageKind,
             isSender: Bool = false,
@@ -79,6 +81,7 @@ public struct MockMessages {
             isDisplayed: Bool = false,
             isReceived: Bool = false
         ) {
+            self.SecurityID = securityID
             self.user = user
             self.messageKind = messageKind
             self.isSender = isSender
@@ -138,6 +141,7 @@ public struct MockMessages {
         case .Image:
             guard let randomImage = mockImages.randomElement() else { fallthrough }
             return ChatMessageItem(
+                securityID: UUID().uuidString,
                 user: randomUser,
                 messageKind: .image(.local(randomImage)),
                 isSender: randomUser == Self.sender
@@ -145,6 +149,7 @@ public struct MockMessages {
             
         case .Text:
             return ChatMessageItem(
+                securityID: UUID().uuidString,
                 user: randomUser,
                 messageKind: .text(Lorem.sentence()),
                 isSender: randomUser == Self.sender
@@ -152,6 +157,7 @@ public struct MockMessages {
             
         case .Carousel:
             return ChatMessageItem(
+                securityID: UUID().uuidString,
                 user: Self.chatbot,
                 messageKind: .carousel([
                     CarouselRow(
@@ -181,6 +187,7 @@ public struct MockMessages {
                 return QuickReplyRow(title: "Option.\(idx)", payload: "opt\(idx)")
             }
             return ChatMessageItem(
+                securityID: UUID().uuidString,
                 user: randomUser,
                 messageKind: .quickReply(quickReplies),
                 isSender: randomUser == Self.sender
@@ -192,6 +199,7 @@ public struct MockMessages {
                 longitude: Double.random(in: 26...45)
             )
             return ChatMessageItem(
+                securityID: UUID().uuidString,
                 user: randomUser,
                 messageKind: .location(location),
                 isSender: randomUser == Self.sender
@@ -201,9 +209,10 @@ public struct MockMessages {
             let contacts = [
                 ContactRow(displayName: "Enes Karaosman"),
                 ContactRow(displayName: "Adam Surname"),
-                ContactRow(displayName: "Name DummySurname")
+                ContactRow(displayName: "Wilder López")
             ]
             return ChatMessageItem(
+                securityID: UUID().uuidString,
                 user: randomUser,
                 messageKind: .contact(contacts.randomElement()!),
                 isSender: randomUser == Self.sender
@@ -211,6 +220,7 @@ public struct MockMessages {
             
         default:
             return ChatMessageItem(
+                securityID: UUID().uuidString,
                 user: randomUser,
                 messageKind: .text("Bom!"),
                 isSender: randomUser == Self.sender
