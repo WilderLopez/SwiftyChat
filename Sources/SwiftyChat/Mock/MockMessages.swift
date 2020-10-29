@@ -64,7 +64,7 @@ public struct MockMessages {
     public struct ChatMessageItem: ChatMessage {
         
         public var id = UUID()
-        public var SecurityID : String
+        public var securityID : String
         public var user: ChatUserItem
         public var messageKind: ChatMessageKind
         public var isSender: Bool
@@ -81,7 +81,7 @@ public struct MockMessages {
             isDisplayed: Bool = false,
             isReceived: Bool = false
         ) {
-            self.SecurityID = securityID
+            self.securityID = securityID
             self.user = user
             self.messageKind = messageKind
             self.isSender = isSender

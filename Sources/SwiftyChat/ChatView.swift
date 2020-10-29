@@ -11,6 +11,7 @@ import SwiftUI
 public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @Binding private var messages: [Message]
+    @Binding private var onAppearMessage: Message
     private var inputView: () -> AnyView
 
     private var onMessageCellTapped: (Message) -> Void = { msg in print(msg.messageKind) }
@@ -77,9 +78,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                             self.isBottom = true
                                             topOffset = scrollOffset
                                         }
-//                                        print("topOffSet \(topOffset)  >> LAST")
                                     }else {
-//                                            print("<<\(scrollOffset)>>|<<\(topOffset)>>")
                                             if scrollOffset > topOffset + geometry.size.height - 100{
                                                 withAnimation {
                                                 self.isBottom = false
@@ -87,6 +86,10 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
 //                                                print("⬆️")
                                             }
                                     }
+                                    if !message.isSender{
+                                        onAppearMessage = message
+                                    }
+                                    
                                 }
                         }
                     }
@@ -95,7 +98,6 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                             withAnimation {
                                 proxy.scrollTo(messages.last?.id)
                                     topOffset = scrollOffset
-//                                print("topOffSet \(topOffset)  >>ScrollToBottom")
                                 self.isBottom = true
                             }
                             scrollToBottom = false
@@ -158,12 +160,15 @@ public extension ChatView {
     /// Initialize
     /// - Parameters:
     ///   - messages: Messages to display
+    ///   - onAppearMessage: Current message by the list
     ///   - inputView: inputView view to provide message
     init(
         messages: Binding<[Message]>,
+        onAppearMessage: Binding<Message>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
+        self._onAppearMessage = onAppearMessage
         self.inputView = inputView
         self._scrollToBottom = .constant(false)
         self._isBottom = .constant(false)
@@ -172,16 +177,19 @@ public extension ChatView {
     /// iOS 14 initializer, for supporting scrollToBottom
     /// - Parameters:
     ///   - messages: Messages to display
+    ///   - onAppearMessage: Current message by the list
     ///   - scrollToBottom: set to `true` to scrollToBottom
     ///   - inputView: inputView view to provide message
     @available(iOS 14.0, *)
     init(
         messages: Binding<[Message]>,
+        onAppearMessage: Binding<Message>,
         scrollToBottom: Binding<Bool>,
         isBottom: Binding<Bool>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
+        self._onAppearMessage = onAppearMessage
         self.inputView = inputView
         self._scrollToBottom = scrollToBottom
         self._isBottom = isBottom
