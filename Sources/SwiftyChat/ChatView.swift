@@ -11,7 +11,7 @@ import SwiftUI
 public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @Binding private var messages: [Message]
-    @Binding private var onAppearMessage: Message?
+    @Binding private var onAppearMessage: Message
     private var inputView: () -> AnyView
 
     private var onMessageCellTapped: (Message) -> Void = { msg in print(msg.messageKind) }
@@ -164,7 +164,7 @@ public extension ChatView {
     ///   - inputView: inputView view to provide message
     init(
         messages: Binding<[Message]>,
-        onAppearMessage: Binding<Message?>,
+        onAppearMessage: Binding<Message>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
@@ -183,7 +183,7 @@ public extension ChatView {
     @available(iOS 14.0, *)
     init(
         messages: Binding<[Message]>,
-        onAppearMessage: Binding<Message?>,
+        onAppearMessage: Binding<Message>,
         scrollToBottom: Binding<Bool>,
         isBottom: Binding<Bool>,
         inputView: @escaping () -> AnyView
