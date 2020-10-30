@@ -101,7 +101,9 @@ public struct TextCell<Message: ChatMessage>: View {
         let textWidth = frame.width
         
         
-        return AttributedTextCell(text: text, width: maxWidth) {
+        return
+            VStack(alignment: .trailing, spacing: 5){
+                AttributedTextCell(text: text, width: maxWidth) {
             
             $0.enabledDetectors = enabledDetectors
             $0.didSelectAddress = action.didSelectAddress
@@ -113,24 +115,40 @@ public struct TextCell<Message: ChatMessage>: View {
             //            $0.didSelectHashtag = self.action.didSelectHashtag
             
             $0.font = textStyle.font.withWeight(textStyle.fontWeight)
-            $0.textColor = textStyle.textColor
+            if #available(iOS 14.0, *) {
+                $0.textColor = UIColor(.primaryTodusColor)
+            } else {
+                // Fallback on earlier versions
+                $0.textColor = textStyle.textColor
+            }
             $0.textAlignment = message.isSender ? .right : .left
         }
-        .frame(width: textWidth, height: textHeight)
-        .padding(cellStyle.textPadding)
-        .background(cellStyle.cellBackgroundColor)
-        .clipShape(RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius))
-        .overlay(
-            RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius)
-            .stroke(
-                cellStyle.cellBorderColor,
-                lineWidth: cellStyle.cellBorderWidth
-            )
-            .shadow(
-                color: cellStyle.cellShadowColor,
-                radius: cellStyle.cellShadowRadius
-            )
-        )
+                .lineLimit(nil)
+                
+                DateCheckMarkView(isCurrentUser: message.isSender, date: message.date, messageTag: message.isDisplayed ? .dd : message.isReceived ? .rd : .none)
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 5)
+            .background(message.isSender ? Color.primaryBubble : Color.secondaryBubble)
+            .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
+            .foregroundColor(.textMessageColor)
+            .frame(maxWidth: 300, alignment: message.isSender ? .trailing : .leading)
+        
+//        .frame(width: textWidth, height: textHeight)
+//        .padding(cellStyle.textPadding)
+//        .background(cellStyle.cellBackgroundColor)
+//        .clipShape(RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius))
+//        .overlay(
+//            RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius)
+//            .stroke(
+//                cellStyle.cellBorderColor,
+//                lineWidth: cellStyle.cellBorderWidth
+//            )
+//            .shadow(
+//                color: cellStyle.cellShadowColor,
+//                radius: cellStyle.cellShadowRadius
+//            )
+//        )
     }
     
     @ViewBuilder public var body: some View {
