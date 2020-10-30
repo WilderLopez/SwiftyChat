@@ -26,7 +26,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @State private var scrollOffset: CGFloat = .zero
     @State private var topOffset: CGFloat = .zero
-    
+    var scrollToid = 99
     @available(iOS 14.0, *)
     @Binding private var isBottom : Bool
     
@@ -92,11 +92,16 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     
                                 }
                         }
+                        Rectangle()
+                            .frame(height: 50, alignment: .center)
+                            .foregroundColor(Color.clear)
+                            .id(scrollToid)
                     }
                     .onChange(of: scrollToBottom) { value in
                         if value {
                             withAnimation {
-                                proxy.scrollTo(messages.last?.id)
+//                                proxy.scrollTo(messages.last?.id)
+                                proxy.scrollTo(scrollToid)
                                     topOffset = scrollOffset
                                 self.isBottom = true
                             }
