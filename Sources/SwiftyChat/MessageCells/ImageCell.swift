@@ -94,7 +94,7 @@ public struct ImageCell<Message: ChatMessage>: View {
          */
         if let image = remoteIMG{
             localImage(uiImage: image)
-                .embedInAnyView()
+//                .embedInAnyView()
         }
 //        KFImage(url)
 //            .onSuccess(perform: { (result) in
