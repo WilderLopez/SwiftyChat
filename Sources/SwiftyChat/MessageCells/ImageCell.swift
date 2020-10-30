@@ -78,6 +78,7 @@ public struct ImageCell<Message: ChatMessage>: View {
     }
     @State var remoteIMGWidth: CGFloat = 1
     @State var remoteIMGHeight: CGFloat = 1
+    @State var remoteIMG : UIImage? = nil
     var isLandscape : Bool {remoteIMGWidth > remoteIMGHeight}
     // MARK: - case Remote Image
     @ViewBuilder private func remoteImage(url: URL) -> some View {
@@ -91,7 +92,10 @@ public struct ImageCell<Message: ChatMessage>: View {
          
          So for now we use fixed width & scale height properly.
          */
-        localImage(uiImage: downloadIMG(url: url))
+        if let image = remoteIMG{
+            localImage(uiImage: image)
+                .embedInAnyView()
+        }
 //        KFImage(url)
 //            .onSuccess(perform: { (result) in
 //                remoteIMGWidth = result.image.size.width
@@ -119,19 +123,12 @@ public struct ImageCell<Message: ChatMessage>: View {
         
     }
     
-    func downloadIMG(url: URL) -> UIImage{
-        var img : UIImage = .init()
+    func fetch(url: URL){
         KingfisherManager.shared.retrieveImage(with: url) { (resutl) in
-            switch resutl{
-            case .success(let imgResult):
-                img = imgResult.image
-                break
-            case .failure(_):
-                print("Error")
-            }
+            self.remoteIMG = try? resutl.get().image
         }
-        return img
-
     }
+    
+
 }
 
