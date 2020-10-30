@@ -59,7 +59,8 @@ public struct ImageCell<Message: ChatMessage>: View {
         Image(uiImage: uiImage)
             .resizable()
             .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
-            .frame(width: imageWidth, height: isLandscape ? nil : imageWidth)
+            .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
+//            .frame(width: imageWidth, height: isLandscape ? nil : imageWidth)
 //            .background(cellStyle.cellBackgroundColor)
 //            .cornerRadius(cellStyle.cellCornerRadius)
 //            .overlay(
@@ -87,10 +88,18 @@ public struct ImageCell<Message: ChatMessage>: View {
          
          So for now we use fixed width & scale height properly.
          */
+        var width : CGFloat = 250
+        var height : CGFloat = 300
+        var isLandscape = width > height
         KFImage(url)
+            .onSuccess(perform: { (result) in
+                width = result.image.size.width
+                height = result.image.size.height
+            })
             .resizable()
-            .scaledToFill()
-            .frame(width: imageWidth)
+//            .scaledToFill()
+            .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
+            .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
 //            .background(cellStyle.cellBackgroundColor)
 //            .cornerRadius(cellStyle.cellCornerRadius)
 //            .overlay(
