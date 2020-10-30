@@ -155,7 +155,8 @@ public struct TextCell<Message: ChatMessage>: View {
             text: text,
             enabledDetectors: enabledDetectors
         ).doesContain() || text.containsHtml() {
-            attributedText
+//            attributedText
+            bubbleCornerStyle
         } else {
             if cellStyle.cellShapeStyle == CellShapeStyle.CustomChatCornerStyle.rawValue{
                 bubbleCornerStyle
