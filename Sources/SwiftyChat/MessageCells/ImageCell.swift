@@ -29,6 +29,8 @@ public struct ImageCell<Message: ChatMessage>: View {
         switch imageLoadingType {
         case .local(let image): localImage(uiImage: image)
         case .remote(let remoteUrl): remoteImage(url: remoteUrl)
+        case .remoteTodus(let remoteUrl, let imageSize): remoteImageFromTodus(url: remoteUrl, imageSize: imageSize)
+            
         }
     }
     
@@ -92,18 +94,14 @@ public struct ImageCell<Message: ChatMessage>: View {
          
          So for now we use fixed width & scale height properly.
          */
-        if let image = remoteIMG{
-            localImage(uiImage: image)
-//                .embedInAnyView()
-        }
-//        KFImage(url)
-//            .onSuccess(perform: { (result) in
-//                remoteIMGWidth = result.image.size.width
-//                remoteIMGHeight = result.image.size.height
-//            })
-//            .resizable()
-//            .aspectRatio(remoteIMGWidth / remoteIMGHeight, contentMode: isLandscape ? .fit : .fill)
-//            .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
+        KFImage(url)
+            .onSuccess(perform: { (result) in
+                remoteIMGWidth = result.image.size.width
+                remoteIMGHeight = result.image.size.height
+            })
+            .resizable()
+            .aspectRatio(remoteIMGWidth / remoteIMGHeight, contentMode: isLandscape ? .fit : .fill)
+            .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
         
         
         
@@ -123,17 +121,27 @@ public struct ImageCell<Message: ChatMessage>: View {
         
     }
     
-    func fetch(url: URL){
-        KingfisherManager.shared.retrieveImage(with: url) { (resutl) in
-            switch resutl{
-            case .success(let task):
-                self.remoteIMG = task.image
-            case .failure(_):
-                print("error")
-            }
-//            self.remoteIMG = try? resutl.get().image
-        }
+    
+    //MARK: - case Remote Image from ToDus
+    @ViewBuilder private func remoteImageFromTodus(url: URL, imageSize: CGSize) -> some View {
+        let isLandScape = imageSize.width > imageSize.height
+        KFImage(url)
+            .resizable()
+            .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
+            .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
     }
+    
+    
+//    func fetch(url: URL){
+//        KingfisherManager.shared.retrieveImage(with: url) { (resutl) in
+//            switch resutl{
+//            case .success(let task):
+//                self.remoteIMG = task.image
+//            case .failure(_):
+//                print("error")
+//            }
+//        }
+//    }
     
 
 }

@@ -7,10 +7,12 @@
 //
 
 import SwiftUI
+import UIKit
 
 public enum ImageLoadingKind {
     case local(UIImage)
     case remote(URL)
+    case remoteTodus(URL,CGSize)
 }
 
 public enum ChatMessageKind: CustomStringConvertible {
@@ -42,6 +44,8 @@ public enum ChatMessageKind: CustomStringConvertible {
                 return "MessageKind.image(local: \(localImage))"
             case .remote(let remoteImageUrl):
                 return "MessageKind.image(remote: \(remoteImageUrl))"
+            case .remoteTodus(let url, let size):
+                return "MessageKind.image(remoteTodus: \(url) , \(size)"
             }
         case .text(let text):
             return "MessageKind.text(\(text))"
