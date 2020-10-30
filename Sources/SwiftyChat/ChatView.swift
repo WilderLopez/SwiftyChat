@@ -93,7 +93,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                 }
                         }
                         Rectangle()
-                            .frame(height: 50, alignment: .center)
+                            .frame(height: 20, alignment: .center)
                             .foregroundColor(Color.clear)
                             .id(scrollToid)
                     }
