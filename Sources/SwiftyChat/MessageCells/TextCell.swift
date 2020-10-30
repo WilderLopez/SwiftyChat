@@ -123,7 +123,6 @@ public struct TextCell<Message: ChatMessage>: View {
             }
             $0.textAlignment = message.isSender ? .right : .left
         }
-                .lineLimit(nil)
                 
                 DateCheckMarkView(isCurrentUser: message.isSender, date: message.date, messageTag: message.isDisplayed ? .dd : message.isReceived ? .rd : .none)
             }
@@ -131,7 +130,7 @@ public struct TextCell<Message: ChatMessage>: View {
             .padding(.vertical, 5)
             .background(message.isSender ? Color.primaryBubble : Color.secondaryBubble)
             .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
-            .foregroundColor(.textMessageColor)
+            .foregroundColor(.primaryTodusColor)
             .frame(maxWidth: 300, alignment: message.isSender ? .trailing : .leading)
         
 //        .frame(width: textWidth, height: textHeight)
