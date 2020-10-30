@@ -8,6 +8,7 @@
 
 import SwiftUI
 import KingfisherSwiftUI
+import class Kingfisher.KingfisherManager
 
 public struct ImageCell<Message: ChatMessage>: View {
     
@@ -90,16 +91,18 @@ public struct ImageCell<Message: ChatMessage>: View {
          
          So for now we use fixed width & scale height properly.
          */
+        localImage(uiImage: downloadIMG(url: url))
+//        KFImage(url)
+//            .onSuccess(perform: { (result) in
+//                remoteIMGWidth = result.image.size.width
+//                remoteIMGHeight = result.image.size.height
+//            })
+//            .resizable()
+//            .aspectRatio(remoteIMGWidth / remoteIMGHeight, contentMode: isLandscape ? .fit : .fill)
+//            .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
         
-        KFImage(url)
-            .onSuccess(perform: { (result) in
-                remoteIMGWidth = result.image.size.width
-                remoteIMGHeight = result.image.size.height
-            })
-            .resizable()
-//            .scaledToFill()
-            .aspectRatio(remoteIMGWidth / remoteIMGHeight, contentMode: isLandscape ? .fit : .fill)
-            .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
+        
+        
 //            .background(cellStyle.cellBackgroundColor)
 //            .cornerRadius(cellStyle.cellCornerRadius)
 //            .overlay(
@@ -116,5 +119,19 @@ public struct ImageCell<Message: ChatMessage>: View {
         
     }
     
+    func downloadIMG(url: URL) -> UIImage{
+        var img : UIImage = .init()
+        KingfisherManager.shared.retrieveImage(with: url) { (resutl) in
+            switch resutl{
+            case .success(let imgResult):
+                img = imgResult.image
+                break
+            case .failure(_):
+                print("Error")
+            }
+        }
+        return img
+
+    }
 }
 
