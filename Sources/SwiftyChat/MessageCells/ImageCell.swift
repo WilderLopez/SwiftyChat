@@ -125,7 +125,13 @@ public struct ImageCell<Message: ChatMessage>: View {
     
     func fetch(url: URL){
         KingfisherManager.shared.retrieveImage(with: url) { (resutl) in
-            self.remoteIMG = try? resutl.get().image
+            switch resutl{
+            case .success(let task):
+                self.remoteIMG = task.image
+            case .failure(_):
+                print("error")
+            }
+//            self.remoteIMG = try? resutl.get().image
         }
     }
     
