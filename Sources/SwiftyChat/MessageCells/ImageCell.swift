@@ -75,7 +75,9 @@ public struct ImageCell<Message: ChatMessage>: View {
 //                radius: cellStyle.cellShadowRadius
 //            )
     }
-    
+    @State var remoteIMGWidth: CGFloat = 0
+    @State var remoteIMGHeight: CGFloat = 0
+    var isLandscape : Bool {remoteIMGWidth > remoteIMGHeight}
     // MARK: - case Remote Image
     @ViewBuilder private func remoteImage(url: URL) -> some View {
         /**
@@ -88,17 +90,15 @@ public struct ImageCell<Message: ChatMessage>: View {
          
          So for now we use fixed width & scale height properly.
          */
-        var width : CGFloat = 250
-        var height : CGFloat = 300
-        var isLandscape = width > height
+        
         KFImage(url)
             .onSuccess(perform: { (result) in
-                width = result.image.size.width
-                height = result.image.size.height
+                remoteIMGWidth = result.image.size.width
+                remoteIMGHeight = result.image.size.height
             })
             .resizable()
 //            .scaledToFill()
-            .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
+            .aspectRatio(remoteIMGWidth / remoteIMGHeight, contentMode: isLandscape ? .fit : .fill)
             .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
 //            .background(cellStyle.cellBackgroundColor)
 //            .cornerRadius(cellStyle.cellCornerRadius)
