@@ -75,8 +75,8 @@ public struct ImageCell<Message: ChatMessage>: View {
 //                radius: cellStyle.cellShadowRadius
 //            )
     }
-    @State var remoteIMGWidth: CGFloat = 0
-    @State var remoteIMGHeight: CGFloat = 0
+    @State var remoteIMGWidth: CGFloat = 1
+    @State var remoteIMGHeight: CGFloat = 1
     var isLandscape : Bool {remoteIMGWidth > remoteIMGHeight}
     // MARK: - case Remote Image
     @ViewBuilder private func remoteImage(url: URL) -> some View {
