@@ -162,7 +162,8 @@ public struct TextCell<Message: ChatMessage>: View {
                 bubbleCornerStyle
             }
             else {
-                defaultText
+//                defaultText
+                bubbleCornerStyle
             }
         }
     }
