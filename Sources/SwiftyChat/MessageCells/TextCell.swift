@@ -89,16 +89,16 @@ public struct TextCell<Message: ChatMessage>: View {
     private var attributedText: some View {
         let textStyle = cellStyle.attributedTextStyle
         
-        let attributes = AZTextFrameAttributes(
-            string: text,
-            width: maxWidth,
-            font: cellStyle.attributedTextStyle.font
-        )
+//        let attributes = AZTextFrameAttributes(
+//            string: text,
+//            width: maxWidth,
+//            font: cellStyle.attributedTextStyle.font
+//        )
 
-        let textHeight = attributes.calculatedTextHeight()
+//        let textHeight = attributes.calculatedTextHeight()
         
-        let frame = text.frameSize(maxWidth: maxWidth, maxHeight: nil)
-        let textWidth = frame.width
+//        let frame = text.frameSize(maxWidth: maxWidth, maxHeight: nil)
+//        let textWidth = frame.width
         
         
         return

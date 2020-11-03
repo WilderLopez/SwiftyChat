@@ -22,15 +22,17 @@ struct DateCheckMarkView: View {
             Text(DateHelper.getDateWith(timeInterval: Int64(date.timeIntervalSince1970)))
                 .italic()
             if isCurrentUser {
-                HStack(spacing: 0){
+                HStack(alignment: .bottom, spacing: 0){
                     if messageTag != .none{
-                        Image(systemName: "checkmark")
+//                        Image(systemName: "checkmark")
+                        checkR()
+                            .padding(.trailing, 2)
                         
                         if messageTag != .r {
                             Rectangle()
                                 .frame(width: 1.5, height: 11, alignment: .center)
                                 .cornerRadius(10)
-                                .rotationEffect(Angle(degrees: 32))
+                                .rotationEffect(Angle(degrees: 38))
                         }
                     }else {
                         Image(systemName: "clock")
@@ -40,5 +42,28 @@ struct DateCheckMarkView: View {
         }.font(.system(size: 11))
         .frame(width: isCurrentUser ? 80 : 50, alignment: .bottomTrailing)
             .animation(.linear)
+    }
+}
+
+struct DateCheckMarkView_Previews: PreviewProvider {
+    static var previews: some View {
+        DateCheckMarkView(isCurrentUser: true, date: Date(), messageTag: .rd)
+            .previewLayout(PreviewLayout.fixed(width: 150, height: 90))
+    }
+}
+
+struct checkR : View {
+    var body: some View{
+        HStack(alignment: .bottom,spacing: 3.5){
+        Rectangle()
+            .frame(width: 1.5, height: 6, alignment: .center)
+            .cornerRadius(10)
+            .rotationEffect(Angle(degrees: -38))
+            
+        Rectangle()
+            .frame(width: 1.5, height: 11, alignment: .center)
+            .cornerRadius(10)
+            .rotationEffect(Angle(degrees: 38))
+        }
     }
 }
