@@ -8,12 +8,13 @@
 import SwiftUI
 
 extension View {
-    dynamic func dismissKeyboardOnTappingOutside() -> some View {
-        return ModifiedContent(content: self, modifier: DismissKeyboardOnTappingOutside())
+    dynamic func dismissKeyboardOnTappingOutside(force: Bool = true) -> some View {
+        return ModifiedContent(content: self, modifier: DismissKeyboardOnTappingOutside(endEditing: force))
     }
 }
 
 public struct DismissKeyboardOnTappingOutside: ViewModifier {
+    var endEditing : Bool
     public func body(content: Content) -> some View {
         content
             .onTapGesture {
@@ -23,7 +24,7 @@ public struct DismissKeyboardOnTappingOutside: ViewModifier {
                         .compactMap({$0})
                         .first?.windows
                         .filter({$0.isKeyWindow}).first
-                keyWindow?.endEditing(true)
+                keyWindow?.endEditing(endEditing)
         }
     }
 }
