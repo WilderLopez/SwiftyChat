@@ -57,7 +57,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
 
         }
         .keyboardAwarePadding()
-        .dismissKeyboardOnTappingOutside(force: canDismissKeyboard)
+//        .dismissKeyboardOnTappingOutside(force: canDismissKeyboard)
     }
     
     @available(iOS 14.0, *)
