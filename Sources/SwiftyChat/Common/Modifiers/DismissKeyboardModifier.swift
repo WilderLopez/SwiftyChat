@@ -9,6 +9,7 @@ import SwiftUI
 
 extension View {
     dynamic func dismissKeyboardOnTappingOutside(force: Bool = true) -> some View {
+        print("inside force :\(force)")
         return ModifiedContent(content: self, modifier: DismissKeyboardOnTappingOutside(endEditing: force))
     }
 }
@@ -18,6 +19,7 @@ public struct DismissKeyboardOnTappingOutside: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .onTapGesture {
+                print("in tap editing: \(endEditing)")
                 let keyWindow = UIApplication.shared.connectedScenes
                         .filter({$0.activationState == .foregroundActive})
                         .map({$0 as? UIWindowScene})
