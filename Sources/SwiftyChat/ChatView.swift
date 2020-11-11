@@ -205,6 +205,7 @@ public extension ChatView {
         self._scrollToBottom = scrollToBottom
         self._isBottom = isBottom
         _canDismissKeyboard = State(initialValue: canDismissKeyboard)
+        print("initting can Dismiss: \(canDismissKeyboard)")
     }
     
 }
