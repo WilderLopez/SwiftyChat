@@ -8,25 +8,22 @@
 import SwiftUI
 
 extension View {
-    dynamic func dismissKeyboardOnTappingOutside(force: Bool = true) -> some View {
-        print("inside force :\(force)")
-        return ModifiedContent(content: self, modifier: DismissKeyboardOnTappingOutside(endEditing: force))
+    dynamic func dismissKeyboardOnTappingOutside() -> some View {
+        return ModifiedContent(content: self, modifier: DismissKeyboardOnTappingOutside())
     }
 }
 
 public struct DismissKeyboardOnTappingOutside: ViewModifier {
-    var endEditing : Bool
     public func body(content: Content) -> some View {
         content
             .onTapGesture {
-                print("in tap editing: \(endEditing)")
                 let keyWindow = UIApplication.shared.connectedScenes
                         .filter({$0.activationState == .foregroundActive})
                         .map({$0 as? UIWindowScene})
                         .compactMap({$0})
                         .first?.windows
                         .filter({$0.isKeyWindow}).first
-                keyWindow?.endEditing(endEditing)
+                keyWindow?.endEditing(true)
         }
     }
 }

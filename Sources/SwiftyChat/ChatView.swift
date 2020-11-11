@@ -29,7 +29,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     var scrollToid = 99
     @available(iOS 14.0, *)
     @Binding private var isBottom : Bool
-    @State var canDismissKeyboard : Bool
+    
 //    private var bottomID = UUID().uuidString
     
     public var body: some View {
@@ -57,7 +57,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
 
         }
         .keyboardAwarePadding()
-//        .dismissKeyboardOnTappingOutside(force: canDismissKeyboard)
+//        .dismissKeyboardOnTappingOutside()
     }
     
     @available(iOS 14.0, *)
@@ -166,21 +166,17 @@ public extension ChatView {
     /// - Parameters:
     ///   - messages: Messages to display
     ///   - onAppearMessage: Current message by the list
-    ///   - canDismissKeyboard: Indicate if you can dismiss keyboard 😈
     ///   - inputView: inputView view to provide message
     init(
         messages: Binding<[Message]>,
         onAppearMessage: Binding<Message>,
-        canDismissKeyboard: Bool,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
         self._onAppearMessage = onAppearMessage
         self.inputView = inputView
-        
         self._scrollToBottom = .constant(false)
         self._isBottom = .constant(false)
-        _canDismissKeyboard = State(initialValue: canDismissKeyboard)
     }
     
     /// iOS 14 initializer, for supporting scrollToBottom
@@ -188,7 +184,6 @@ public extension ChatView {
     ///   - messages: Messages to display
     ///   - onAppearMessage: Current message by the list
     ///   - scrollToBottom: set to `true` to scrollToBottom
-    ///   - canDismissKeyboard: Indicate if you can dismiss keyboard 😈
     ///   - inputView: inputView view to provide message
     @available(iOS 14.0, *)
     init(
@@ -196,7 +191,6 @@ public extension ChatView {
         onAppearMessage: Binding<Message>,
         scrollToBottom: Binding<Bool>,
         isBottom: Binding<Bool>,
-        canDismissKeyboard: Bool,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
@@ -204,8 +198,6 @@ public extension ChatView {
         self.inputView = inputView
         self._scrollToBottom = scrollToBottom
         self._isBottom = isBottom
-        _canDismissKeyboard = State(initialValue: canDismissKeyboard)
-        print("initting can Dismiss: \(canDismissKeyboard)")
     }
     
 }
