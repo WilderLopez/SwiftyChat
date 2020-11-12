@@ -69,7 +69,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
             if scrollOffset > 0 && !refreshOldMessages{
                 print("📨 Refreshing")
                 refreshOldMessages = true
-            }else if refreshOldMessages{
+            }else if scrollOffset < 0 && refreshOldMessages{
                 refreshOldMessages = false
             }
         }, content: {
