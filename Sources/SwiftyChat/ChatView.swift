@@ -23,7 +23,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @available(iOS 14.0, *)
     @Binding private var scrollToBottom: Bool
-    
+    @Binding private var refreshOldMessages : Bool
     @State private var scrollOffset: CGFloat = .zero
     @State private var topOffset: CGFloat = .zero
     var scrollToid = 99
@@ -88,6 +88,12 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     }
                                     if !message.isSender{
                                         onAppearMessage = message
+                                    }
+                                    
+                                    //MARK: - Refresh Old Messages
+                                    if scrollOffset < 5{
+                                        print("📨 Refreshing")
+                                        refreshOldMessages = true
                                     }
                                     
                                 }
@@ -177,6 +183,7 @@ public extension ChatView {
         self.inputView = inputView
         self._scrollToBottom = .constant(false)
         self._isBottom = .constant(false)
+        self._refreshOldMessages = .constant(false)
     }
     
     /// iOS 14 initializer, for supporting scrollToBottom
@@ -184,6 +191,8 @@ public extension ChatView {
     ///   - messages: Messages to display
     ///   - onAppearMessage: Current message by the list
     ///   - scrollToBottom: set to `true` to scrollToBottom
+    ///   - isBottom: `true` when scroll is bottom
+    ///   - refreshOldMessages: `true` when scroll is top
     ///   - inputView: inputView view to provide message
     @available(iOS 14.0, *)
     init(
@@ -191,6 +200,7 @@ public extension ChatView {
         onAppearMessage: Binding<Message>,
         scrollToBottom: Binding<Bool>,
         isBottom: Binding<Bool>,
+        refreshOldMessages: Binding<Bool>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
@@ -198,6 +208,7 @@ public extension ChatView {
         self.inputView = inputView
         self._scrollToBottom = scrollToBottom
         self._isBottom = isBottom
+        self._refreshOldMessages = refreshOldMessages
     }
     
 }
