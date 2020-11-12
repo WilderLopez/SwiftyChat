@@ -66,7 +66,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
             scrollOffset = offset
             //MARK: - Refresh Old Messages
             print("scroll offset: \(scrollOffset)")
-            if scrollOffset > 0{
+            if scrollOffset > 0 && !refreshOldMessages{
                 print("📨 Refreshing")
                 refreshOldMessages = true
             }else if refreshOldMessages{
