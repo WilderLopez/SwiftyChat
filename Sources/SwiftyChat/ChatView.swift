@@ -64,6 +64,12 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     private func iOS14Body(in geometry: GeometryProxy) -> some View {
         ScrollViewOffset(onOffsetChange: { (offset) in
             scrollOffset = offset
+            //MARK: - Refresh Old Messages
+            print("scroll offset: \(scrollOffset)")
+            if scrollOffset < 5{
+                print("📨 Refreshing")
+                refreshOldMessages = true
+            }
         }, content: {
             
                 ScrollViewReader { proxy in
@@ -90,12 +96,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                         onAppearMessage = message
                                     }
                                     
-                                    //MARK: - Refresh Old Messages
-                                    print("scroll offset: \(scrollOffset)")
-                                    if scrollOffset < 5{
-                                        print("📨 Refreshing")
-                                        refreshOldMessages = true
-                                    }
+                                    
                                     
                                 }
                         }
