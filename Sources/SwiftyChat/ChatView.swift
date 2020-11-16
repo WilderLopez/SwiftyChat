@@ -101,10 +101,10 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     }
                                     
                                     //catch first message on appear
-                                    if !firstMove {
+                                    if !firstMove && IDToScrollMove == message.id as! UUID{
                                         print("move to item \(IDToScrollMove) 🥑🥮")
                                         firstMove = true
-                                        proxy.scrollTo(IDToScrollMove)
+                                        proxy.scrollTo(message.id)
                                     }
                                     IDToScrollMove = message.id as! UUID
                                     
