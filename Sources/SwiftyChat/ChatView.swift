@@ -25,7 +25,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     @Binding private var scrollToBottom: Bool
     @Binding private var refreshOldMessages : Bool
     @State private var scrollOffset: CGFloat = .zero
-    @Binding var IDToScrollMove : String
+    @Binding var IDToScrollMove : UUID
     @State private var topOffset: CGFloat = .zero
     var scrollToid = 99
     @available(iOS 14.0, *)
@@ -106,7 +106,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                         firstMove = true
                                         proxy.scrollTo(IDToScrollMove)
                                     }
-                                    IDToScrollMove = "\(message.id)"
+                                    IDToScrollMove = message.id as! UUID
                                     
 //                                    if message.id == messages.first?.id{
 //                                        refreshOldMessages = true
@@ -195,7 +195,7 @@ public extension ChatView {
     init(
         messages: Binding<[Message]>,
         onAppearMessage: Binding<Message>,
-        IDToScrollMove: Binding<String>,
+        IDToScrollMove: Binding<UUID>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
@@ -223,7 +223,7 @@ public extension ChatView {
         scrollToBottom: Binding<Bool>,
         isBottom: Binding<Bool>,
         refreshOldMessages: Binding<Bool>,
-        IDToScrollMove: Binding<String>,
+        IDToScrollMove: Binding<UUID>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
