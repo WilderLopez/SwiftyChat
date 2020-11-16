@@ -104,7 +104,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     
                                     if !firstMove{
                                         if let index = messages.firstIndex(where: { (mess) -> Bool in
-                                            return mess.id as! UUID == IDToScrollMove
+                                            return "\(mess.id)" == IDToScrollMove.uuidString
                                         }){
                                             print("move to item(\(index)) \(IDToScrollMove) 🥑🥮")
                                             proxy.scrollTo(messages[index].id)
