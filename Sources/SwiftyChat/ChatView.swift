@@ -104,8 +104,8 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     
                                     if !firstMove{
                                         if let index = messages.firstIndex(where: { (mess) -> Bool in
-                                           print("Comparing : \(mess.id) == \(IDToScrollMove.uuidString)")
-                                            return "\(mess.id)" == IDToScrollMove.uuidString
+                                           print("Comparing : \(mess.securityID) == \(IDToScrollMove.uuidString)")
+                                            return mess.securityID == IDToScrollMove.uuidString
                                         }){
                                             print("move to item(\(index)) \(IDToScrollMove) 🥑🥮")
                                             proxy.scrollTo(messages[index].id)
@@ -114,7 +114,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                         
                                         firstMove = true
                                     }else {
-                                        IDToScrollMove = message.id as! UUID
+                                        IDToScrollMove = UUID(uuidString: message.securityID)!
                                     }
 //                                    if message.id == messages.first?.id{
 //                                        refreshOldMessages = true

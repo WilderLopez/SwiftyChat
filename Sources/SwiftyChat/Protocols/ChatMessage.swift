@@ -14,6 +14,9 @@ public protocol ChatMessage: Identifiable {
     /// The `User` who sent this message.
     var user: User { get }
     
+    /// Security ID UUID string
+    var securityID: String {get}
+    
     /// Type of message
     var messageKind: ChatMessageKind { get }
     
