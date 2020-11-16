@@ -62,7 +62,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @available(iOS 14.0, *)
     private func iOS14Body(in geometry: GeometryProxy) -> some View {
-        ScrollViewOffset(onOffsetChange: { (offset) in
+        ScrollViewOffset(scrollStateY: scrollOffset, onOffsetChange: { (offset) in
             scrollOffset = offset
             //MARK: - Refresh Old Messages
 //            print("scroll offset: \(scrollOffset) >> ref: \(refreshOldMessages)")
@@ -105,8 +105,6 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
 //                                    }else if refreshOldMessages{
 //                                        refreshOldMessages = false
 //                                    }
-                                    
-                                    
                                 }
                         }
                         Rectangle()
