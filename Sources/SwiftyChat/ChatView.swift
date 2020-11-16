@@ -25,7 +25,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     @Binding private var scrollToBottom: Bool
     @Binding private var refreshOldMessages : Bool
     @State private var scrollOffset: CGFloat = .zero
-    @Binding var scrollToSet : CGFloat
+    @Binding var IDToScrollMove : String
     @State private var topOffset: CGFloat = .zero
     var scrollToid = 99
     @available(iOS 14.0, *)
@@ -63,7 +63,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @available(iOS 14.0, *)
     private func iOS14Body(in geometry: GeometryProxy) -> some View {
-        ScrollViewOffset(scrollStateY: scrollToSet, onOffsetChange: { (offset) in
+        ScrollViewOffset(onOffsetChange: { (offset) in
             scrollOffset = offset
             //MARK: - Refresh Old Messages
 //            print("scroll offset: \(scrollOffset) >> ref: \(refreshOldMessages)")
@@ -187,12 +187,12 @@ public extension ChatView {
     init(
         messages: Binding<[Message]>,
         onAppearMessage: Binding<Message>,
-        scrollToSet: Binding<CGFloat>,
+        IDToScrollMove: Binding<String>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
         self._onAppearMessage = onAppearMessage
-        self._scrollToSet = scrollToSet
+        self._IDToScrollMove = IDToScrollMove
         self.inputView = inputView
         self._scrollToBottom = .constant(false)
         self._isBottom = .constant(false)
@@ -215,7 +215,7 @@ public extension ChatView {
         scrollToBottom: Binding<Bool>,
         isBottom: Binding<Bool>,
         refreshOldMessages: Binding<Bool>,
-        scrollToSet: Binding<CGFloat>,
+        IDToScrollMove: Binding<String>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
@@ -224,7 +224,7 @@ public extension ChatView {
         self._scrollToBottom = scrollToBottom
         self._isBottom = isBottom
         self._refreshOldMessages = refreshOldMessages
-        self._scrollToSet = scrollToSet
+        self._IDToScrollMove = IDToScrollMove
     }
     
 }

@@ -8,21 +8,18 @@
 import SwiftUI
 
 struct ScrollViewOffset<Content: View>: View {
-    @State var scrollStateY : CGFloat
     
     let onOffsetChange: (CGFloat) -> Void
     let content: () -> Content
-    init(scrollStateY: CGFloat, onOffsetChange: @escaping (CGFloat) -> Void, @ViewBuilder content: @escaping () -> Content) {
+    init(onOffsetChange: @escaping (CGFloat) -> Void, @ViewBuilder content: @escaping () -> Content) {
         self.onOffsetChange = onOffsetChange
         self.content = content
-        _scrollStateY = State(initialValue: scrollStateY)
     }
     var body: some View {
         ScrollView {
             offsetReader
             content()
                 .padding(.top, -8)
-                .offset(y: scrollStateY)
         }
         .coordinateSpace(name: "frameLayer")
         .onPreferenceChange(OffsetPreferenceKey.self, perform: onOffsetChange)
