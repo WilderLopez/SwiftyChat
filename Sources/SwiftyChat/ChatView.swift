@@ -24,7 +24,8 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     @available(iOS 14.0, *)
     @Binding private var scrollToBottom: Bool
     @Binding private var refreshOldMessages : Bool
-    @Binding var scrollOffset: CGFloat
+    @State private var scrollOffset: CGFloat = .zero
+    @Binding var scrollToSet : CGFloat
     @State private var topOffset: CGFloat = .zero
     var scrollToid = 99
     @available(iOS 14.0, *)
@@ -62,7 +63,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @available(iOS 14.0, *)
     private func iOS14Body(in geometry: GeometryProxy) -> some View {
-        ScrollViewOffset(scrollStateY: scrollOffset, onOffsetChange: { (offset) in
+        ScrollViewOffset(scrollStateY: scrollToSet, onOffsetChange: { (offset) in
             scrollOffset = offset
             //MARK: - Refresh Old Messages
 //            print("scroll offset: \(scrollOffset) >> ref: \(refreshOldMessages)")
@@ -181,17 +182,17 @@ public extension ChatView {
     /// - Parameters:
     ///   - messages: Messages to display
     ///   - onAppearMessage: Current message by the list
-    ///   - scrollOffset: current scroll position
+    ///   - scrollToSet: current scroll position
     ///   - inputView: inputView view to provide message
     init(
         messages: Binding<[Message]>,
         onAppearMessage: Binding<Message>,
-        scrollOffset: Binding<CGFloat>,
+        scrollToSet: Binding<CGFloat>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
         self._onAppearMessage = onAppearMessage
-        self._scrollOffset = scrollOffset
+        self._scrollToSet = scrollToSet
         self.inputView = inputView
         self._scrollToBottom = .constant(false)
         self._isBottom = .constant(false)
@@ -214,7 +215,7 @@ public extension ChatView {
         scrollToBottom: Binding<Bool>,
         isBottom: Binding<Bool>,
         refreshOldMessages: Binding<Bool>,
-        scrollOffset: Binding<CGFloat>,
+        scrollToSet: Binding<CGFloat>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
@@ -223,7 +224,7 @@ public extension ChatView {
         self._scrollToBottom = scrollToBottom
         self._isBottom = isBottom
         self._refreshOldMessages = refreshOldMessages
-        self._scrollOffset = scrollOffset
+        self._scrollToSet = scrollToSet
     }
     
 }
