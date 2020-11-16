@@ -10,15 +10,10 @@ import SwiftUI
 struct ScrollViewOffset<Content: View>: View {
     let onOffsetChange: (CGFloat) -> Void
     let content: () -> Content
-    
-    init(
-        onOffsetChange: @escaping (CGFloat) -> Void,
-        @ViewBuilder content: @escaping () -> Content
-    ) {
+    init(onOffsetChange: @escaping (CGFloat) -> Void, @ViewBuilder content: @escaping () -> Content) {
         self.onOffsetChange = onOffsetChange
         self.content = content
     }
-    
     var body: some View {
         ScrollView {
             offsetReader
@@ -28,7 +23,6 @@ struct ScrollViewOffset<Content: View>: View {
         .coordinateSpace(name: "frameLayer")
         .onPreferenceChange(OffsetPreferenceKey.self, perform: onOffsetChange)
     }
-    
     var offsetReader: some View {
         GeometryReader { proxy in
             Color.clear
@@ -39,15 +33,9 @@ struct ScrollViewOffset<Content: View>: View {
         }
         .frame(height: 0)
     }
-    
 }
 
 private struct OffsetPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = .zero
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {}
 }
-
-//private struct isBottomPreferenceKey: PreferenceKey{
-//    static var defaultValue: Bool = false
-//    static func reduce(value: inout Bool, nextValue: () -> Bool) {}
-//}

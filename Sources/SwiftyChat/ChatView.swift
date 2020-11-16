@@ -24,7 +24,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     @available(iOS 14.0, *)
     @Binding private var scrollToBottom: Bool
     @Binding private var refreshOldMessages : Bool
-    @State private var scrollOffset: CGFloat = .zero
+    @Binding var scrollOffset: CGFloat
     @State private var topOffset: CGFloat = .zero
     var scrollToid = 99
     @available(iOS 14.0, *)
@@ -98,6 +98,13 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                         onAppearMessage = message
                                     }
                                     
+                                    //catch first message on appear
+//                                    if message.id == messages.first?.id{
+//                                        refreshOldMessages = true
+//                                        firtID = "\(message.id)"
+//                                    }else if refreshOldMessages{
+//                                        refreshOldMessages = false
+//                                    }
                                     
                                     
                                 }
@@ -176,14 +183,17 @@ public extension ChatView {
     /// - Parameters:
     ///   - messages: Messages to display
     ///   - onAppearMessage: Current message by the list
+    ///   - scrollOffset: current scroll position
     ///   - inputView: inputView view to provide message
     init(
         messages: Binding<[Message]>,
         onAppearMessage: Binding<Message>,
+        scrollOffset: Binding<CGFloat>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
         self._onAppearMessage = onAppearMessage
+        self._scrollOffset = scrollOffset
         self.inputView = inputView
         self._scrollToBottom = .constant(false)
         self._isBottom = .constant(false)
@@ -197,6 +207,7 @@ public extension ChatView {
     ///   - scrollToBottom: set to `true` to scrollToBottom
     ///   - isBottom: `true` when scroll is bottom
     ///   - refreshOldMessages: `true` when scroll is top
+    ///   - scrollOffset: current scroll position
     ///   - inputView: inputView view to provide message
     @available(iOS 14.0, *)
     init(
@@ -205,6 +216,7 @@ public extension ChatView {
         scrollToBottom: Binding<Bool>,
         isBottom: Binding<Bool>,
         refreshOldMessages: Binding<Bool>,
+        scrollOffset: Binding<CGFloat>,
         inputView: @escaping () -> AnyView
     ) {
         self._messages = messages
@@ -213,6 +225,7 @@ public extension ChatView {
         self._scrollToBottom = scrollToBottom
         self._isBottom = isBottom
         self._refreshOldMessages = refreshOldMessages
+        self._scrollOffset = scrollOffset
     }
     
 }
