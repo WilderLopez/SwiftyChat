@@ -30,7 +30,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     var scrollToid = 99
     @available(iOS 14.0, *)
     @Binding private var isBottom : Bool
-    
+    @State private var firstMove = false
 //    private var bottomID = UUID().uuidString
     
     public var body: some View {
@@ -81,6 +81,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                             chatMessageCellContainer(in: geometry.size, with: message)
                                 .onAppear {
     //                                print("id: \(message.id) == last id: \(messages.last?.id)")
+                                    
                                     if message.id == messages.last?.id{
 //                                        print("shold down ⬇️")
                                         withAnimation { 
@@ -100,6 +101,12 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     }
                                     
                                     //catch first message on appear
+                                    if !firstMove {
+                                        firstMove = true
+                                        proxy.scrollTo(IDToScrollMove)
+                                    }
+                                    IDToScrollMove = "\(message.id)"
+                                    
 //                                    if message.id == messages.first?.id{
 //                                        refreshOldMessages = true
 //                                        firtID = "\(message.id)"
