@@ -103,18 +103,23 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     //catch first message on appear
                                     
                                     if !firstMove{
-                                        if let index = messages.firstIndex(where: { (mess) -> Bool in
-                                           print("Comparing : \(mess.securityID) == \(IDToScrollMove.uuidString)")
-                                            return mess.securityID == IDToScrollMove.uuidString
-                                        }){
-                                            print("move to item(\(index)) \(IDToScrollMove) 🥑🥮")
-                                            proxy.scrollTo(messages[index].id)
+                                        DispatchQueue.main.async {
+                                            if let index = messages.firstIndex(where: { (mess) -> Bool in
+                                               print("Comparing : \(mess.securityID) == \(IDToScrollMove.uuidString)")
+                                                return mess.securityID == IDToScrollMove.uuidString
+                                            }){
+                                                print("move to item(\(index)) \(IDToScrollMove) 🥑🥮")
+                                                
+                                                proxy.scrollTo(messages[index].id)
+                                            }
                                         }
                                         
                                         
                                         firstMove = true
                                     }else {
-                                        IDToScrollMove = UUID(uuidString: message.securityID)!
+                                        
+                                            IDToScrollMove = UUID(uuidString: message.securityID)!
+                                        
                                     }
 //                                    if message.id == messages.first?.id{
 //                                        refreshOldMessages = true
