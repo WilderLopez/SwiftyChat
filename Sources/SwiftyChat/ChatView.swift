@@ -104,6 +104,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     
                                     if !firstMove{
                                         if let index = messages.firstIndex(where: { (mess) -> Bool in
+                                           print("Comparing : \(mess.id) == \(IDToScrollMove.uuidString)")
                                             return "\(mess.id)" == IDToScrollMove.uuidString
                                         }){
                                             print("move to item(\(index)) \(IDToScrollMove) 🥑🥮")
