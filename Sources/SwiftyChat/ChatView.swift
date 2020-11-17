@@ -119,7 +119,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                         refreshOldMessages = true
                                         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(10), execute: {
                                             withAnimation(Animation.default) {
-                                                proxy.scrollTo(message.id)
+                                                proxy.scrollTo(message.id, anchor: UnitPoint.init(x: 0, y: scrollOffset))
                                             }
                                         })
                                     }else if scrollOffset < -7 && refreshOldMessages{
