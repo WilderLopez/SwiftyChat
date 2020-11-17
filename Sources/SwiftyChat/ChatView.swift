@@ -135,12 +135,12 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                     }
                     .onChange(of: scrollToBottom) { value in
                         if value {
-                            withAnimation(Animation.linear(duration: 0.1)) {
+//                            withAnimation(Animation.linear(duration: 0.1)) {
 //                                proxy.scrollTo(messages.last?.id)
                                 proxy.scrollTo(scrollToid, anchor: .bottom)
 //                                    topOffset = scrollOffset
                                 self.isBottom = true
-                            }
+//                            }
                             scrollToBottom = false
                         }
                     }
