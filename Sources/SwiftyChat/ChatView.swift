@@ -24,7 +24,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     @available(iOS 14.0, *)
     @Binding private var scrollToBottom: Bool
     @Binding private var refreshOldMessages : Bool
-    @State private var scrollOffset: CGFloat = .zero
+//    @State private var scrollOffset: CGFloat = .zero
     @Binding var IDToScrollMove : UUID
     @State private var topOffset: CGFloat = .zero
     var scrollToid = 99
@@ -64,7 +64,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     @available(iOS 14.0, *)
     private func iOS14Body(in geometry: GeometryProxy) -> some View {
         ScrollViewOffset(onOffsetChange: { (offset) in
-            scrollOffset = offset
+//            scrollOffset = offset
         }, content: {
             
                 ScrollViewReader { proxy in
@@ -74,20 +74,20 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                 .onAppear {
     //                                print("id: \(message.id) == last id: \(messages.last?.id)")
                                     
-                                    if message.id == messages.last?.id{
-//                                        print("shold down ⬇️")
-                                        withAnimation { 
-                                            self.isBottom = true
-                                            topOffset = scrollOffset
-                                        }
-                                    }else {
-                                            if scrollOffset > topOffset + geometry.size.height - 100{
-                                                withAnimation {
-                                                self.isBottom = false
-                                                }
-//                                                print("⬆️")
-                                            }
-                                    }
+//                                    if message.id == messages.last?.id{
+////                                        print("shold down ⬇️")
+//                                        withAnimation {
+//                                            self.isBottom = true
+//                                            topOffset = scrollOffset
+//                                        }
+//                                    }else {
+//                                            if scrollOffset > topOffset + geometry.size.height - 100{
+//                                                withAnimation {
+//                                                self.isBottom = false
+//                                                }
+////                                                print("⬆️")
+//                                            }
+//                                    }
                                     if !message.isSender{
                                         onAppearMessage = message
                                     }
@@ -141,7 +141,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                             withAnimation {
 //                                proxy.scrollTo(messages.last?.id)
                                 proxy.scrollTo(scrollToid)
-                                    topOffset = scrollOffset
+//                                    topOffset = scrollOffset
                                 self.isBottom = true
                             }
                             scrollToBottom = false
