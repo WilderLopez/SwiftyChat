@@ -115,15 +115,16 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     }
                                     
                                     //MARK: - Refresh Old Messages
-                                    if scrollOffset > 0 && !refreshOldMessages{
-                                        refreshOldMessages = true
+                                    if scrollOffset > -7 && !refreshOldMessages{
                                         let firstMessage = messages.first
+                                        refreshOldMessages = true
+                                        
                                         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(10), execute: {
                                             withAnimation(Animation.linear(duration: 0)) {
                                                 proxy.scrollTo(firstMessage?.id, anchor: .top)
                                             }
                                         })
-                                    }else if scrollOffset < 0 && refreshOldMessages{
+                                    }else if scrollOffset < -7 && refreshOldMessages{
                                         refreshOldMessages = false
                                     }
 //                                    if message.id == messages.first?.id{
