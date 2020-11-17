@@ -104,7 +104,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                             }){
                                                 print("move to item(\(index)) \(IDToScrollMove) 🥑🥮")
                                                 
-                                                proxy.scrollTo(messages[index].id, anchor: .center)
+                                                proxy.scrollTo(messages[index].id, anchor: .top)
                                             }
                                         }
                                         
@@ -151,6 +151,17 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                             scrollToBottom = false
                         }
                     }
+                    .gesture(DragGesture().onChanged({ (value) in
+                        
+                        if value.translation.height > 0 {
+                            //up
+                            print("up ⬆️")
+                        }else {
+                            //down
+                            print("down ⬇️")
+                        }
+                    })
+                    )
                 }
         })
         .background(Color.clear)
