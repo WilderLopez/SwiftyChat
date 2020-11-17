@@ -65,14 +65,8 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     private func iOS14Body(in geometry: GeometryProxy) -> some View {
         ScrollViewOffset(onOffsetChange: { (offset) in
             scrollOffset = offset
-            //MARK: - Refresh Old Messages
-//            print("scroll offset: \(scrollOffset) >> ref: \(refreshOldMessages)")
-            if scrollOffset > -7 && !refreshOldMessages{
-//                print("📨 Refreshing")
-                refreshOldMessages = true
-            }else if scrollOffset < -7 && refreshOldMessages{
-                refreshOldMessages = false
-            }
+
+
         }, content: {
             
                 ScrollViewReader { proxy in
@@ -106,7 +100,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                         DispatchQueue.main.async {
                                             if let index = messages.firstIndex(where: { (mess) -> Bool in
                                                print("Comparing : \(mess.securityID) == \(IDToScrollMove.uuidString)")
-                                                return mess.securityID == IDToScrollMove.uuidString
+                                                return mess.securityID.uppercased() == IDToScrollMove.uuidString.uppercased()
                                             }){
                                                 print("move to item(\(index)) \(IDToScrollMove) 🥑🥮")
                                                 
@@ -120,6 +114,18 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                         
                                             IDToScrollMove = UUID(uuidString: message.securityID)!
                                         
+                                    }
+                                    
+                                    //MARK: - Refresh Old Messages
+//            print("scroll offset: \(scrollOffset) >> ref: \(refreshOldMessages)")
+                                    if scrollOffset > -7 && !refreshOldMessages{
+                        //                print("📨 Refreshing")
+                                        refreshOldMessages = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(10), execute: {
+                                            proxy.scrollTo(message.id)
+                                        })
+                                    }else if scrollOffset < -7 && refreshOldMessages{
+                                        refreshOldMessages = false
                                     }
 //                                    if message.id == messages.first?.id{
 //                                        refreshOldMessages = true
