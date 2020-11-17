@@ -63,10 +63,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     @available(iOS 14.0, *)
     private func iOS14Body(in geometry: GeometryProxy) -> some View {
-        ScrollViewOffset(onOffsetChange: { (offset) in
-//            scrollOffset = offset
-        }, content: {
-            
+        ScrollView{
                 ScrollViewReader { proxy in
                     LazyVStack {
                         ForEach(messages) { message in
@@ -149,7 +146,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                     }
                     
                 }
-        })
+        }
         .background(Color.clear)
     }
     
