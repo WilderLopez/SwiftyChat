@@ -151,18 +151,18 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                             scrollToBottom = false
                         }
                     }
-                    .gesture(DragGesture().onChanged({ (value) in
-                        
-                        if value.translation.height > 0 {
-                            //up
-                            print("up ⬆️")
-                        }else {
-                            //down
-                            print("down ⬇️")
-                        }
-                    })
-                    )
-                }
+                    
+                }.gesture(DragGesture().onChanged({ (value) in
+                    
+                    if value.translation.height > 0 {
+                        //up
+                        print("up ⬆️")
+                    }else {
+                        //down
+                        print("down ⬇️")
+                    }
+                })
+                )
         })
         .background(Color.clear)
     }
