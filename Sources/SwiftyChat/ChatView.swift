@@ -65,8 +65,6 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     private func iOS14Body(in geometry: GeometryProxy) -> some View {
         ScrollViewOffset(onOffsetChange: { (offset) in
             scrollOffset = offset
-
-
         }, content: {
             
                 ScrollViewReader { proxy in
@@ -117,12 +115,12 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     }
                                     
                                     //MARK: - Refresh Old Messages
-//            print("scroll offset: \(scrollOffset) >> ref: \(refreshOldMessages)")
                                     if scrollOffset > -7 && !refreshOldMessages{
-                        //                print("📨 Refreshing")
                                         refreshOldMessages = true
                                         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(10), execute: {
-                                            proxy.scrollTo(message.id)
+                                            withAnimation(Animation.default) {
+                                                proxy.scrollTo(message.id)
+                                            }
                                         })
                                     }else if scrollOffset < -7 && refreshOldMessages{
                                         refreshOldMessages = false
