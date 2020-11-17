@@ -94,45 +94,41 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     
                                     //catch first message on appear
                                     
-                                    if !firstMove{
-                                        DispatchQueue.main.async {
-                                            if let index = messages.firstIndex(where: { (mess) -> Bool in
-                                               print("Comparing : \(mess.securityID) == \(IDToScrollMove.uuidString)")
-                                                return mess.securityID.uppercased() == IDToScrollMove.uuidString.uppercased()
-                                            }){
-                                                print("move to item(\(index)) \(IDToScrollMove) 🥑🥮")
-                                                
-                                                proxy.scrollTo(messages[index].id, anchor: .top)
-                                            }
-                                        }
-                                        
-                                        
-                                        firstMove = true
-                                    }else {
-                                        
-                                            IDToScrollMove = UUID(uuidString: message.securityID)!
-                                        
-                                    }
+//                                    if !firstMove{
+//                                        DispatchQueue.main.async {
+//                                            if let index = messages.firstIndex(where: { (mess) -> Bool in
+//                                               print("Comparing : \(mess.securityID) == \(IDToScrollMove.uuidString)")
+//                                                return mess.securityID.uppercased() == IDToScrollMove.uuidString.uppercased()
+//                                            }){
+//                                                print("move to item(\(index)) \(IDToScrollMove) 🥑🥮")
+//
+//                                                proxy.scrollTo(messages[index].id, anchor: .top)
+//                                            }
+//                                        }
+//
+//
+//                                        firstMove = true
+//                                    }else {
+//
+//                                        IDToScrollMove = UUID(uuidString: message.securityID)!
+//
+//                                    }
                                     
                                     //MARK: - Refresh Old Messages
-                                    if scrollOffset > -7 && !refreshOldMessages{
-                                        let firstMessage = messages.first
-                                        refreshOldMessages = true
-                                        
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(10), execute: {
-                                            withAnimation(Animation.linear(duration: 0)) {
-                                                proxy.scrollTo(firstMessage?.id, anchor: .top)
-                                            }
-                                        })
-                                    }else if scrollOffset < -7 && refreshOldMessages{
-                                        refreshOldMessages = false
-                                    }
-//                                    if message.id == messages.first?.id{
+//                                    if scrollOffset > -7 && !refreshOldMessages{
+//                                        let firstMessage = messages.first
 //                                        refreshOldMessages = true
-//                                        firtID = "\(message.id)"
-//                                    }else if refreshOldMessages{
+//
+//                                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(10), execute: {
+//                                            withAnimation(Animation.linear(duration: 0)) {
+//                                                proxy.scrollTo(firstMessage?.id, anchor: .top)
+//                                            }
+//                                        })
+//                                    }
+//                                    else if scrollOffset < -7 && refreshOldMessages{
 //                                        refreshOldMessages = false
 //                                    }
+
                                 }
                         }
                         Rectangle()
