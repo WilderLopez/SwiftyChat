@@ -104,7 +104,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                             }){
                                                 print("move to item(\(index)) \(IDToScrollMove) 🥑🥮")
                                                 
-                                                proxy.scrollTo(messages[index].id)
+                                                proxy.scrollTo(messages[index].id, anchor: .center)
                                             }
                                         }
                                         
