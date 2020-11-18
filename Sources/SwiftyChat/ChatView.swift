@@ -128,10 +128,10 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
 
                                 }
                         }
-                        Rectangle()
-                            .frame(height: 20, alignment: .center)
-                            .foregroundColor(Color.clear)
-                            .id(scrollToid)
+//                        Rectangle()
+//                            .frame(height: 20, alignment: .center)
+//                            .foregroundColor(Color.clear)
+//                            .id(scrollToid)
                     }
                     .onChange(of: scrollToBottom) { value in
                         if value {
