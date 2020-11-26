@@ -48,7 +48,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                     
             if #available(iOS 14.0, *) {
                 iOS14Body(in: geometry)
-                    .padding(.bottom, geometry.safeAreaInsets.bottom + 56)
+                    .padding(.bottom, geometry.safeAreaInsets.bottom + 40)
             } else {
                 iOS14Fallback(in: geometry)
                     .padding(.bottom, geometry.safeAreaInsets.bottom + 56)
