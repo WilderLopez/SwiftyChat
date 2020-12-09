@@ -67,7 +67,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                 ScrollViewReader { proxy in
                     LazyVStack {
                         ForEach(messages.sorted(by: { (m1, m2) -> Bool in
-                            return m1.date.compare(m2.date) == .orderedDescending
+                            return m1.date.compare(m2.date) == .orderedAscending
                         })) { message in
                             chatMessageCellContainer(in: geometry.size, with: message)
                                 .onAppear {
