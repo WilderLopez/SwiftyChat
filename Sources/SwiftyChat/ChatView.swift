@@ -66,7 +66,9 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
         ScrollView{
                 ScrollViewReader { proxy in
                     LazyVStack {
-                        ForEach(messages) { message in
+                        ForEach(messages.sorted(by: { (m1, m2) -> Bool in
+                            return m1.date.compare(m2.date) == .orderedDescending
+                        })) { message in
                             chatMessageCellContainer(in: geometry.size, with: message)
                                 .onAppear {
     //                                print("id: \(message.id) == last id: \(messages.last?.id)")
