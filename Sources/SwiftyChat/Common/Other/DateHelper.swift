@@ -26,6 +26,13 @@ class DateHelper{
         dateFormatter.timeStyle = .short
         return dateFormatter.string(from: date)
     }
+    ///Return short Time : 9:51 am
+    static func getDateWith(date: Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        dateFormatter.timeStyle = .short
+        return dateFormatter.string(from: date)
+    }
     
     //Return Custom Time
     static func getPrettyDateWith(timeInterval: Int64, dateFormat: String = "d MMM", dateStyle: DateFormatter.Style = .none , timeStyle : DateFormatter.Style = .none, relativeDate: Bool = false) -> String{

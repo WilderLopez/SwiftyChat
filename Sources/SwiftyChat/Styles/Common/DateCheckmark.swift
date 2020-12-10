@@ -17,9 +17,16 @@ struct DateCheckMarkView: View {
     @State var isCurrentUser : Bool
     @State var date : Date
     @State var messageTag : MessageTag
+    
+    var dateText : String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        dateFormatter.timeStyle = .short
+        return dateFormatter.string(from: date)
+    }
     var body: some View {
         HStack{
-            Text(DateHelper.getDateWith(timeInterval: Int64(date.timeIntervalSince1970)))
+            Text(dateText)
                 .italic()
             if isCurrentUser {
                 HStack(alignment: .bottom, spacing: 0){
