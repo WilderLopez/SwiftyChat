@@ -47,7 +47,7 @@ public class ChatMessageCellStyle: ObservableObject {
         incomingTextStyle: TextCellStyle = TextCellStyle(
             textStyle: CommonTextStyle(
                 textColor: .white,
-                font: Font.system(size: 15)
+                font: Font.system(size: 17)
             ),
             cellBackgroundColor: Color(UIColor.systemPink).opacity(0.8),
             cellShapeStyle: CellShapeStyle.CustomChatCornerStyle.rawValue
@@ -55,7 +55,7 @@ public class ChatMessageCellStyle: ObservableObject {
         outgoingTextStyle: TextCellStyle = TextCellStyle(
             textStyle: CommonTextStyle(
                 textColor: .white,
-                font: Font.system(size: 15)
+                font: Font.system(size: 17)
             ),
             cellShapeStyle: CellShapeStyle.CustomChatCornerStyle.rawValue
         ),
