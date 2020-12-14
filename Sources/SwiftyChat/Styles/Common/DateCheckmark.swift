@@ -15,18 +15,12 @@ enum MessageTag{
 struct DateCheckMarkView: View {
     var isNotText = false
     @State var isCurrentUser : Bool
-    @State var date : Date
+    @State var dateDescription : String
     @State var messageTag : MessageTag
     
-    var dateText : String{
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "h:mm a"
-        dateFormatter.timeStyle = .short
-        return dateFormatter.string(from: date)
-    }
     var body: some View {
-        HStack{
-            Text(dateText)
+        HStack(alignment: .bottom){
+            Text(dateDescription)
                 .italic()
             if isCurrentUser {
                 HStack(alignment: .bottom, spacing: 0){
@@ -54,7 +48,7 @@ struct DateCheckMarkView: View {
 
 struct DateCheckMarkView_Previews: PreviewProvider {
     static var previews: some View {
-        DateCheckMarkView(isCurrentUser: true, date: Date(), messageTag: .rd)
+        DateCheckMarkView(isCurrentUser: true, dateDescription: "", messageTag: .rd)
             .previewLayout(PreviewLayout.fixed(width: 150, height: 90))
     }
 }
