@@ -11,7 +11,7 @@ import Combine
 
 public class ChatMessageCellStyle: ObservableObject {
     
-    let objectWillChange = ObservableObjectPublisher()
+    public let objectWillChange = ObservableObjectPublisher()
     
     /// Incoming Text Style
     let incomingTextStyle: TextCellStyle
