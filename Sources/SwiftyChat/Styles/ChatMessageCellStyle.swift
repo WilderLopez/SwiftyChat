@@ -7,11 +7,11 @@
 //
 
 import SwiftUI
-import Combine
+//import Combine
 
 public class ChatMessageCellStyle: ObservableObject {
     
-    public let objectWillChange = ObservableObjectPublisher()
+    //public let objectWillChange = ObservableObjectPublisher()
     
     /// Incoming Text Style
     let incomingTextStyle: TextCellStyle
@@ -86,7 +86,7 @@ public class ChatMessageCellStyle: ObservableObject {
         self.incomingAvatarStyle = incomingAvatarStyle
         self.outgoingAvatarStyle = outgoingAvatarStyle
         
-        objectWillChange.send()
+        //objectWillChange.send()
     }
     
 }
