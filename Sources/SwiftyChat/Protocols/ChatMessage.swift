@@ -27,10 +27,10 @@ public protocol ChatMessage: Identifiable {
     var date: Date { get }
     
     /// Received Message
-    var isReceived: Bool { get }
+    var isReceived: Bool { get set }
     
     /// Displayed Message
     
-    var isDisplayed: Bool { get }
+    var isDisplayed: Bool { get set }
     
 }

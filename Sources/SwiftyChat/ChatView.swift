@@ -88,7 +88,10 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
 //                                            }
 //                                    }
                                     if !message.isSender{
-                                        onAppearMessage = message
+                                        var modifyMess = message
+                                        modifyMess.isDisplayed = true
+                                        modifyMess.isReceived = true
+                                        onAppearMessage = modifyMess
                                     }
                                     
                                     //catch first message on appear
