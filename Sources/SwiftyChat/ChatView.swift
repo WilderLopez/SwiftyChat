@@ -39,7 +39,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
             landscape: { GeometryReader { body(in: $0) } }
         )
         .environmentObject(OrientationInfo())
-        .edgesIgnoringSafeArea(.bottom)
+        .edgesIgnoringSafeArea([.top, .horizontal])
     }
     
     // MARK: - Body in geometry
