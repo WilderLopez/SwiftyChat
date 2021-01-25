@@ -23,6 +23,7 @@ struct DateCheckMarkView: View {
             Text(dateDescription)
                 .italic()
             if isCurrentUser {
+                withAnimation(Animation.default) {
                 HStack(alignment: .bottom, spacing: 0){
                     if messageTag != .none{
 //                        Image(systemName: "checkmark")
@@ -38,11 +39,15 @@ struct DateCheckMarkView: View {
                     }else {
                         Image(systemName: "clock")
                     }
-                }.foregroundColor(messageTag == .dd ? isNotText ? .white : .ddmarkColor : .rdmarkColor)
+                }
+                .foregroundColor(messageTag == .dd ? isNotText ? .white : .ddmarkColor : .rdmarkColor)
+                .transition(.opacity)
+                }
+                
             }
         }.font(.system(size: 11))
         .frame(width: isCurrentUser ? 80 : 50, alignment: .bottomTrailing)
-            .animation(.linear)
+            
     }
 }
 
