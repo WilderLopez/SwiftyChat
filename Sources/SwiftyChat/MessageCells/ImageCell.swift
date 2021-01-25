@@ -49,6 +49,7 @@ public struct ImageCell<Message: ChatMessage>: View {
         }
         .background(message.isSender ? Color.primaryBubble : Color.secondaryBubble)
         .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
+        .shadow(radius: 1)
         .foregroundColor(.white)
         .frame(maxWidth: 300, alignment: message.isSender ? .trailing : .leading)
     }
