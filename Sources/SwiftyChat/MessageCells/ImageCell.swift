@@ -39,7 +39,7 @@ public struct ImageCell<Message: ChatMessage>: View {
             imageView
             
             DateCheckMarkView(isNotText: true, isCurrentUser: message.isSender, dateDescription: DateHelper.getDateWith(date: message.date), messageTag: message.isDisplayed ? .dd : message.isReceived ? .rd : .none)
-                .animation(.linear(duration: 0.2))
+//                .animation(.linear(duration: 0.2))
                 .padding(3)
                 .padding(.horizontal, 6)
                 .background(Color.black.opacity(0.3))
