@@ -27,7 +27,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
 //    @State private var scrollOffset: CGFloat = .zero
     @Binding var IDToScrollMove : UUID
     @State private var topOffset: CGFloat = .zero
-    var scrollToid = UUID().uuidString
+    var scrollToid = 99
     @available(iOS 14.0, *)
     @Binding private var isBottom : Bool
     @State private var firstMove = false
@@ -70,6 +70,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                             return m1.date.compare(m2.date) == .orderedAscending
                         })) { message in
                             chatMessageCellContainer(in: geometry.size, with: message)
+                                .padding(.bottom, message.id == messages.last?.id ? 30 : 0)
                                 .onAppear {
     //                                print("id: \(message.id) == last id: \(messages.last?.id)")
                                     
@@ -140,7 +141,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                         if value {
                             withAnimation{
 //                                proxy.scrollTo(messages.last?.id)
-                            proxy.scrollTo(scrollToid)
+                            proxy.scrollTo(messages.last?.id)
 //                                    topOffset = scrollOffset
                             }
                                 self.isBottom = true
