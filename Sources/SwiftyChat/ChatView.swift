@@ -141,7 +141,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                         if value {
                             withAnimation(Animation.default) {
 //                                proxy.scrollTo(messages.last?.id)
-                            proxy.scrollTo(scrollToid, anchor: .center)
+                            proxy.scrollTo(scrollToid)
 //                                    topOffset = scrollOffset
                             }
                                 self.isBottom = true
