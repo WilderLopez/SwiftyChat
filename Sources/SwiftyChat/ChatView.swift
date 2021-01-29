@@ -132,16 +132,15 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                         }
                         Rectangle()
                             .frame(height: 20, alignment: .center)
-//                            .padding(.bottom, 19)
                             .foregroundColor(Color.clear)
                             .id(scrollToid)
-//                            .animation(.default)
+                            .animation(.default)
                     }
                     .onChange(of: scrollToBottom) { value in
                         if value {
                             withAnimation{
 //                                proxy.scrollTo(messages.last?.id)
-                            proxy.scrollTo(messages.last?.id)
+                            proxy.scrollTo(scrollToid)
 //                                    topOffset = scrollOffset
                             }
                                 self.isBottom = true
