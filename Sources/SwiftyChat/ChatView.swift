@@ -135,6 +135,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
 //                            .padding(.bottom, 19)
                             .foregroundColor(Color.clear)
                             .id(scrollToid)
+                            .animation(.default)
                     }
                     .onChange(of: scrollToBottom) { value in
                         if value {
