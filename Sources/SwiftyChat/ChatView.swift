@@ -27,7 +27,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
 //    @State private var scrollOffset: CGFloat = .zero
     @Binding var IDToScrollMove : UUID
     @State private var topOffset: CGFloat = .zero
-    var scrollToid = UUID()
+    var scrollToid = UUID().uuidString
     @available(iOS 14.0, *)
     @Binding private var isBottom : Bool
     @State private var firstMove = false
