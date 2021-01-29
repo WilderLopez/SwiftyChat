@@ -131,8 +131,8 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                 }
                         }
                         Rectangle()
-                            .frame(height: 1, alignment: .center)
-                            .padding(.bottom, 19)
+                            .frame(height: 20, alignment: .center)
+//                            .padding(.bottom, 19)
                             .foregroundColor(Color.clear)
                             .id(scrollToid)
                     }
@@ -140,7 +140,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                         if value {
 //                            withAnimation(Animation.default) {
 //                                proxy.scrollTo(messages.last?.id)
-                            proxy.scrollTo(scrollToid, anchor: UnitPoint.top)
+                            proxy.scrollTo(scrollToid)
 //                                    topOffset = scrollOffset
                                 self.isBottom = true
 //                            }
