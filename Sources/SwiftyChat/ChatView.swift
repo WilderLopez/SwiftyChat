@@ -135,7 +135,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                     .onChange(of: scrollToBottom) { value in
                         let lastM = messages.last
                         if value {
-                            withAnimation{
+                            
                                 switch lastM?.messageKind{
                                 case .image(ImageLoadingKind.local):
                                     proxy.scrollTo(messages.last?.id, anchor: UnitPoint.bottom)
@@ -144,9 +144,10 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                     proxy.scrollTo(messages.last?.id, anchor: UnitPoint.bottom)
                                     break
                                 default:
+                                    withAnimation{
                                     proxy.scrollTo(messages.last?.id)
+                                    }
                                 }
-                            }
                                 self.isBottom = true
 //                            }
                             scrollToBottom = false
