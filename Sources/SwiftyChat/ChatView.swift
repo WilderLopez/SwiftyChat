@@ -133,9 +133,19 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                         }
                     }
                     .onChange(of: scrollToBottom) { value in
+                        let lastM = messages.last
                         if value {
                             withAnimation{
-                            proxy.scrollTo(messages.last?.id)
+                                switch lastM?.messageKind{
+                                case .image(ImageLoadingKind.local):
+                                    proxy.scrollTo(messages.last?.id, anchor: UnitPoint.bottom)
+                                    break
+                                case .image(ImageLoadingKind.remoteTodus):
+                                    proxy.scrollTo(messages.last?.id, anchor: UnitPoint.bottom)
+                                    break
+                                default:
+                                    proxy.scrollTo(messages.last?.id)
+                                }
                             }
                                 self.isBottom = true
 //                            }
