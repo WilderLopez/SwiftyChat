@@ -15,7 +15,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     private var inputView: () -> AnyView
 
     private var onMessageCellTapped: (Message) -> Void = { msg in print(msg.messageKind) }
-    private var messageCellContextMenu: (Message) -> AnyView = { msg in EmptyView().clipShape(CustomChatCorner(isCurrentUser: msg.isSender)).embedInAnyView() }
+    private var messageCellContextMenu: (Message) -> AnyView = { msg in EmptyView().embedInAnyView().clipShape(CustomChatCorner(isCurrentUser: msg.isSender)) as! AnyView }
     private var onQuickReplyItemSelected: (QuickReplyItem) -> Void = { _ in }
     private var contactCellFooterSection: (ContactItem, Message) -> [ContactCellButton] = { _, _ in [] }
     private var onAttributedTextTappedCallback: () -> AttributedTextTappedCallback = { return AttributedTextTappedCallback() }
