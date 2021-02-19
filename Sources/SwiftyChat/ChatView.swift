@@ -195,7 +195,8 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
             onTextTappedCallback: onAttributedTextTappedCallback,
             onCarouselItemAction: onCarouselItemAction
         )
-        .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
+        .clipped()
+        .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
         .onTapGesture { onMessageCellTapped(message) }
         .contextMenu(menuItems: { messageCellContextMenu(message) })
 //        .modifier(AvatarModifier<Message, User>(message: message))
