@@ -78,7 +78,8 @@ public struct ChatMessageCellContainer<Message: ChatMessage>: View {
             if !message.isSender{
                 Spacer()
             }
-        }.background(Color.clear)
+        }
+//        .background(Color.clear)
     }
     
 }
