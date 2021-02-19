@@ -75,7 +75,7 @@ public struct TextCell<Message: ChatMessage>: View {
         .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
         .shadow(radius: 1)
         .foregroundColor(.textMessageColor)
-        .frame(maxWidth: 300, alignment: message.isSender ? .trailing : .leading)
+        .frame(minWidth: 90,maxWidth: 300, alignment: message.isSender ? .trailing : .leading)
         .clipped()
         .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
         
