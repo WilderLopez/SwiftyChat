@@ -187,22 +187,24 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     
     // MARK: - List Item
     private func chatMessageCellContainer(in size: CGSize, with message: Message) -> some View {
-        ChatMessageCellContainer(
-            message: message,
-            size: size,
-            onQuickReplyItemSelected: onQuickReplyItemSelected,
-            contactFooterSection: contactCellFooterSection,
-            onTextTappedCallback: onAttributedTextTappedCallback,
-            onCarouselItemAction: onCarouselItemAction
-        )
-//        .clipped()
-//        .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
-        .onTapGesture { onMessageCellTapped(message) }
-        .contextMenu(menuItems: { messageCellContextMenu(message) })
-//        .modifier(AvatarModifier<Message, User>(message: message))
-        .modifier(MessageHorizontalSpaceModifier(messageKind: message.messageKind, isSender: message.isSender))
-        .modifier(CellEdgeInsetsModifier(isSender: message.isSender))
-        .id(message.id)
+        HStack{
+            ChatMessageCellContainer(
+                message: message,
+                size: size,
+                onQuickReplyItemSelected: onQuickReplyItemSelected,
+                contactFooterSection: contactCellFooterSection,
+                onTextTappedCallback: onAttributedTextTappedCallback,
+                onCarouselItemAction: onCarouselItemAction
+            )
+    //        .clipped()
+    //        .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
+            .onTapGesture { onMessageCellTapped(message) }
+            .contextMenu(menuItems: { messageCellContextMenu(message) })
+    //        .modifier(AvatarModifier<Message, User>(message: message))
+            .modifier(MessageHorizontalSpaceModifier(messageKind: message.messageKind, isSender: message.isSender))
+            .modifier(CellEdgeInsetsModifier(isSender: message.isSender))
+            .id(message.id)
+        }.background(Color.clear)
     }
     
 }
