@@ -15,9 +15,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     private var inputView: () -> AnyView
 
     private var onMessageCellTapped: (Message) -> Void = { msg in print(msg.messageKind) }
-    
-        //CustomChatCorner(isCurrentUser: msg.isSender)
-    private var messageCellContextMenu: (Message) -> AnyView = { msg in EmptyView().clipShape(RoundedRectangle(cornerRadius: 10)).embedInAnyView().clipShape(RoundedRectangle(cornerRadius: 10)) as! AnyView }
+    private var messageCellContextMenu: (Message) -> AnyView = { _ in EmptyView().embedInAnyView() }
     private var onQuickReplyItemSelected: (QuickReplyItem) -> Void = { _ in }
     private var contactCellFooterSection: (ContactItem, Message) -> [ContactCellButton] = { _, _ in [] }
     private var onAttributedTextTappedCallback: () -> AttributedTextTappedCallback = { return AttributedTextTappedCallback() }
@@ -197,6 +195,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
             onTextTappedCallback: onAttributedTextTappedCallback,
             onCarouselItemAction: onCarouselItemAction
         )
+        .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
         .onTapGesture { onMessageCellTapped(message) }
         .contextMenu(menuItems: { messageCellContextMenu(message) })
 //        .modifier(AvatarModifier<Message, User>(message: message))
