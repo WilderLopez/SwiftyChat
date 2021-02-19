@@ -188,6 +188,9 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     // MARK: - List Item
     private func chatMessageCellContainer(in size: CGSize, with message: Message) -> some View {
         HStack{
+            if message.isSender {
+                Spacer()
+            }
             ChatMessageCellContainer(
                 message: message,
                 size: size,
@@ -204,6 +207,10 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
             .modifier(MessageHorizontalSpaceModifier(messageKind: message.messageKind, isSender: message.isSender))
             .modifier(CellEdgeInsetsModifier(isSender: message.isSender))
             .id(message.id)
+            
+            if !message.isSender{
+                Spacer()
+            }
         }.background(Color.clear)
     }
     
