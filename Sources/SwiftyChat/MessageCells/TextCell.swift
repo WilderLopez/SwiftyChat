@@ -72,13 +72,12 @@ public struct TextCell<Message: ChatMessage>: View {
         .padding(.horizontal)
         .padding(.vertical, 5)
         .background(message.isSender ? Color.primaryBubble : Color.secondaryBubble)
-        .clipped()
-        .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
-//        .clipShape()
+        .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
         .shadow(radius: 1)
         .foregroundColor(.textMessageColor)
         .frame(maxWidth: 300, alignment: message.isSender ? .trailing : .leading)
-        
+        .clipped()
+        .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
         
 //        Text(text)
 //            .fontWeight(cellStyle.textStyle.fontWeight)
