@@ -79,7 +79,7 @@ public struct ChatMessageCellContainer<Message: ChatMessage>: View {
                 Spacer()
             }
         }
-//        .background(Color.clear)
+        .background(EmptyView())
     }
     
 }
