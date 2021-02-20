@@ -80,7 +80,7 @@ public struct ChatMessageCellContainer<Message: ChatMessage>: View {
             }
         }
 //        .frame(width: UIScreen.main.bounds.width - 10)
-        .background(EmptyView().frame(width: UIScreen.main.bounds.width - 20))
+        .background(Color.clear)
     }
     
 }
