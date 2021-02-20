@@ -78,8 +78,9 @@ public struct ChatMessageCellContainer<Message: ChatMessage>: View {
             if !message.isSender{
                 Spacer()
             }
-        }.frame(width: UIScreen.main.bounds.width - 10)
-//        .background(EmptyView())
+        }
+//        .frame(width: UIScreen.main.bounds.width - 10)
+        .background(EmptyView().frame(width: UIScreen.main.bounds.width - 20))
     }
     
 }
