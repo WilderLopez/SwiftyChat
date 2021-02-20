@@ -70,17 +70,7 @@ public struct ChatMessageCellContainer<Message: ChatMessage>: View {
     }
     
     public var body: some View {
-        HStack{
-//            if message.isSender {
-//                Spacer()
-//            }
             messageCell()
-//            if !message.isSender{
-//                Spacer()
-//            }
-        }
-//        .frame(width: UIScreen.main.bounds.width - 10)
-        .background(Color.clear)
     }
     
 }
