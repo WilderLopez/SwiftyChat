@@ -73,7 +73,7 @@ public struct TextCell<Message: ChatMessage>: View {
         .padding(.vertical, 5)
         .background(message.isSender ? Color.primaryBubble : Color.secondaryBubble)
 //        .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
-        .clipShape(BorderCircleShape())
+//        .clipShape(BorderCircleShape())
 //        .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
         .shadow(radius: 1)
         .foregroundColor(.textMessageColor)
