@@ -186,6 +186,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     }
     
     // MARK: - List Item
+    @State private var isActiveContextMenu = false
     private func chatMessageCellContainer(in size: CGSize, with message: Message) -> some View {
 //        HStack{
 //            if message.isSender {
@@ -199,6 +200,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                 onTextTappedCallback: onAttributedTextTappedCallback,
                 onCarouselItemAction: onCarouselItemAction
             )
+            .animation( isActiveContextMenu ? nil : .default)
     //        .clipped()
     //        .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
             .onTapGesture { onMessageCellTapped(message) }
