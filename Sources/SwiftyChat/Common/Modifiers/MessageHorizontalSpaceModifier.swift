@@ -29,6 +29,6 @@ internal struct MessageHorizontalSpaceModifier: ViewModifier {
             if !isSender && !isSpaceFreeMessageKind {
                 Spacer(minLength: 10)
             }
-        }.background(Color.clear.frame(width: UIScreen.main.bounds.width - 10))
+        }
     }
 }
