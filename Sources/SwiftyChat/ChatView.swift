@@ -199,10 +199,10 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     //        .clipped()
     //        .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
             .onTapGesture { onMessageCellTapped(message) }
-    //        .modifier(AvatarModifier<Message, User>(message: message))
+            .modifier(AvatarModifier<Message, User>(message: message))
+            .contextMenu(menuItems: { messageCellContextMenu(message) })
             .modifier(MessageHorizontalSpaceModifier(messageKind: message.messageKind, isSender: message.isSender))
             .modifier(CellEdgeInsetsModifier(isSender: message.isSender))
-            .contextMenu(menuItems: { messageCellContextMenu(message) })
             .id(message.id)
             
     }
