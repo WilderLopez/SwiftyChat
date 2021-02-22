@@ -157,6 +157,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                 }
         }
         .background(Color.clear)
+        .listStyle(PlainListStyle())
     }
     
 //    private var bottomArea: some View{
