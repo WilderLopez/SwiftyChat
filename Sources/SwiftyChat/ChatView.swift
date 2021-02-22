@@ -130,7 +130,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
 //                                    }
 
                                 }
-                        }.listStyle(PlainListStyle())
+                        }
                     }
                     .onChange(of: scrollToBottom) { value in
                         let lastM = messages.last
