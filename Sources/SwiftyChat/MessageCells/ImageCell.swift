@@ -53,7 +53,7 @@ public struct ImageCell<Message: ChatMessage>: View {
         .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
         .shadow(radius: 1)
         .foregroundColor(.white)
-        .frame(alignment: message.isSender ? .trailing : .leading)
+        .frame(alignment: .center)
     }
     
     // MARK: - case Local Image
