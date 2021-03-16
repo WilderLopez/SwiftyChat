@@ -46,7 +46,7 @@ struct DateCheckMarkView: View {
                 
             }
         }.font(.system(size: 11))
-        .frame(width: isCurrentUser ? 80 : 50, alignment: .bottomTrailing)
+        .frame(width: 80, alignment: .bottomTrailing)
             
     }
 }
