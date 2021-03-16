@@ -9,7 +9,7 @@
 import UIKit
 
 /// Emoji helper
-internal extension Character {
+ extension Character {
     /// A simple emoji is one scalar and presented to the user as an Emoji
     var isSimpleEmoji: Bool {
         guard let firstScalar = unicodeScalars.first else { return false }
@@ -22,7 +22,7 @@ internal extension Character {
     var isEmoji: Bool { isSimpleEmoji || isCombinedIntoEmoji }
 }
 
-internal extension String {
+ extension String {
     var isSingleEmoji: Bool { count == 1 && containsEmoji }
 
     var containsEmoji: Bool { contains { $0.isEmoji } }
@@ -36,7 +36,7 @@ internal extension String {
     var emojiScalars: [UnicodeScalar] { filter { $0.isEmoji }.flatMap { $0.unicodeScalars } }
 }
 
-internal extension String {
+ extension String {
     
     var htmlToAttributedString: NSAttributedString? {
         guard let data = data(using: .utf8) else { return nil }
@@ -69,7 +69,7 @@ internal extension String {
     
 }
 
-internal extension NSAttributedString {
+ extension NSAttributedString {
     func htmlString() -> String? {
         do {
             let htmlData = try self.data(
