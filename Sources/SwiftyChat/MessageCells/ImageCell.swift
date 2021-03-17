@@ -81,16 +81,23 @@ public struct ImageCell<Message: ChatMessage>: View {
 //                radius: cellStyle.cellShadowRadius
 //            )
     }
-    
+//    @State var downloadIndicator = true
     @ViewBuilder private func localImageTnail(uiImage: UIImage) -> some View{
         let width = uiImage.size.width
         let height = uiImage.size.height
         let isLandscape = width > height
         
+        ZStack{
         Image(uiImage: uiImage)
             .resizable()
             .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
             .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
+            
+//            if downloadIndicator{
+                Image(systemName: "arrow.down.circle").frame(width: 40, height: 40, alignment: .center)
+                    .foregroundColor(.white)
+//            }
+        }
     }
     
     @State var remoteIMGWidth: CGFloat = 1
