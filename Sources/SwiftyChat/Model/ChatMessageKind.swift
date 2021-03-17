@@ -12,8 +12,8 @@ import UIKit
 public enum ImageLoadingKind {
     case local(UIImage)
     case remote(URL)
-    case remoteTodus(URL,CGSize)
-    case tnail(UIImage, URL)
+    case remoteTodus(URL, CGSize)
+    case tnail(UIImage, URL, CGSize)
 }
 
 public enum ChatMessageKind: CustomStringConvertible {
@@ -47,8 +47,8 @@ public enum ChatMessageKind: CustomStringConvertible {
                 return "MessageKind.image(remote: \(remoteImageUrl))"
             case .remoteTodus(let url, let size):
                 return "MessageKind.image(remoteTodus: \(url) , \(size)"
-            case .tnail(let localImageTnail, let url):
-                return "MessageKind.image(tnail: \(localImageTnail), \(url)"
+            case .tnail(let localImageTnail, let url, let size):
+                return "MessageKind.image(tnail: \(localImageTnail), \(url), \(size)"
             }
         case .text(let text):
             return "MessageKind.text(\(text))"

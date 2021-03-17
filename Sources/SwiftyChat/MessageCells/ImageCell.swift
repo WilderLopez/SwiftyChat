@@ -30,7 +30,7 @@ public struct ImageCell<Message: ChatMessage>: View {
         case .local(let image): localImage(uiImage: image)
         case .remote(let remoteUrl): remoteImage(url: remoteUrl)
         case .remoteTodus(let remoteUrl, let imageSize): remoteImageFromTodus(url: remoteUrl, imageSize: imageSize)
-        case .tnail(let imageTnail, let _): localImageTnail(uiImage: imageTnail)
+        case .tnail(let imageTnail, _, _): localImageTnail(uiImage: imageTnail)
         }
     }
     
