@@ -94,7 +94,9 @@ public struct ImageCell<Message: ChatMessage>: View {
             .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
             
 //            if downloadIndicator{
-                Image(systemName: "arrow.down.circle").frame(width: 80, height: 80, alignment: .center)
+                Image(systemName: "arrow.down.circle")
+                    .resizable()
+                    .frame(width: 80, height: 80, alignment: .center)
                     .foregroundColor(.gray)
 //            }
         }
