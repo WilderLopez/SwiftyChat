@@ -30,7 +30,7 @@ public struct ImageCell<Message: ChatMessage>: View {
         case .local(let image): localImage(uiImage: image)
         case .remote(let remoteUrl): remoteImage(url: remoteUrl)
         case .remoteTodus(let remoteUrl, let imageSize): remoteImageFromTodus(url: remoteUrl, imageSize: imageSize)
-            
+        case .tnail(let imageTnail, let _): localImageTnail(uiImage: imageTnail)
         }
     }
     
@@ -81,6 +81,18 @@ public struct ImageCell<Message: ChatMessage>: View {
 //                radius: cellStyle.cellShadowRadius
 //            )
     }
+    
+    @ViewBuilder private func localImageTnail(uiImage: UIImage) -> some View{
+        let width = uiImage.size.width
+        let height = uiImage.size.height
+        let isLandscape = width > height
+        
+        Image(uiImage: uiImage)
+            .resizable()
+            .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
+            .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
+    }
+    
     @State var remoteIMGWidth: CGFloat = 1
     @State var remoteIMGHeight: CGFloat = 1
     @State var remoteIMG : UIImage? = nil
