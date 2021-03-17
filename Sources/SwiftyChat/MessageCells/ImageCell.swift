@@ -96,7 +96,7 @@ public struct ImageCell<Message: ChatMessage>: View {
 //            if downloadIndicator{
                 Image(systemName: "arrow.down.circle")
                     .resizable()
-                    .frame(width: 80, height: 80, alignment: .center)
+                    .frame(width: 50, height: 50, alignment: .center)
                     .foregroundColor(.gray)
 //            }
         }
