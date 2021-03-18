@@ -99,12 +99,13 @@ public struct ImageCell<Message: ChatMessage>: View {
                     .frame(width: 50, height: 50, alignment: .center)
                     .foregroundColor(.primaryTodusColor)
                     .overlay(
-                    Text("Tamaño: \(bytes/1024)MB")
+                    Text("\(bytes/1024)MB")
+                        .font(.system(size: 13, weight: .bold, design: .default))
                         .foregroundColor(.white)
-                        .padding(.horizontal, 15)
+                        .padding(.horizontal, 5)
                         .background(Color.black.opacity(0.6))
                         .cornerRadius(10)
-                        .offset(y: 30)
+                        .offset(y: 40)
                         
                         
                     )
