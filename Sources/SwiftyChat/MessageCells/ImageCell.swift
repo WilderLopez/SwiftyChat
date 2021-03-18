@@ -82,7 +82,7 @@ public struct ImageCell<Message: ChatMessage>: View {
 //            )
     }
 //    @State var downloadIndicator = true
-    @ViewBuilder private func localImageTnail(uiImage: UIImage, bytes: Int64) -> some View{
+    @ViewBuilder private func localImageTnail(uiImage: UIImage, bytes: Double) -> some View{
         let width = uiImage.size.width
         let height = uiImage.size.height
         let isLandscape = width > height

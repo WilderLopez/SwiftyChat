@@ -13,7 +13,7 @@ public enum ImageLoadingKind {
     case local(UIImage)
     case remote(URL)
     case remoteTodus(URL, CGSize)
-    case tnail(UIImage, URL, CGSize, Int64)
+    case tnail(UIImage, URL, CGSize, Double)
 }
 
 public enum ChatMessageKind: CustomStringConvertible {
