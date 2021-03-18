@@ -30,7 +30,7 @@ public struct ImageCell<Message: ChatMessage>: View {
         case .local(let image): localImage(uiImage: image)
         case .remote(let remoteUrl): remoteImage(url: remoteUrl)
         case .remoteTodus(let remoteUrl, let imageSize): remoteImageFromTodus(url: remoteUrl, imageSize: imageSize)
-        case .tnail(let imageTnail, _, _): localImageTnail(uiImage: imageTnail)
+        case .tnail(let imageTnail, _, _, let bytes): localImageTnail(uiImage: imageTnail, bytes: bytes)
         }
     }
     
@@ -82,7 +82,7 @@ public struct ImageCell<Message: ChatMessage>: View {
 //            )
     }
 //    @State var downloadIndicator = true
-    @ViewBuilder private func localImageTnail(uiImage: UIImage) -> some View{
+    @ViewBuilder private func localImageTnail(uiImage: UIImage, bytes: Int64) -> some View{
         let width = uiImage.size.width
         let height = uiImage.size.height
         let isLandscape = width > height
@@ -97,7 +97,17 @@ public struct ImageCell<Message: ChatMessage>: View {
                 Image(systemName: "arrow.down.circle")
                     .resizable()
                     .frame(width: 50, height: 50, alignment: .center)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.primaryTodusColor)
+                    .overlay(
+                    Text("Tamaño: \(bytes/1024)MB")
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 15)
+                        .background(Color.black.opacity(0.6))
+                        .cornerRadius(10)
+                        .offset(y: 30)
+                        
+                        
+                    )
 //            }
         }
     }
