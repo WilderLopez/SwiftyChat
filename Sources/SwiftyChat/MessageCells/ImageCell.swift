@@ -101,7 +101,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                     
 //            }
         }.overlay(
-            Text("\(bytes/1024/1024)MB")
+            Text("\(bytes/1024/1024, specifier: "%.2f")MB")
                 .font(.system(size: 13, weight: .bold, design: .default))
                 .foregroundColor(.white)
                 .padding(.horizontal, 5)
