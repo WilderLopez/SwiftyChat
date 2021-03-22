@@ -70,7 +70,7 @@ public struct ChatMessageCellContainer<Message: ChatMessage>: View {
     }
     
     public var body: some View {
-        messageCell()
+            messageCell()
     }
     
 }

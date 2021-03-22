@@ -30,7 +30,7 @@ public struct ImageCell<Message: ChatMessage>: View {
         case .local(let image): localImage(uiImage: image)
         case .remote(let remoteUrl): remoteImage(url: remoteUrl)
         case .remoteTodus(let remoteUrl, let imageSize): remoteImageFromTodus(url: remoteUrl, imageSize: imageSize)
-            
+        case .tnail(let imageTnail, _, _, let bytes): localImageTnail(uiImage: imageTnail, bytes: bytes)
         }
     }
     
@@ -48,10 +48,12 @@ public struct ImageCell<Message: ChatMessage>: View {
                 .foregroundColor(Color.white)
         }
         .background(message.isSender ? Color.primaryBubble : Color.secondaryBubble)
+//        .clipped()
         .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
+        .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
         .shadow(radius: 1)
         .foregroundColor(.white)
-        .frame(maxWidth: 300, alignment: message.isSender ? .trailing : .leading)
+//        .frame(alignment: .center)
     }
     
     // MARK: - case Local Image
@@ -79,6 +81,41 @@ public struct ImageCell<Message: ChatMessage>: View {
 //                radius: cellStyle.cellShadowRadius
 //            )
     }
+//    @State var downloadIndicator = true
+    @ViewBuilder private func localImageTnail(uiImage: UIImage, bytes: Double) -> some View{
+        let width = uiImage.size.width
+        let height = uiImage.size.height
+        let isLandscape = width > height
+        
+        ZStack{
+        Image(uiImage: uiImage)
+            .resizable()
+            .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
+            .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
+            
+//            if downloadIndicator{
+            Image(systemName: "arrow.down")
+                .font(.system(size: 20))
+                .foregroundColor(.white)
+                .padding()
+                .background(
+                    Color.gray
+                )
+                .clipShape(Circle())
+                    
+                    
+//            }
+        }.overlay(
+            Text("\(bytes/1024/1024, specifier: "%.2f")MB")
+                .font(.system(size: 13, weight: .bold, design: .default))
+                .foregroundColor(.white)
+                .padding(.horizontal, 5)
+                .background(Color.black.opacity(0.6))
+                .cornerRadius(10)
+                .offset(y: 40)
+            )
+    }
+    
     @State var remoteIMGWidth: CGFloat = 1
     @State var remoteIMGHeight: CGFloat = 1
     @State var remoteIMG : UIImage? = nil

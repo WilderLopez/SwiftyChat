@@ -133,10 +133,21 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                         }
                     }
                     .onChange(of: scrollToBottom) { value in
+                        let lastM = messages.last
                         if value {
-                            withAnimation{
-                            proxy.scrollTo(messages.last?.id)
-                            }
+                            
+                                switch lastM?.messageKind{
+                                case .image(ImageLoadingKind.local):
+                                    proxy.scrollTo(messages.last?.id, anchor: UnitPoint.bottom)
+                                    break
+                                case .image(ImageLoadingKind.remoteTodus):
+                                    proxy.scrollTo(messages.last?.id, anchor: UnitPoint.bottom)
+                                    break
+                                default:
+                                    withAnimation{
+                                    proxy.scrollTo(messages.last?.id)
+                                    }
+                                }
                                 self.isBottom = true
 //                            }
                             scrollToBottom = false
@@ -175,21 +186,25 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     }
     
     // MARK: - List Item
+    @State private var isActiveContextMenu = false
     private func chatMessageCellContainer(in size: CGSize, with message: Message) -> some View {
-        ChatMessageCellContainer(
-            message: message,
-            size: size,
-            onQuickReplyItemSelected: onQuickReplyItemSelected,
-            contactFooterSection: contactCellFooterSection,
-            onTextTappedCallback: onAttributedTextTappedCallback,
-            onCarouselItemAction: onCarouselItemAction
-        )
-        .onTapGesture { onMessageCellTapped(message) }
-        .contextMenu(menuItems: { messageCellContextMenu(message) })
-//        .modifier(AvatarModifier<Message, User>(message: message))
-        .modifier(MessageHorizontalSpaceModifier(messageKind: message.messageKind, isSender: message.isSender))
-        .modifier(CellEdgeInsetsModifier(isSender: message.isSender))
-        .id(message.id)
+            ChatMessageCellContainer(
+                message: message,
+                size: size,
+                onQuickReplyItemSelected: onQuickReplyItemSelected,
+                contactFooterSection: contactCellFooterSection,
+                onTextTappedCallback: onAttributedTextTappedCallback,
+                onCarouselItemAction: onCarouselItemAction
+            )
+    //        .clipped()
+    //        .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
+            .onTapGesture { onMessageCellTapped(message) }
+            .contextMenu(menuItems: { messageCellContextMenu(message) })
+//            .modifier(AvatarModifier<Message, User>(message: message))
+            .modifier(MessageHorizontalSpaceModifier(messageKind: message.messageKind, isSender: message.isSender))
+            .modifier(CellEdgeInsetsModifier(isSender: message.isSender))
+            .id(message.id)
+            
     }
     
 }
