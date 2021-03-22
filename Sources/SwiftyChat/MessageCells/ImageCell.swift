@@ -94,10 +94,14 @@ public struct ImageCell<Message: ChatMessage>: View {
             .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
             
 //            if downloadIndicator{
-                Image(systemName: "arrow.down.circle")
+                Image(systemName: "arrow.down")
                     .resizable()
                     .frame(width: 50, height: 50, alignment: .center)
-                    .foregroundColor(.primaryTodusColor)
+                    .foregroundColor(.white)
+                    .background(Color.gray)
+                    .padding()
+                    .clipShape(Circle())
+                    
                     
 //            }
         }.overlay(
