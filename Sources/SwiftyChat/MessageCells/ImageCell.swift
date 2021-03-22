@@ -96,10 +96,12 @@ public struct ImageCell<Message: ChatMessage>: View {
 //            if downloadIndicator{
                 Image(systemName: "arrow.down")
                     .resizable()
-                    .frame(width: 50, height: 50, alignment: .center)
+                    .frame(width: 30, height: 30, alignment: .center)
                     .foregroundColor(.white)
-                    .background(Color.gray)
-                    .padding()
+                    .background(
+                        Color.gray
+                            .padding()
+                    )
                     .clipShape(Circle())
                     
                     
