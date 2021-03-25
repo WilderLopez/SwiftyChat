@@ -26,33 +26,33 @@ struct DateCheckMarkView: View {
                 withAnimation(Animation.default) {
                 HStack(alignment: .bottom, spacing: 0){
                     
-                    switch messageTag{
-                    case .r:
-                        Rectangle()
-                            .frame(width: 1.5, height: 6, alignment: .center)
-                            .cornerRadius(10)
-                            .rotationEffect(Angle(degrees: -38))
-                    case .none:
-                        Image(systemName: "clock")
-                    default:
-                        checkR()
-                          .padding(.trailing, 2)
-                    }
-                    
-//                    if messageTag != .none{
-////                        Image(systemName: "checkmark")
-//                        checkR()
-//                            .padding(.trailing, 2)
-//
-//                        if messageTag != .r {
-//                            Rectangle()
-//                                .frame(width: 1.5, height: 11, alignment: .center)
-//                                .cornerRadius(10)
-//                                .rotationEffect(Angle(degrees: 38))
-//                        }
-//                    }else {
+//                    switch messageTag{
+//                    case .r:
+//                        Rectangle()
+//                            .frame(width: 1.5, height: 6, alignment: .center)
+//                            .cornerRadius(10)
+//                            .rotationEffect(Angle(degrees: -38))
+//                    case .none:
 //                        Image(systemName: "clock")
+//                    default:
+//                        checkR()
+//                          .padding(.trailing, 2)
 //                    }
+                    
+                    if messageTag != .none{
+//                        Image(systemName: "checkmark")
+                        checkR()
+                            .padding(.trailing, 2)
+
+                        if messageTag != .r {
+                            Rectangle()
+                                .frame(width: 1.5, height: 11, alignment: .center)
+                                .cornerRadius(10)
+                                .rotationEffect(Angle(degrees: 38))
+                        }
+                    }else {
+                        Image(systemName: "clock")
+                    }
                 }
                 .foregroundColor(messageTag == .dd ? isNotText ? .white : .ddmarkColor : .rdmarkColor)
                 .transition(.opacity)
