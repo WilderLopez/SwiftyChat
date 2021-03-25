@@ -69,6 +69,7 @@ public struct MockMessages {
         public var messageKind: ChatMessageKind
         public var isSender: Bool
         public var date: Date
+        public var isSent: Bool
         public var isReceived: Bool
         public var isDisplayed: Bool
 
@@ -78,6 +79,7 @@ public struct MockMessages {
             messageKind: ChatMessageKind,
             isSender: Bool = false,
             date: Date = .init(),
+            isSent: Bool = false,
             isDisplayed: Bool = false,
             isReceived: Bool = false
         ) {
@@ -86,6 +88,7 @@ public struct MockMessages {
             self.messageKind = messageKind
             self.isSender = isSender
             self.date = date
+            self.isSent = isSent
             self.isReceived = isReceived
             self.isDisplayed = isDisplayed
         }

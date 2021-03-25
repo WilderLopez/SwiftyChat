@@ -66,7 +66,7 @@ public struct TextCell<Message: ChatMessage>: View {
 //            .multilineTextAlignment(.leading)
             
             //Date and CheckMars
-            DateCheckMarkView(isCurrentUser: message.isSender, dateDescription: DateHelper.getDateWith(date: message.date), messageTag: message.isDisplayed ? .dd : message.isReceived ? .rd : .none)
+            DateCheckMarkView(isCurrentUser: message.isSender, dateDescription: DateHelper.getDateWith(date: message.date), messageTag: message.isDisplayed ? .dd : message.isReceived ? .rd : message.isSent ? .r : .none)
             
             }
         .padding(.horizontal)
@@ -126,7 +126,7 @@ public struct TextCell<Message: ChatMessage>: View {
             $0.textAlignment = message.isSender ? .right : .left
         }
                 
-                DateCheckMarkView(isCurrentUser: message.isSender, dateDescription: DateHelper.getDateWith(date: message.date), messageTag: message.isDisplayed ? .dd : message.isReceived ? .rd : .none)
+                DateCheckMarkView(isCurrentUser: message.isSender, dateDescription: DateHelper.getDateWith(date: message.date), messageTag: message.isDisplayed ? .dd : message.isReceived ? .rd : message.isSent ? .r : .none)
             }
             .padding(.horizontal)
             .padding(.vertical, 5)

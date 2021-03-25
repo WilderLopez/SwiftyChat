@@ -26,6 +26,9 @@ public protocol ChatMessage: Identifiable {
     /// The date message sent.
     var date: Date { get }
     
+    ///Sent to Server
+    var isSent: Bool {get set}
+    
     /// Received Message
     var isReceived: Bool { get set }
     
