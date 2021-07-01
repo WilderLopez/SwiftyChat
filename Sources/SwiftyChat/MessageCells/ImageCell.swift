@@ -160,13 +160,26 @@ public struct ImageCell<Message: ChatMessage>: View {
     }
     
     
+    @State private var downloadAmount = 0.0
     //MARK: - case Remote Image from ToDus
     @ViewBuilder private func remoteImageFromTodus(url: URL, imageSize: CGSize) -> some View {
         let isLandScape = imageSize.width > imageSize.height
-        KFImage(url)
-            .resizable()
-            .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
-            .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
+        
+        ZStack{
+        
+            KFImage(url)
+                .onProgress(perform: { v1, v2 in
+                    print("v1: \(v1) , v2 : \(v2)")
+                })
+                .resizable()
+                .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
+                .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
+            
+            ProgressView("Descargando…", value: downloadAmount, total: 100)
+                                .progressViewStyle(CirclerPercentageProgressViewStyle())
+                                .frame(width: 120, height: 120, alignment: .center)
+            
+        }
     }
     
     
@@ -184,3 +197,26 @@ public struct ImageCell<Message: ChatMessage>: View {
 
 }
 
+public struct CirclerPercentageProgressViewStyle : ProgressViewStyle {
+    public func makeBody(configuration: LinearProgressViewStyle.Configuration) -> some View {
+        VStack(spacing: 10) {
+            configuration.label
+                .foregroundColor(Color.secondary)
+            ZStack {
+                Circle()
+                    .stroke(lineWidth: 5.0)
+                    .opacity(0.3)
+                    .foregroundColor(Color.accentColor.opacity(0.5))
+                
+                Circle()
+                    .trim(from: 0.0, to: CGFloat(configuration.fractionCompleted ?? 0))
+                .stroke(style: StrokeStyle(lineWidth: 5.0, lineCap: .round, lineJoin: .round))
+                .foregroundColor(Color.accentColor)
+                
+                Text("\(Int((configuration.fractionCompleted ?? 0) * 100))%")
+                    .font(.headline)
+                    .foregroundColor(Color.secondary)
+            }
+        }
+    }
+}
