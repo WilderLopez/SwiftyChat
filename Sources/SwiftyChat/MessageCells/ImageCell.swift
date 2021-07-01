@@ -50,7 +50,7 @@ public struct ImageCell<Message: ChatMessage>: View {
             imageView
             
             DateCheckMarkView(isNotText: true, isCurrentUser: message.isSender, dateDescription: DateHelper.getDateWith(date: message.date), messageTag: message.isDisplayed ? .dd : message.isReceived ? .rd : message.isSent ? .r : .none)
-//                .animation(.linear(duration: 0.2))
+            //                .animation(.linear(duration: 0.2))
                 .padding(3)
                 .padding(.horizontal, 6)
                 .background(Color.black.opacity(0.3))
@@ -59,12 +59,12 @@ public struct ImageCell<Message: ChatMessage>: View {
                 .foregroundColor(Color.white)
         }
         .background(message.isSender ? Color.primaryBubble : Color.secondaryBubble)
-//        .clipped()
+        //        .clipped()
         .clipShape(CustomChatCorner(isCurrentUser: message.isSender))
         .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
         .shadow(radius: 1)
         .foregroundColor(.white)
-//        .frame(alignment: .center)
+        //        .frame(alignment: .center)
     }
     
     // MARK: - case Local Image
@@ -77,34 +77,34 @@ public struct ImageCell<Message: ChatMessage>: View {
             .resizable()
             .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
             .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
-//            .frame(width: imageWidth, height: isLandscape ? nil : imageWidth)
-//            .background(cellStyle.cellBackgroundColor)
-//            .cornerRadius(cellStyle.cellCornerRadius)
-//            .overlay(
-//                RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius)
-//                    .stroke(
-//                        cellStyle.cellBorderColor,
-//                        lineWidth: cellStyle.cellBorderWidth
-//                    )
-//            )
-//            .shadow(
-//                color: cellStyle.cellShadowColor,
-//                radius: cellStyle.cellShadowRadius
-//            )
+        //            .frame(width: imageWidth, height: isLandscape ? nil : imageWidth)
+        //            .background(cellStyle.cellBackgroundColor)
+        //            .cornerRadius(cellStyle.cellCornerRadius)
+        //            .overlay(
+        //                RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius)
+        //                    .stroke(
+        //                        cellStyle.cellBorderColor,
+        //                        lineWidth: cellStyle.cellBorderWidth
+        //                    )
+        //            )
+        //            .shadow(
+        //                color: cellStyle.cellShadowColor,
+        //                radius: cellStyle.cellShadowRadius
+        //            )
     }
-//    @State var downloadIndicator = true
+    //    @State var downloadIndicator = true
     @ViewBuilder private func localImageTnail(uiImage: UIImage, bytes: Double) -> some View{
         let width = uiImage.size.width
         let height = uiImage.size.height
         let isLandscape = width > height
         
         ZStack{
-        Image(uiImage: uiImage)
-            .resizable()
-            .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
-            .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
+            Image(uiImage: uiImage)
+                .resizable()
+                .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
+                .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
             
-//            if downloadIndicator{
+            //            if downloadIndicator{
             Image(systemName: "arrow.down")
                 .font(.system(size: 20))
                 .foregroundColor(.white)
@@ -113,9 +113,9 @@ public struct ImageCell<Message: ChatMessage>: View {
                     Color.gray
                 )
                 .clipShape(Circle())
-                    
-                    
-//            }
+            
+            
+            //            }
         }.overlay(
             Text("\(bytes/1024/1024, specifier: "%.2f")MB")
                 .font(.system(size: 13, weight: .bold, design: .default))
@@ -124,7 +124,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                 .background(Color.black.opacity(0.6))
                 .cornerRadius(10)
                 .offset(y: 40)
-            )
+        )
     }
     
     @State var remoteIMGWidth: CGFloat = 1
@@ -136,7 +136,7 @@ public struct ImageCell<Message: ChatMessage>: View {
         /**
          KFImage(url)
          .onSuccess(perform: { (result) in
-             result.image.size
+         result.image.size
          })
          We can grab size & manage aspect ratio via a @State property
          but the list scroll behaviour becomes messy.
@@ -154,19 +154,19 @@ public struct ImageCell<Message: ChatMessage>: View {
         
         
         
-//            .background(cellStyle.cellBackgroundColor)
-//            .cornerRadius(cellStyle.cellCornerRadius)
-//            .overlay(
-//                RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius)
-//                    .stroke(
-//                        cellStyle.cellBorderColor,
-//                        lineWidth: cellStyle.cellBorderWidth
-//                    )
-//            )
-//            .shadow(
-//                color: cellStyle.cellShadowColor,
-//                radius: cellStyle.cellShadowRadius
-//            )
+        //            .background(cellStyle.cellBackgroundColor)
+        //            .cornerRadius(cellStyle.cellCornerRadius)
+        //            .overlay(
+        //                RoundedRectangle(cornerRadius: cellStyle.cellCornerRadius)
+        //                    .stroke(
+        //                        cellStyle.cellBorderColor,
+        //                        lineWidth: cellStyle.cellBorderWidth
+        //                    )
+        //            )
+        //            .shadow(
+        //                color: cellStyle.cellShadowColor,
+        //                radius: cellStyle.cellShadowRadius
+        //            )
         
     }
     
@@ -178,35 +178,35 @@ public struct ImageCell<Message: ChatMessage>: View {
         let isLandScape = imageSize.width > imageSize.height
         
         ZStack{
-        
+            
             KFImage(url)
                 .onProgress(perform: { v1, v2 in
-                    print("v1: \(v1) , v2 : \(v2)")
+                    downloadAmount = v1 / v2 * 100
                 })
                 .resizable()
                 .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
                 .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
-            
-            ProgressView("Descargando…", value: downloadAmount, total: 100)
-                                .progressViewStyle(CirclerPercentageProgressViewStyle())
-                                .frame(width: 120, height: 120, alignment: .center)
-            
+            if downloadAmount == 0.0 {
+                ProgressView("Descargando…", value: downloadAmount, total: 100)
+                    .progressViewStyle(CirclerPercentageProgressViewStyle())
+                    .frame(width: 120, height: 120, alignment: .center)
+            }
         }
     }
     
     
-//    func fetch(url: URL){
-//        KingfisherManager.shared.retrieveImage(with: url) { (resutl) in
-//            switch resutl{
-//            case .success(let task):
-//                self.remoteIMG = task.image
-//            case .failure(_):
-//                print("error")
-//            }
-//        }
-//    }
+    //    func fetch(url: URL){
+    //        KingfisherManager.shared.retrieveImage(with: url) { (resutl) in
+    //            switch resutl{
+    //            case .success(let task):
+    //                self.remoteIMG = task.image
+    //            case .failure(_):
+    //                print("error")
+    //            }
+    //        }
+    //    }
     
-
+    
 }
 
 @available(iOS 14.0, *)
@@ -219,12 +219,12 @@ public struct CirclerPercentageProgressViewStyle : ProgressViewStyle {
                 Circle()
                     .stroke(lineWidth: 5.0)
                     .opacity(0.3)
-                    .foregroundColor(Color.accentColor.opacity(0.5))
+                    .foregroundColor(Color.accentColor.opacity(0.8))
                 
                 Circle()
                     .trim(from: 0.0, to: CGFloat(configuration.fractionCompleted ?? 0))
-                .stroke(style: StrokeStyle(lineWidth: 5.0, lineCap: .round, lineJoin: .round))
-                .foregroundColor(Color.accentColor)
+                    .stroke(style: StrokeStyle(lineWidth: 5.0, lineCap: .round, lineJoin: .round))
+                    .foregroundColor(Color.accentColor)
                 
                 Text("\(Int((configuration.fractionCompleted ?? 0) * 100))%")
                     .font(.headline)
