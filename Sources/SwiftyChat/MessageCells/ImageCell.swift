@@ -195,7 +195,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                 .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
             
             if downloadAmount < 100 {
-                ProgressView("Descargando…", value: downloadAmount, total: 1)
+                ProgressView("Descargando…", value: downloadAmount, total: 100)
                     .progressViewStyle(CirclerPercentageProgressViewStyle())
                     .frame(width: 120, height: 120, alignment: .center)
             }
