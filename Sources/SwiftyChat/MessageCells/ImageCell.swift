@@ -182,8 +182,8 @@ public struct ImageCell<Message: ChatMessage>: View {
             KFImage(url)
                 .onProgress(perform: { v1, v2 in
                     let frac : Double = Double(v1) / Double(v2)
-                    if downloadAmount <= 1 {
-                    downloadAmount += frac
+                    if downloadAmount <= 100 {
+                    downloadAmount = frac * 100
                     print("v1: \(v1)")
                     print("v2: \(v2)")
                     print("downloadAmount: \(downloadAmount)")
