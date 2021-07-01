@@ -186,11 +186,11 @@ public struct ImageCell<Message: ChatMessage>: View {
                 .resizable()
                 .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
                 .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
-            if downloadAmount == 0.0 {
+            if downloadAmount < 100 {
                 ProgressView("Descargando…", value: downloadAmount, total: 100)
                     .progressViewStyle(CirclerPercentageProgressViewStyle())
                     .frame(width: 120, height: 120, alignment: .center)
-            } 
+            }
         }
     }
     
