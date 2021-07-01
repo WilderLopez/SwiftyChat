@@ -162,6 +162,7 @@ public struct ImageCell<Message: ChatMessage>: View {
     
     @State private var downloadAmount = 0.0
     //MARK: - case Remote Image from ToDus
+    @available(iOS 14.0, *)
     @ViewBuilder private func remoteImageFromTodus(url: URL, imageSize: CGSize) -> some View {
         let isLandScape = imageSize.width > imageSize.height
         
@@ -197,6 +198,7 @@ public struct ImageCell<Message: ChatMessage>: View {
 
 }
 
+@available(iOS 14.0, *)
 public struct CirclerPercentageProgressViewStyle : ProgressViewStyle {
     public func makeBody(configuration: LinearProgressViewStyle.Configuration) -> some View {
         VStack(spacing: 10) {
