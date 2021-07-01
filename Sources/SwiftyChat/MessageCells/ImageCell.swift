@@ -182,10 +182,12 @@ public struct ImageCell<Message: ChatMessage>: View {
             KFImage(url)
                 .onProgress(perform: { v1, v2 in
                     let frac : Double = Double(v1) / Double(v2)
-                    downloadAmount = frac
+                    if downloadAmount <= 1 {
+                    downloadAmount += frac
                     print("v1: \(v1)")
                     print("v2: \(v2)")
                     print("downloadAmount: \(downloadAmount)")
+                    }
                 })
                 .resizable()
                 .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
