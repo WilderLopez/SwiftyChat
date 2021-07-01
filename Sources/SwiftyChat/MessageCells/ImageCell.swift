@@ -182,10 +182,14 @@ public struct ImageCell<Message: ChatMessage>: View {
             KFImage(url)
                 .onProgress(perform: { v1, v2 in
                     downloadAmount = Double(v1 / v2 * 100)
+                    print("v1: \(v1)")
+                    print("v2: \(v2)")
+                    print("downloadAmount: \(downloadAmount)")
                 })
                 .resizable()
                 .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
                 .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
+            
             if downloadAmount < 100 {
                 ProgressView("Descargando…", value: downloadAmount, total: 100)
                     .progressViewStyle(CirclerPercentageProgressViewStyle())
