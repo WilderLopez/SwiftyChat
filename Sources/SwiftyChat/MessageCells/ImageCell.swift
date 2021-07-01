@@ -26,11 +26,22 @@ public struct ImageCell<Message: ChatMessage>: View {
     }
     
     @ViewBuilder private var imageView: some View {
-        switch imageLoadingType {
-        case .local(let image): localImage(uiImage: image)
-        case .remote(let remoteUrl): remoteImage(url: remoteUrl)
-        case .remoteTodus(let remoteUrl, let imageSize): remoteImageFromTodus(url: remoteUrl, imageSize: imageSize)
-        case .tnail(let imageTnail, _, _, let bytes): localImageTnail(uiImage: imageTnail, bytes: bytes)
+        if #available(iOS 14.0, *) {
+            switch imageLoadingType {
+            case .local(let image): localImage(uiImage: image)
+            case .remote(let remoteUrl): remoteImage(url: remoteUrl)
+            case .remoteTodus(let remoteUrl, let imageSize): remoteImageFromTodus(url: remoteUrl, imageSize: imageSize)
+            case .tnail(let imageTnail, _, _, let bytes): localImageTnail(uiImage: imageTnail, bytes: bytes)
+            }
+        } else {
+            // Fallback on earlier versions
+            switch imageLoadingType {
+            case .local(let image): localImage(uiImage: image)
+            case .remote(let remoteUrl): remoteImage(url: remoteUrl)
+            case .tnail(let imageTnail, _, _, let bytes): localImageTnail(uiImage: imageTnail, bytes: bytes)
+            default:
+                EmptyView()
+            }
         }
     }
     
