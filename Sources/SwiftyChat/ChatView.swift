@@ -20,6 +20,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     private var contactCellFooterSection: (ContactItem, Message) -> [ContactCellButton] = { _, _ in [] }
     private var onAttributedTextTappedCallback: () -> AttributedTextTappedCallback = { return AttributedTextTappedCallback() }
     private var onCarouselItemAction: (CarouselItemButton, Message) -> Void = { (_, _) in }
+    private var onRemoteResponse: (Bool) -> Void = { isDone in print("Already donwloaded: \(isDone)")}
     
     @available(iOS 14.0, *)
     @Binding private var scrollToBottom: Bool
@@ -194,7 +195,8 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                 onQuickReplyItemSelected: onQuickReplyItemSelected,
                 contactFooterSection: contactCellFooterSection,
                 onTextTappedCallback: onAttributedTextTappedCallback,
-                onCarouselItemAction: onCarouselItemAction
+                onCarouselItemAction: onCarouselItemAction,
+                onRemoteResponse: onRemoteResponse
             )
     //        .clipped()
     //        .contentShape(CustomChatCorner(isCurrentUser: message.isSender))
@@ -293,6 +295,10 @@ public extension ChatView {
     /// Triggered when the carousel button tapped.
     func onCarouselItemAction(action: @escaping (CarouselItemButton, Message) -> Void) -> Self {
         then({ $0.onCarouselItemAction = action })
+    }
+    
+    func onRemoteResponse(action: @escaping (Bool) -> Void) -> Self {
+        then({$0.onRemoteResponse =  action})
     }
     
 }

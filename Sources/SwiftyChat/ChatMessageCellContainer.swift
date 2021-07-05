@@ -17,6 +17,7 @@ public struct ChatMessageCellContainer<Message: ChatMessage>: View {
     public let contactFooterSection: (ContactItem, Message) -> [ContactCellButton]
     public let onTextTappedCallback: () -> AttributedTextTappedCallback
     public let onCarouselItemAction: (CarouselItemButton, Message) -> Void
+    public let onRemoteResponse: (Bool) -> Void
     
     @ViewBuilder func messageCell() -> some View {
         switch message.messageKind {
@@ -40,7 +41,8 @@ public struct ChatMessageCellContainer<Message: ChatMessage>: View {
             ImageCell(
                 message: message,
                 imageLoadingType: imageLoadingType,
-                size: size
+                size: size,
+                onRemoteResponse: onRemoteResponse
             )
             
         case .contact(let contact):

@@ -15,6 +15,8 @@ public struct ImageCell<Message: ChatMessage>: View {
     public let message: Message
     public let imageLoadingType: ImageLoadingKind
     public let size: CGSize
+    public var onRemoteResponse: (Bool) -> Void
+    @State var isDownload = false
     @EnvironmentObject var style: ChatMessageCellStyle
     
     private var imageWidth: CGFloat {
@@ -30,11 +32,11 @@ public struct ImageCell<Message: ChatMessage>: View {
             switch imageLoadingType {
             case .local(let image): localImage(uiImage: image)
             case .remote(let remoteUrl): remoteImage(url: remoteUrl)
-            case .remoteTodus(let remoteUrl, let imageSize): remoteImageFromTodus(url: remoteUrl, imageSize: imageSize)
+            case .remoteTodus(let imageTnail, let remoteUrl, let imageSize, let isDone): remoteImageFromTodus(uiImage: imageTnail, url: remoteUrl, imageSize: imageSize, isDone: isDone)
             case .tnail(let imageTnail, _, _, let bytes): localImageTnail(uiImage: imageTnail, bytes: bytes)
             }
         } else {
-            // Fallback on earlier versions
+            // deprecate all of this
             switch imageLoadingType {
             case .local(let image): localImage(uiImage: image)
             case .remote(let remoteUrl): remoteImage(url: remoteUrl)
@@ -174,12 +176,15 @@ public struct ImageCell<Message: ChatMessage>: View {
     @State private var downloadAmount = 0.0
     //MARK: - case Remote Image from ToDus
     @available(iOS 14.0, *)
-    @ViewBuilder private func remoteImageFromTodus(url: URL, imageSize: CGSize) -> some View {
+    @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL, imageSize: CGSize, isDone: Binding<Bool>) -> some View {
         let isLandScape = imageSize.width > imageSize.height
         
         ZStack{
             
             KFImage(url)
+                .placeholder({
+                    Image(uiImage: uiImage)
+                })
                 .onProgress(perform: { v1, v2 in
                     let frac : Double = Double(v1) / Double(v2)
                     let amount = frac * 100
@@ -189,6 +194,12 @@ public struct ImageCell<Message: ChatMessage>: View {
                     print("v2: \(v2)")
                     print("downloadAmount: \(downloadAmount)")
                     }
+                })
+                .onSuccess(perform: { imgResult in
+                    onRemoteResponse(true)
+                })
+                .onFailure(perform: { KError in
+                    onRemoteResponse(false)
                 })
                 .resizable()
                 .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
