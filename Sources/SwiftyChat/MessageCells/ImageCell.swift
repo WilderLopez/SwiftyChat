@@ -32,7 +32,7 @@ public struct ImageCell<Message: ChatMessage>: View {
             switch imageLoadingType {
             case .local(let image): localImage(uiImage: image)
             case .remote(let remoteUrl): remoteImage(url: remoteUrl)
-            case .remoteTodus(let imageTnail, let remoteUrl, let imageSize, let isDone): remoteImageFromTodus(uiImage: imageTnail, url: remoteUrl, imageSize: imageSize, isDone: isDone)
+            case .remoteTodus(let imageTnail, let remoteUrl, let imageSize): remoteImageFromTodus(uiImage: imageTnail, url: remoteUrl, imageSize: imageSize)
             case .tnail(let imageTnail, _, _, let bytes): localImageTnail(uiImage: imageTnail, bytes: bytes)
             }
         } else {
@@ -176,7 +176,7 @@ public struct ImageCell<Message: ChatMessage>: View {
     @State private var downloadAmount = 0.0
     //MARK: - case Remote Image from ToDus
     @available(iOS 14.0, *)
-    @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL, imageSize: CGSize, isDone: Binding<Bool>) -> some View {
+    @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL, imageSize: CGSize) -> some View {
         let isLandScape = imageSize.width > imageSize.height
         
         ZStack{
