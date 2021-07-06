@@ -193,7 +193,9 @@ public struct ImageCell<Message: ChatMessage>: View {
                     let frac : Double = Double(v1) / Double(v2)
                     let amount = frac * 100
                     if downloadAmount <= amount {
-                    startDownload = true
+                        if !startDownload {
+                        startDownload = true
+                        }
                     downloadAmount = amount
                     print("v1: \(v1)")
                     print("v2: \(v2)")
