@@ -204,7 +204,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                 })
                 .onSuccess(perform: { imgResult in
                     let remoteResponse : MockMessages.RemoteResponseRow =
-                        .init(tnail: uiImage, isdownloaded: true, message: message as! MockMessages.RemoteResponseRow.Message)
+                        .init(payload: imgResult.image.jpegData(compressionQuality: 1)!, isdownloaded: true, message: message as! MockMessages.RemoteResponseRow.Message)
                     
                     onRemoteResponse(remoteResponse)
                     startDownload = false
@@ -212,7 +212,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                 .onFailure(perform: { KError in
                     print("failure Kingfisher")
                     let remoteResponse : MockMessages.RemoteResponseRow =
-                        .init(tnail: uiImage, isdownloaded: false, message: message as! MockMessages.RemoteResponseRow.Message)
+                        .init(payload: uiImage.jpegData(compressionQuality: 1)!, isdownloaded: false, message: message as! MockMessages.RemoteResponseRow.Message)
                     
                     onRemoteResponse(remoteResponse)
                     startDownload = false

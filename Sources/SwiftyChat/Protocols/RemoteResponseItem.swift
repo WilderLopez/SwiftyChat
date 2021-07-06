@@ -10,7 +10,7 @@ import UIKit
 
 public protocol RemoteResponseItem  {
     
-    var tnail : UIImage { get set }
+    var payload : Data { get set }
     
     associatedtype Message : ChatMessage
     var message : Message { get set }

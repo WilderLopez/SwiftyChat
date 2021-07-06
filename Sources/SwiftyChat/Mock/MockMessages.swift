@@ -97,17 +97,17 @@ public struct MockMessages {
     public struct RemoteResponseRow : RemoteResponseItem {
         public typealias Message = ChatMessageItem
         
-        public var tnail: UIImage
+        public var payload: Data
         public var isdownloaded: Bool
         
         public var message: Message
         
         public init(
-            tnail: UIImage,
+            payload: Data,
             isdownloaded: Bool,
             message: Message
         ) {
-            self.tnail = tnail
+            self.payload = payload
             self.isdownloaded = isdownloaded
             self.message = message
         }
