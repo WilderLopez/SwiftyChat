@@ -174,6 +174,7 @@ public struct ImageCell<Message: ChatMessage>: View {
     
     
     @State private var downloadAmount = 0.0
+    @State private var startDownload = false
     //MARK: - case Remote Image from ToDus
     @available(iOS 14.0, *)
     @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL, imageSize: CGSize) -> some View {
@@ -184,11 +185,15 @@ public struct ImageCell<Message: ChatMessage>: View {
             KFImage(url)
                 .placeholder({
                     Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
+                        .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
                 })
                 .onProgress(perform: { v1, v2 in
                     let frac : Double = Double(v1) / Double(v2)
                     let amount = frac * 100
                     if downloadAmount <= amount {
+                    startDownload = true
                     downloadAmount = amount
                     print("v1: \(v1)")
                     print("v2: \(v2)")
@@ -197,15 +202,17 @@ public struct ImageCell<Message: ChatMessage>: View {
                 })
                 .onSuccess(perform: { imgResult in
                     onRemoteResponse(true)
+                    startDownload = false
                 })
                 .onFailure(perform: { KError in
                     onRemoteResponse(false)
+                    startDownload = false
                 })
                 .resizable()
                 .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
                 .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
             
-            if downloadAmount < 100 {
+            if startDownload && downloadAmount < 100 {
                 ProgressView("Descargando…", value: downloadAmount, total: 100)
                     .progressViewStyle(CirclerPercentageProgressViewStyle())
                     .frame(width: 120, height: 120, alignment: .center)
