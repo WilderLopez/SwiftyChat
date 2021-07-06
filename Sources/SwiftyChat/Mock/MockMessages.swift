@@ -93,6 +93,26 @@ public struct MockMessages {
             self.isDisplayed = isDisplayed
         }
     }
+    //MARK: - Model for Remote Response
+    public struct RemoteResponseRow : RemoteResponseItem {
+        public typealias Message = ChatMessageItem
+        
+        public var tnail: UIImage
+        public var isdownloaded: Bool
+        
+        public var message: Message
+        
+        public init(
+            tnail: UIImage,
+            isdownloaded: Bool,
+            message: Message
+        ) {
+            self.tnail = tnail
+            self.isdownloaded = isdownloaded
+            self.message = message
+        }
+        
+    }
     
     // MARK: - Concrete model for ChatUser
     public struct ChatUserItem: ChatUser {

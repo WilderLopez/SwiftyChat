@@ -17,7 +17,7 @@ public struct ChatMessageCellContainer<Message: ChatMessage>: View {
     public let contactFooterSection: (ContactItem, Message) -> [ContactCellButton]
     public let onTextTappedCallback: () -> AttributedTextTappedCallback
     public let onCarouselItemAction: (CarouselItemButton, Message) -> Void
-    public let onRemoteResponse: (Bool) -> Void
+    public let onRemoteResponse: (MockMessages.RemoteResponseRow) -> Void
     
     @ViewBuilder func messageCell() -> some View {
         switch message.messageKind {

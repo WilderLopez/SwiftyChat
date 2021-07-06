@@ -15,7 +15,7 @@ public struct ImageCell<Message: ChatMessage>: View {
     public let message: Message
     public let imageLoadingType: ImageLoadingKind
     public let size: CGSize
-    public var onRemoteResponse: (Bool) -> Void
+    public var onRemoteResponse: (MockMessages.RemoteResponseRow) -> Void
     @State var isDownload = false
     @EnvironmentObject var style: ChatMessageCellStyle
     
@@ -201,12 +201,18 @@ public struct ImageCell<Message: ChatMessage>: View {
                     }
                 })
                 .onSuccess(perform: { imgResult in
-                    onRemoteResponse(true)
+                    let remoteResponse : MockMessages.RemoteResponseRow =
+                        .init(tnail: uiImage, isdownloaded: true, message: message as! MockMessages.RemoteResponseRow.Message)
+                    
+                    onRemoteResponse(remoteResponse)
                     startDownload = false
                 })
                 .onFailure(perform: { KError in
                     print("failure Kingfisher")
-                    onRemoteResponse(false)
+                    let remoteResponse : MockMessages.RemoteResponseRow =
+                        .init(tnail: uiImage, isdownloaded: false, message: message as! MockMessages.RemoteResponseRow.Message)
+                    
+                    onRemoteResponse(remoteResponse)
                     startDownload = false
                 })
                 .resizable()
