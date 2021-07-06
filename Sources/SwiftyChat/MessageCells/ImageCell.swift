@@ -205,6 +205,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                     startDownload = false
                 })
                 .onFailure(perform: { KError in
+                    print("failure Kingfisher")
                     onRemoteResponse(false)
                     startDownload = false
                 })
