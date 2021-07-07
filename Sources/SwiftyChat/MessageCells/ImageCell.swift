@@ -32,7 +32,7 @@ public struct ImageCell<Message: ChatMessage>: View {
             switch imageLoadingType {
             case .local(let image): localImage(uiImage: image)
             case .remote(let remoteUrl): remoteImageDefault(url: remoteUrl)
-            case .remoteImage(let imageTnail, let remoteUrl, let imageSize, let tnailBytes): remoteImageFromTodus(uiImage: imageTnail, url: remoteUrl, imageSize: imageSize, tnailBytes: tnailBytes)
+            case .remoteImage(let imageTnail, let remoteUrl, let imageSize, let tnailBytes, let isRemote): remoteImageFromTodus(uiImage: imageTnail, url: remoteUrl, imageSize: imageSize, tnailBytes: tnailBytes, isRemote: isRemote)
             }
         } else {
             // deprecate all of this
@@ -176,12 +176,12 @@ public struct ImageCell<Message: ChatMessage>: View {
     @State private var isfinished = false
     //MARK: - case Remote Image from ToDus
     @available(iOS 14.0, *)
-    @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL?, imageSize: CGSize, tnailBytes: Double) -> some View {
+    @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL, imageSize: CGSize, tnailBytes: Double, isRemote: Bool = false) -> some View {
         let isLandScape = imageSize.width > imageSize.height
         
         ZStack{
             
-            if url != nil {
+            if isRemote {
             KFImage(url)
             //              .placeholder({
             //                                Image(uiImage: uiImage)
