@@ -10,11 +10,12 @@ import UIKit
 
 public protocol RemoteResponseItem  {
     
-    var payload : Data { get set }
-    var url : URL { get set }
-    var tnailBytes : Double { get set }
+    var payload : Data? { get set }
+    var url : URL? { get set }
+    var tnailBytes : Double? { get set }
     associatedtype Message : ChatMessage
-    var message : Message { get set }
+    var message : Message? { get set }
+    var isdownloaded : Bool? { get set }
     
-    var isdownloaded : Bool { get set }
+    var triggerDownload : Bool? { get set }
 }

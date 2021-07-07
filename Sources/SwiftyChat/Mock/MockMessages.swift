@@ -95,21 +95,24 @@ public struct MockMessages {
     }
     //MARK: - Model for Remote Response
     public struct RemoteResponseRow : RemoteResponseItem {
+        public var triggerDownload: Bool?
         
-        public var url: URL
-        public var tnailBytes: Double
-        public var payload: Data
-        public var isdownloaded: Bool
+        public var url: URL?
+        public var tnailBytes: Double?
+        public var payload: Data?
+        public var isdownloaded: Bool?
         public typealias Message = ChatMessageItem
-        public var message: Message
+        public var message: Message?
         
         public init(
-            url: URL,
-            payload: Data,
-            tnailBytes: Double,
-            isdownloaded: Bool,
-            message: Message
+            triggerDownload: Bool? = nil ,
+            url: URL? = nil ,
+            payload: Data? = nil ,
+            tnailBytes: Double? = nil,
+            isdownloaded: Bool? = nil,
+            message: Message? = nil
         ) {
+            self.triggerDownload = triggerDownload
             self.url = url
             self.payload = payload
             self.tnailBytes = tnailBytes

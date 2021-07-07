@@ -20,7 +20,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
     private var contactCellFooterSection: (ContactItem, Message) -> [ContactCellButton] = { _, _ in [] }
     private var onAttributedTextTappedCallback: () -> AttributedTextTappedCallback = { return AttributedTextTappedCallback() }
     private var onCarouselItemAction: (CarouselItemButton, Message) -> Void = { (_, _) in }
-    private var onRemoteResponse: (MockMessages.RemoteResponseRow) -> Void = { item  in print("message \(item.message.securityID) already donwloaded: \(item.isdownloaded)")}
+    private var onRemoteResponse: (MockMessages.RemoteResponseRow) -> Void = { item  in print("message \(item.message?.securityID) already donwloaded: \(item.isdownloaded ?? false)")}
     
     @available(iOS 14.0, *)
     @Binding private var scrollToBottom: Bool

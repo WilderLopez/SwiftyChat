@@ -176,11 +176,12 @@ public struct ImageCell<Message: ChatMessage>: View {
     @State private var isfinished = false
     //MARK: - case Remote Image from ToDus
     @available(iOS 14.0, *)
-    @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL, imageSize: CGSize, tnailBytes: Double) -> some View {
+    @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL?, imageSize: CGSize, tnailBytes: Double) -> some View {
         let isLandScape = imageSize.width > imageSize.height
         
         ZStack{
             
+            if url != nil {
             KFImage(url)
             //              .placeholder({
             //                                Image(uiImage: uiImage)
@@ -203,7 +204,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                 })
                 .onSuccess(perform: { imgResult in
                     let remoteResponse : MockMessages.RemoteResponseRow =
-                        .init(url: url, payload: imgResult.image.jpegData(compressionQuality: 1)!, tnailBytes: tnailBytes, isdownloaded: true, message: message as! MockMessages.RemoteResponseRow.Message)
+                        .init(url: url, payload: imgResult.image.jpegData(compressionQuality: 1)!, tnailBytes: tnailBytes, isdownloaded: true, message: message as? MockMessages.RemoteResponseRow.Message)
                     
                     onRemoteResponse(remoteResponse)
                     startDownload = false
@@ -212,7 +213,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                 .onFailure(perform: { KError in
                     print("failure Kingfisher")
                     let remoteResponse : MockMessages.RemoteResponseRow =
-                        .init(url: url, payload: uiImage.jpegData(compressionQuality: 1)!, tnailBytes: tnailBytes, isdownloaded: false, message: message as! MockMessages.RemoteResponseRow.Message)
+                        .init(url: url, payload: uiImage.jpegData(compressionQuality: 1)!, tnailBytes: tnailBytes, isdownloaded: false, message: message as? MockMessages.RemoteResponseRow.Message)
                     
                     onRemoteResponse(remoteResponse)
                     startDownload = false
@@ -221,7 +222,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                 .resizable()
                 .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
                 .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
-            
+            }
             //hide when download is done
             if !isfinished {
                 Image(uiImage: uiImage)
@@ -237,7 +238,9 @@ public struct ImageCell<Message: ChatMessage>: View {
             }else {
                 //only before start
                 Button {
-                    print("start download")
+                    print("start presigned download")
+                    let presignedRequest = MockMessages.RemoteResponseRow(triggerDownload: true)
+                    onRemoteResponse(presignedRequest)
                 } label: {
                     Image(systemName: "arrow.down")
                         .font(.system(size: 20))

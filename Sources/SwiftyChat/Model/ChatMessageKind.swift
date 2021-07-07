@@ -12,7 +12,7 @@ import UIKit
 public enum ImageLoadingKind {
     case local(UIImage)
     case remote(URL)
-    case remoteImage(UIImage, URL, CGSize, Double)
+    case remoteImage(UIImage, URL?, CGSize, Double)
 }
 
 public enum ChatMessageKind: CustomStringConvertible {
