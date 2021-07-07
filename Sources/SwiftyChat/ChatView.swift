@@ -141,7 +141,7 @@ public struct ChatView<Message: ChatMessage, User: ChatUser>: View {
                                 case .image(ImageLoadingKind.local):
                                     proxy.scrollTo(messages.last?.id, anchor: UnitPoint.bottom)
                                     break
-                                case .image(ImageLoadingKind.remoteTodus):
+                                case .image(ImageLoadingKind.remoteImage):
                                     proxy.scrollTo(messages.last?.id, anchor: UnitPoint.bottom)
                                     break
                                 default:

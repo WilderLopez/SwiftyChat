@@ -31,16 +31,14 @@ public struct ImageCell<Message: ChatMessage>: View {
         if #available(iOS 14.0, *) {
             switch imageLoadingType {
             case .local(let image): localImage(uiImage: image)
-            case .remote(let remoteUrl): remoteImage(url: remoteUrl)
-            case .remoteTodus(let imageTnail, let remoteUrl, let imageSize, let tnailBytes): remoteImageFromTodus(uiImage: imageTnail, url: remoteUrl, imageSize: imageSize, tnailBytes: tnailBytes)
-            case .tnail(let imageTnail, _, _, let bytes): localImageTnail(uiImage: imageTnail, bytes: bytes)
+            case .remote(let remoteUrl): remoteImageDefault(url: remoteUrl)
+            case .remoteImage(let imageTnail, let remoteUrl, let imageSize, let tnailBytes): remoteImageFromTodus(uiImage: imageTnail, url: remoteUrl, imageSize: imageSize, tnailBytes: tnailBytes)
             }
         } else {
             // deprecate all of this
             switch imageLoadingType {
             case .local(let image): localImage(uiImage: image)
-            case .remote(let remoteUrl): remoteImage(url: remoteUrl)
-            case .tnail(let imageTnail, _, _, let bytes): localImageTnail(uiImage: imageTnail, bytes: bytes)
+            case .remote(let remoteUrl): remoteImageDefault(url: remoteUrl)
             default:
                 EmptyView()
             }
@@ -134,7 +132,7 @@ public struct ImageCell<Message: ChatMessage>: View {
     @State var remoteIMG : UIImage? = nil
     var isLandscape : Bool {remoteIMGWidth > remoteIMGHeight}
     // MARK: - case Remote Image
-    @ViewBuilder private func remoteImage(url: URL) -> some View {
+    @ViewBuilder private func remoteImageDefault(url: URL) -> some View {
         /**
          KFImage(url)
          .onSuccess(perform: { (result) in
@@ -175,6 +173,7 @@ public struct ImageCell<Message: ChatMessage>: View {
     
     @State private var downloadAmount = 0.0
     @State private var startDownload = false
+    @State private var isfinished = false
     //MARK: - case Remote Image from ToDus
     @available(iOS 14.0, *)
     @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL, imageSize: CGSize, tnailBytes: Double) -> some View {
@@ -183,23 +182,23 @@ public struct ImageCell<Message: ChatMessage>: View {
         ZStack{
             
             KFImage(url)
-                .placeholder({
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
-                        .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
-                })
+            //              .placeholder({
+            //                                Image(uiImage: uiImage)
+            //                                    .resizable()
+            //                                    .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
+            //                                    .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
+            //                            })
                 .onProgress(perform: { v1, v2 in
                     let frac : Double = Double(v1) / Double(v2)
                     let amount = frac * 100
                     if downloadAmount <= amount {
                         if !startDownload {
-                        startDownload = true
+                            startDownload = true
                         }
-                    downloadAmount = amount
-                    print("v1: \(v1)")
-                    print("v2: \(v2)")
-                    print("downloadAmount: \(downloadAmount)")
+                        downloadAmount = amount
+                        print("v1: \(v1)")
+                        print("v2: \(v2)")
+                        print("downloadAmount: \(downloadAmount)")
                     }
                 })
                 .onSuccess(perform: { imgResult in
@@ -208,6 +207,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                     
                     onRemoteResponse(remoteResponse)
                     startDownload = false
+                    isfinished = true
                 })
                 .onFailure(perform: { KError in
                     print("failure Kingfisher")
@@ -216,15 +216,46 @@ public struct ImageCell<Message: ChatMessage>: View {
                     
                     onRemoteResponse(remoteResponse)
                     startDownload = false
+                    isfinished = false
                 })
                 .resizable()
                 .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
                 .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
             
+            //hide when download is done
+            if !isfinished {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
+                    .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
+            }
+            
             if startDownload && downloadAmount < 100 {
                 ProgressView("Descargando…", value: downloadAmount, total: 100)
                     .progressViewStyle(CirclerPercentageProgressViewStyle())
                     .frame(width: 120, height: 120, alignment: .center)
+            }else {
+                //only before start
+                Button {
+                    print("start download")
+                } label: {
+                    Image(systemName: "arrow.down")
+                        .font(.system(size: 20))
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(
+                            Color.gray
+                        )
+                        .clipShape(Circle())
+                }
+                
+                Text("\(tnailBytes/1024/1024, specifier: "%.2f")MB")
+                    .font(.system(size: 13, weight: .bold, design: .default))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 5)
+                    .background(Color.black.opacity(0.6))
+                    .cornerRadius(10)
+                    .offset(y: 40)
             }
         }
     }
