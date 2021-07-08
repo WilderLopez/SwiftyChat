@@ -239,7 +239,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                 //only before start
                 Button {
                     print("start presigned download")
-                    let presignedRequest = MockMessages.RemoteResponseRow(triggerDownload: true, message: message as? MockMessages.RemoteResponseRow.Message)
+                    let presignedRequest = MockMessages.RemoteResponseRow(triggerDownload: true, url: url, message: message as? MockMessages.RemoteResponseRow.Message)
                     onRemoteResponse(presignedRequest)
                 } label: {
                     Image(systemName: "arrow.down")
