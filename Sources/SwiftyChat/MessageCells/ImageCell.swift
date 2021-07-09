@@ -226,6 +226,9 @@ public struct ImageCell<Message: ChatMessage>: View {
                 .resizable()
                 .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
                 .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
+                .onAppear {
+                    print("Image is Here 🔱")
+                }
             }
             //hide when download is done
             if !isfinished {
@@ -265,9 +268,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                     .offset(y: 40)
             }
         }
-        .onAppear {
-            print("Image is Here 🔱")
-        }
+        
     }
     
     
