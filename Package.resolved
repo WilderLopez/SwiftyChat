@@ -2,12 +2,39 @@
   "object": {
     "pins": [
       {
+        "package": "GSPlayer",
+        "repositoryURL": "https://github.com/wxxsw/GSPlayer.git",
+        "state": {
+          "branch": null,
+          "revision": "5904551cf33e0c38831fdc56c6a2c9770eadc30d",
+          "version": "0.2.25"
+        }
+      },
+      {
         "package": "Kingfisher",
         "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
         "state": {
           "branch": null,
-          "revision": "0e548b700c7c123dd3b2ac776e90d63a540f084d",
-          "version": "5.15.7"
+          "revision": "44450a8f564d7c0165f736ba2250649ff8d3e556",
+          "version": "6.3.0"
+        }
+      },
+      {
+        "package": "SwiftUIEKtensions",
+        "repositoryURL": "https://github.com/EnesKaraosman/SwiftUIEKtensions.git",
+        "state": {
+          "branch": null,
+          "revision": "21421df3266c99b83992face9e1523c8f1acb924",
+          "version": "0.2.0"
+        }
+      },
+      {
+        "package": "VideoPlayer",
+        "repositoryURL": "https://github.com/wxxsw/VideoPlayer.git",
+        "state": {
+          "branch": null,
+          "revision": "3c5b9531ee20e34d3a86142ca2c076a5b99afdb2",
+          "version": "1.2.3"
         }
       }
     ]
