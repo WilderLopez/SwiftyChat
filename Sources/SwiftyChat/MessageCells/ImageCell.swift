@@ -266,7 +266,7 @@ public struct ImageCell<Message: ChatMessage>: View {
             }
         }
         .onAppear {
-            print"Image is Here 🔱"
+            print("Image is Here 🔱")
         }
     }
     
