@@ -174,6 +174,7 @@ public struct ImageCell<Message: ChatMessage>: View {
     @State private var downloadAmount = 0.0
     @State private var startDownload = false
     @State private var isfinished = false
+    @State private var finishFailure = false
     //MARK: - case Remote Image from ToDus
     @available(iOS 14.0, *)
     @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL, imageSize: CGSize, tnailBytes: Double, isRemote: Bool = false) -> some View {
@@ -181,7 +182,7 @@ public struct ImageCell<Message: ChatMessage>: View {
         
         ZStack{
             
-            if isRemote {
+            if isRemote && !finishFailure {
             KFImage(url)
             //              .placeholder({
             //                                Image(uiImage: uiImage)
@@ -204,7 +205,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                 })
                 .onSuccess(perform: { imgResult in
                     let remoteResponse : MockMessages.RemoteResponseRow =
-                        .init(url: url, payload: imgResult.image.jpegData(compressionQuality: 1)!, tnailBytes: tnailBytes, isdownloaded: true, message: message as? MockMessages.RemoteResponseRow.Message)
+                        .init(url: url, payload: imgResult.image.pngData(), tnailBytes: tnailBytes, isdownloaded: true, message: message as? MockMessages.RemoteResponseRow.Message)
                     
                     onRemoteResponse(remoteResponse)
                     startDownload = false
@@ -213,11 +214,12 @@ public struct ImageCell<Message: ChatMessage>: View {
                 .onFailure(perform: { KError in
                     print("failure Kingfisher")
                     let remoteResponse : MockMessages.RemoteResponseRow =
-                        .init(url: url, payload: uiImage.jpegData(compressionQuality: 1)!, tnailBytes: tnailBytes, isdownloaded: false, message: message as? MockMessages.RemoteResponseRow.Message)
+                        .init(url: url, payload: uiImage.pngData(), tnailBytes: tnailBytes, isdownloaded: false, message: message as? MockMessages.RemoteResponseRow.Message)
                     
                     onRemoteResponse(remoteResponse)
                     startDownload = false
                     isfinished = false
+                    finishFailure = true
                 })
                 .resizable()
                 .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
