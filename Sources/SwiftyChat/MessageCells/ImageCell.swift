@@ -215,6 +215,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                     }
                 })
                 .onFailure(perform: { KError in
+                    if !finishFailure{
                     print("failure Kingfisher: \(KError)")
                     let remoteResponse : MockMessages.RemoteResponseRow =
                         .init(url: url, payload: uiImage.pngData(), tnailBytes: tnailBytes, isdownloaded: false, message: message as? MockMessages.RemoteResponseRow.Message)
@@ -223,6 +224,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                     startDownload = false
                     isfinished = false
                     finishFailure = true
+                    }
                 })
                 .cancelOnDisappear(isfinished || finishFailure)
                 .resizable()
