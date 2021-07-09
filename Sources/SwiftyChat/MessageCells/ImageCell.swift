@@ -205,12 +205,12 @@ public struct ImageCell<Message: ChatMessage>: View {
                     }
                 })
                 .onSuccess(perform: { imgResult in
+                    print("Success ✅")
                     let remoteResponse : MockMessages.RemoteResponseRow =
                         .init(url: url, payload: imgResult.image.pngData(), tnailBytes: tnailBytes, isdownloaded: true, message: message as? MockMessages.RemoteResponseRow.Message)
-                    
-                    onRemoteResponse(remoteResponse)
                     startDownload = false
                     isfinished = true
+                    onRemoteResponse(remoteResponse)
                 })
                 .onFailure(perform: { KError in
                     print("failure Kingfisher: \(KError)")
