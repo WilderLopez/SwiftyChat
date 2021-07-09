@@ -175,6 +175,7 @@ public struct ImageCell<Message: ChatMessage>: View {
     @State private var startDownload = false
     @State private var isfinished = false
     @State private var finishFailure = false
+    @State private var finishSuccess = false
     //MARK: - case Remote Image from ToDus
     @available(iOS 14.0, *)
     @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL, imageSize: CGSize, tnailBytes: Double, isRemote: Bool = false) -> some View {
@@ -182,7 +183,7 @@ public struct ImageCell<Message: ChatMessage>: View {
         
         ZStack{
             
-            if isRemote && !finishFailure {
+            if ( isRemote && !finishFailure ) && ( isRemote && !isfinished ){
             KFImage(url)
             //              .placeholder({
             //                                Image(uiImage: uiImage)
@@ -212,7 +213,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                     isfinished = true
                 })
                 .onFailure(perform: { KError in
-                    print("failure Kingfisher")
+                    print("failure Kingfisher: \(KError)")
                     let remoteResponse : MockMessages.RemoteResponseRow =
                         .init(url: url, payload: uiImage.pngData(), tnailBytes: tnailBytes, isdownloaded: false, message: message as? MockMessages.RemoteResponseRow.Message)
                     
