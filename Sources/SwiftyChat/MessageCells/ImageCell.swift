@@ -222,6 +222,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                     isfinished = false
                     finishFailure = true
                 })
+                .cancelOnDisappear(isfinished || finishFailure)
                 .resizable()
                 .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
                 .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
