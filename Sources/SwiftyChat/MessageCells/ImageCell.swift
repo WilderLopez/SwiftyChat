@@ -293,8 +293,8 @@ public struct ImageCell<Message: ChatMessage>: View {
 public struct CirclerPercentageProgressViewStyle : ProgressViewStyle {
     public func makeBody(configuration: LinearProgressViewStyle.Configuration) -> some View {
         VStack(spacing: 10) {
-            configuration.label
-                .foregroundColor(Color.secondary)
+//            configuration.label
+//                .foregroundColor(Color.secondary)
             ZStack {
                 Circle()
                     .stroke(lineWidth: 5.0)
