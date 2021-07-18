@@ -305,6 +305,8 @@ public struct CirclerPercentageProgressViewStyle : ProgressViewStyle {
                     .trim(from: 0.0, to: CGFloat(configuration.fractionCompleted ?? 0))
                     .stroke(style: StrokeStyle(lineWidth: 5.0, lineCap: .round, lineJoin: .round))
                     .foregroundColor(Color.accentColor)
+                    .rotationEffect(Angle(degrees: Double(360)))
+                    .animation(Animation.linear(duration: 2.7).repeatForever(autoreverses: false))
                 
                 Text("\(Int((configuration.fractionCompleted ?? 0) * 100))%")
                     .font(.headline)
