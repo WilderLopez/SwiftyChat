@@ -244,7 +244,7 @@ public struct ImageCell<Message: ChatMessage>: View {
             if startDownload && downloadAmount < 100 {
                 ProgressView("Descargando…", value: downloadAmount, total: 100)
                     .progressViewStyle(CirclerPercentageProgressViewStyle())
-                    .frame(width: 120, height: 120, alignment: .center)
+                    .frame(width: 80, height: 80, alignment: .center)
             }else {
                 //only before start
                 Button {
