@@ -7,26 +7,25 @@
 //
 
 import SwiftUI
-import KingfisherSwiftUI
-import class Kingfisher.KingfisherManager
+import Kingfisher
 
 public struct ImageCell<Message: ChatMessage>: View {
-    
+
     public let message: Message
     public let imageLoadingType: ImageLoadingKind
     public let size: CGSize
     public var onRemoteResponse: (MockMessages.RemoteResponseRow) -> Void
     @State var isDownload = false
     @EnvironmentObject var style: ChatMessageCellStyle
-    
+
     private var imageWidth: CGFloat {
         cellStyle.cellWidth(size)
     }
-    
+
     private var cellStyle: ImageCellStyle {
         style.imageCellStyle
     }
-    
+
     @ViewBuilder private var imageView: some View {
         if #available(iOS 14.0, *) {
             switch imageLoadingType {
@@ -44,11 +43,11 @@ public struct ImageCell<Message: ChatMessage>: View {
             }
         }
     }
-    
+
     public var body: some View {
         ZStack(alignment: .bottomTrailing){
             imageView
-            
+
             DateCheckMarkView(isNotText: true, isCurrentUser: message.isSender, dateDescription: DateHelper.getDateWith(date: message.date), messageTag: message.isDisplayed ? .dd : message.isReceived ? .rd : message.isSent ? .r : .none)
             //                .animation(.linear(duration: 0.2))
                 .padding(3)
@@ -66,13 +65,13 @@ public struct ImageCell<Message: ChatMessage>: View {
         .foregroundColor(.white)
         //        .frame(alignment: .center)
     }
-    
+
     // MARK: - case Local Image
     @ViewBuilder private func localImage(uiImage: UIImage) -> some View {
         let width = uiImage.size.width
         let height = uiImage.size.height
         let isLandscape = width > height
-        
+
         Image(uiImage: uiImage)
             .resizable()
             .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
@@ -97,13 +96,13 @@ public struct ImageCell<Message: ChatMessage>: View {
         let width = uiImage.size.width
         let height = uiImage.size.height
         let isLandscape = width > height
-        
+
         ZStack{
             Image(uiImage: uiImage)
                 .resizable()
                 .aspectRatio(width / height, contentMode: isLandscape ? .fit : .fill)
                 .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
-            
+
             //            if downloadIndicator{
             Image(systemName: "arrow.down")
                 .font(.system(size: 20))
@@ -113,8 +112,8 @@ public struct ImageCell<Message: ChatMessage>: View {
                     Color.gray
                 )
                 .clipShape(Circle())
-            
-            
+
+
             //            }
         }.overlay(
             Text("\(bytes/1024/1024, specifier: "%.2f")MB")
@@ -126,7 +125,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                 .offset(y: 40)
         )
     }
-    
+
     @State var remoteIMGWidth: CGFloat = 1
     @State var remoteIMGHeight: CGFloat = 1
     @State var remoteIMG : UIImage? = nil
@@ -140,20 +139,20 @@ public struct ImageCell<Message: ChatMessage>: View {
          })
          We can grab size & manage aspect ratio via a @State property
          but the list scroll behaviour becomes messy.
-         
+
          So for now we use fixed width & scale height properly.
          */
         KFImage(url)
-            .onSuccess(perform: { (result) in
+            .onSuccess({ (result) in
                 remoteIMGWidth = result.image.size.width
                 remoteIMGHeight = result.image.size.height
             })
             .resizable()
             .aspectRatio(remoteIMGWidth / remoteIMGHeight, contentMode: isLandscape ? .fit : .fill)
             .frame(width: isLandscape ? 300 : 250, height: isLandscape ? nil : 350)
-        
-        
-        
+
+
+
         //            .background(cellStyle.cellBackgroundColor)
         //            .cornerRadius(cellStyle.cellCornerRadius)
         //            .overlay(
@@ -167,10 +166,10 @@ public struct ImageCell<Message: ChatMessage>: View {
         //                color: cellStyle.cellShadowColor,
         //                radius: cellStyle.cellShadowRadius
         //            )
-        
+
     }
-    
-    
+
+
     @State private var downloadAmount = 0.0
     @State private var startDownload = false
     @State private var isfinished = false
@@ -180,9 +179,9 @@ public struct ImageCell<Message: ChatMessage>: View {
     @available(iOS 14.0, *)
     @ViewBuilder private func remoteImageFromTodus(uiImage: UIImage, url: URL, imageSize: CGSize, tnailBytes: Double, isRemote: Bool = false) -> some View {
         let isLandScape = imageSize.width > imageSize.height
-        
+
         ZStack{
-            
+
             if ( isRemote && !finishFailure ) && ( isRemote && !isfinished ){
             KFImage(url)
             //              .placeholder({
@@ -191,7 +190,7 @@ public struct ImageCell<Message: ChatMessage>: View {
             //                                    .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
             //                                    .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
             //                            })
-                .onProgress(perform: { v1, v2 in
+                    .onProgress({ v1, v2 in
                     let frac : Double = Double(v1) / Double(v2)
                     let amount = frac * 100
                     if downloadAmount <= amount {
@@ -204,7 +203,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                         print("downloadAmount: \(downloadAmount)")
                     }
                 })
-                .onSuccess(perform: { imgResult in
+                    .onSuccess({ imgResult in
                     if !isfinished{
                     print("Success ✅")
                     let remoteResponse : MockMessages.RemoteResponseRow =
@@ -214,12 +213,12 @@ public struct ImageCell<Message: ChatMessage>: View {
                     onRemoteResponse(remoteResponse)
                     }
                 })
-                .onFailure(perform: { KError in
+                    .onFailure({ KError in
                     if !finishFailure{
                     print("failure Kingfisher: \(KError)")
                     let remoteResponse : MockMessages.RemoteResponseRow =
                         .init(url: url, payload: uiImage.pngData(), tnailBytes: tnailBytes, isdownloaded: false, message: message as? MockMessages.RemoteResponseRow.Message)
-                    
+
                     onRemoteResponse(remoteResponse)
                     startDownload = false
                     isfinished = false
@@ -241,7 +240,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                     .aspectRatio(imageSize.width / imageSize.height, contentMode: isLandScape ? .fit : .fill)
                     .frame(width: isLandScape ? 300 : 250, height: isLandScape ? nil : 350)
             }
-            
+
             if startDownload && downloadAmount < 100 {
                 ProgressView("Descargando…", value: downloadAmount, total: 100)
                     .progressViewStyle(CirclerPercentageProgressViewStyle())
@@ -262,7 +261,7 @@ public struct ImageCell<Message: ChatMessage>: View {
                         )
                         .clipShape(Circle())
                 }
-                
+
                 Text("\(tnailBytes/1024/1024, specifier: "%.2f")MB")
                     .font(.system(size: 13, weight: .bold, design: .default))
                     .foregroundColor(.white)
@@ -272,10 +271,10 @@ public struct ImageCell<Message: ChatMessage>: View {
                     .offset(y: 40)
             }
         }
-        
+
     }
-    
-    
+
+
     //    func fetch(url: URL){
     //        KingfisherManager.shared.retrieveImage(with: url) { (resutl) in
     //            switch resutl{
@@ -286,8 +285,8 @@ public struct ImageCell<Message: ChatMessage>: View {
     //            }
     //        }
     //    }
-    
-    
+
+
 }
 
 @available(iOS 14.0, *)
