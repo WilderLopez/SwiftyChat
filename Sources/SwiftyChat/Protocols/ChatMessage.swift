@@ -36,4 +36,7 @@ public protocol ChatMessage: Identifiable {
     
     var isDisplayed: Bool { get set }
     
+    var fileName: String? { get set }
+    var messageDescription: String? { get set }
+    
 }

@@ -72,6 +72,8 @@ public struct MockMessages {
         public var isSent: Bool
         public var isReceived: Bool
         public var isDisplayed: Bool
+        public var fileName: String?
+        public var messageDescription: String?
 
         public init(
             securityID: String,
@@ -81,7 +83,9 @@ public struct MockMessages {
             date: Date = .init(),
             isSent: Bool = false,
             isDisplayed: Bool = false,
-            isReceived: Bool = false
+            isReceived: Bool = false,
+            fileName: String? = nil,
+            messageDescription: String? = nil
         ) {
             self.securityID = securityID
             self.user = user
@@ -91,6 +95,8 @@ public struct MockMessages {
             self.isSent = isSent
             self.isReceived = isReceived
             self.isDisplayed = isDisplayed
+            self.fileName = fileName
+            self.messageDescription = messageDescription
         }
     }
     //MARK: - Model for Remote Response
